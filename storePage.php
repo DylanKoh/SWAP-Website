@@ -1,4 +1,11 @@
-<?php
+<html>
+    <head>
+    	<title>Pentesters for Hire</title>
+    </head>
 
-echo "store page";
-?>
+	<body>
+        <?php
+        echo "store page";
+        ?>
+    </body>
+</html>
