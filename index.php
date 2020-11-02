@@ -84,7 +84,7 @@
                         <a class="nav-link">Post an Offer</a>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link" href="storePage.php">Explore</a>
+                        <a class="nav-link">Explore</a>
                      </li>
                      <li class="nav-item">
                         <a class="nav-link" href="createAccount.php">Sign Up</a>
