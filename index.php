@@ -27,11 +27,6 @@
   font-size: 1.1em !important;
 }
 
-.form-inline {
-  margin-left: 30%;
-  margin-top: 15px;
-}
-
 .form-inline input {
   height: 34px;
   width: 100px;
@@ -87,11 +82,6 @@ hr.light {
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <form class="form-inline">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-light my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-            </form>
-
             <div class="collapse navbar-collapse" id="navbarResponsive">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
@@ -104,7 +94,7 @@ hr.light {
                     <a class="nav-link">View Offers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Sign Up</a>
+                    <a class="nav-link" href="createAccount.php">Sign Up</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="login.php">Login</a>
