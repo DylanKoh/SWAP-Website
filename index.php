@@ -73,7 +73,7 @@ hr.light {
           <h5>About</h5>
           <hr class="light">
           <p>Privacy Policy</p>
-          <p>Terms & Conditions</p>
+          <p>Terms and Conditions</p>
       </div>
       <div class="col-12">
         <hr class="light">
