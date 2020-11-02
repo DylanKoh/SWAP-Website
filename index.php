@@ -1,5 +1,5 @@
 <?php
-echo "yireng is a simp"
+
 ?>
 <html>
 <head>
@@ -13,6 +13,30 @@ echo "yireng is a simp"
 </head>
 
 <style>
+
+/* Header start */
+.navbar {
+  padding: .8rem;
+}
+
+.navbar-nav li {
+  padding-right: 20px;
+}
+
+.nav-link {
+  font-size: 1.1em !important;
+}
+
+.form-inline {
+  margin-left: 30%;
+  margin-top: 15px;
+}
+
+.form-inline input {
+  height: 34px;
+  width: 100px;
+}
+ /* Header end */
 
 .col-md-4 a {
   font-size: 2.5em;
@@ -51,6 +75,51 @@ hr.light {
 </style>
 
 <body>
+
+<!-- Header start -->
+<header>
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+          <div class="container-fluid">
+              <a href="index.html" href="index.html"><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <form class="form-inline">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-light my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Post an Offer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">View Offers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link">Login</a>
+              </li>
+          </ul>
+
+
+      </div>
+      <div class="dropdown" id="dropdown" style="visibility: hidden">
+          <a class="dropbtn" id="loginAccess" style="color:#ddd;">Welcome User</a>
+      </div>
+            </div>
+        </nav> 
+        </header>
+       <!-- Header -->
+        
+        
 
 <footer>
   <div class="container-fluid padding">
