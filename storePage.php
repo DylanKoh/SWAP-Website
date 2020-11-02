@@ -24,7 +24,7 @@
 			<div class="sell-info">
 				<h3>Caleb </h3>
 				<p id="sell-price">Price Range: $100+</p>
-				<p>I enjoy pentesting as a hobby.</p> <!-- Brief description -->
+				<p>I enjoy pentesting as a hobby
 				<p>Availability: Weekdays</p>
 			</div>
 		</div>
