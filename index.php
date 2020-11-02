@@ -3,6 +3,13 @@ echo "yireng is a simp"
 ?>
 <html>
 <head>
+
+<script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
+    <!--bootstrap-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
 </head>
 
 <style>
