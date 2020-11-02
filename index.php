@@ -38,6 +38,7 @@
 }
  /* Header end */
 
+/* footer start */
 .col-md-4 a {
   font-size: 2.5em;
   padding: 1em;
@@ -71,6 +72,7 @@ hr.light {
   border-top: 1px solid #d5d5d5;
   width: 75%;
 }
+/* footer end */
 
 </style>
 
@@ -105,7 +107,7 @@ hr.light {
                     <a class="nav-link">Sign Up</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link">Login</a>
+                  <a class="nav-link" href="login.php">Login</a>
               </li>
           </ul>
 
@@ -120,7 +122,8 @@ hr.light {
        <!-- Header -->
         
         
-
+        
+<!-- Footer start -->
 <footer>
   <div class="container-fluid padding">
     <div class="row text-center">
@@ -158,7 +161,7 @@ hr.light {
     </div>
   </div>
 </footer>
-
+<!-- Footer end -->
 
 
 </body>
