@@ -32,6 +32,20 @@
   width: 100px;
 }
  /* Header end */
+ 
+ .users {   
+  -ms-flex: 70%;
+  flex: 70%;
+  background-color: white;
+  padding: 30px;
+}
+
+.userimg {
+  background-color: #aaa;
+  height: 140px;
+  width: 140px;
+  padding: 20px;
+}
 
 /* footer start */
 .col-md-4 a {
@@ -109,9 +123,35 @@ hr.light {
             </div>
         </nav> 
         </header>
-       <!-- Header -->
+       <!-- Header end -->
         
-        
+       <div class="users">
+    <h2>Top Sellers</h2>
+    <br>
+    <h5>Seller 1</h5>
+    <div class="userimg">Seller 1 Image</div>
+    <p>Seller Rating &#9733 &#9733 &#9733 &#9733 &#9733</p>
+    <p>Seller Bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <br>
+    <h5>Seller 2</h5>
+    <div class="userimg">Seller 2 Image</div>
+    <p>Seller Rating &#9733 &#9733 &#9733 &#9733 &#9733</p>
+    <p>Seller Bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </div>
+  <br><br>
+  	 <div class="users">
+    <h2>Top Buyers</h2>
+    <br>
+    <h5>Buyer 1</h5>
+    <div class="userimg">Buyer 1 Image</div>
+    <p>Buyer Rating &#9733 &#9733 &#9733 &#9733 &#9733</p>
+    <p>Buyer Bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <br>
+    <h5>Buyer 2</h5>
+    <div class="userimg">Buyer 2 Image</div>
+    <p>Buyer Rating &#9733 &#9733 &#9733 &#9733 &#9733</p>
+    <p>Buyer Bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </div>
         
 <!-- Footer start -->
 <footer>
