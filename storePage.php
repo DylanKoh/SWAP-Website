@@ -73,7 +73,7 @@
 				<h3>Sean </h3>
 				<p id="sell-price">Price Range: $10+</p>
 				<p>New to renting my services</p> <!-- Brief description -->
-				<p id="rating">4.9 <i class="fas fa-star fa-sm"></i> <a>(7)</a></p>
+				<p id="rating">4.9 <i class="fas fa-star fa-sm"></i> <a>(5)</a></p>
 			</div>
 		</div>
 		
