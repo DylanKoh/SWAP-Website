@@ -1,7 +1,6 @@
 <html>
     <head>
-    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+    	<script src="https://kit.fontawesome.com/9d4359df6d.js"></script>
     	<title>Pentesters for Hire</title>
     </head>
 
@@ -17,25 +16,64 @@
         		<a class="nav-but" href="login.php">Login</a>
 			</div>
 		</div>
+		<!-- Store body codes -->
 		<div class="store-body">
 		
 		<h1>Top Reviewed Sellers</h1>
-		<div class="top-reviewed">
-			<div class="sell-info">
-				<h3>Caleb </h3>
-				<p id="sell-price">Price Range: $100+</p>
-				<p>I enjoy pentesting as a hobby
-				<p>Availability: Weekdays</p>
-			</div>
+		
+		<div class="sell-column">
+    		<div class="container">
+        		<div class="box-view">
+        			<div class="sell-info">
+        				<h3>Caleb</h3>
+        				<p id="sell-price">Price Range: $100+</p>
+        				<p>I enjoy pentesting as a hobby</p>
+        				<p id="rating">5 <i class="fas fa-star fa-sm"></i> <a>(121)</a></p>
+        			</div>
+        		</div>
+    		</div>
+    		
+    		<div class="container">
+        		<div class="box-view">
+        			<div class="sell-info">
+        				<h3>Javier</h3>
+        				<p id="sell-price">Price Range: $60+</p>
+        				<p>Have past job experiences</p>
+        				<p id="rating">4.7 <i class="fas fa-star fa-sm"></i> <a>(152)</a></p>
+        			</div>
+        		</div>
+    		</div>
+    		
+    		<div class="container">
+        		<div class="box-view">
+        			<div class="sell-info">
+        				<h3>Jack</h3>
+        				<p id="sell-price">Price Range: $160+</p>
+        				<p>Professional Pen-tester</p>
+        				<p id="rating">4.4 <i class="fas fa-star fa-sm"></i> <a>(32)</a></p>
+        			</div>
+        		</div>
+    		</div>
+    		
+    		<div class="container">
+        		<div class="box-view">
+        			<div class="sell-info">
+        				<h3>Kevin</h3>
+        				<p id="sell-price">Price Range: $45+</p>
+        				<p>I do pentesting as a part time job</p>
+        				<p id="rating">4.2 <i class="fas fa-star fa-sm"></i> <a>(37)</a></p>
+        			</div>
+        		</div>
+    		</div>
 		</div>
 		
 		<h1>Lowest Price</h1>
-		<div class="top-reviewed">
+		<div class="box-view">
 			<div class="sell-info">
 				<h3>Sean </h3>
 				<p id="sell-price">Price Range: $10+</p>
 				<p>New to renting my services</p> <!-- Brief description -->
-				<p>Availability: Weekdays</p>
+				<p id="rating">4.9 <i class="fas fa-star fa-sm"></i> <a>(7)</a></p>
 			</div>
 		</div>
 		
@@ -49,6 +87,7 @@
     }
     h1 {
     margin-top: 7%;
+    margin-bottom: 3%;
     }
     h2, h3, h4, p{
     margin:0;
@@ -88,10 +127,14 @@
     padding: 10px;
     }
     .webhead-right a {
-    margin: 10px;
-    padding: 10px;
+    margin: 12px;
+    padding: 8px;
     text-decoration:none;
     color: white;
+    }
+    .webhead-right .nav-but {
+    border: 1px solid white;
+    border-radius: 3px;
     }
     .webhead-right a:hover{
     color: #DCDCDC;
@@ -104,7 +147,15 @@
     margin: auto;
     height: 1200px;
     }
-    .top-reviewed {
+    .sell-column{
+    display:flex;
+    
+    }
+    .sell-column .container{
+    padding-right:20px;
+    }
+    
+    .box-view {
     position: relative;
     width: 260px;
     height: 320px;
@@ -113,22 +164,32 @@
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.4);
     border: 1px solid black;
     }
-    .top-reviewed .sell-info {
+    .box-view .sell-info {
     position: absolute;
     width: 100%;
     height: 35%;
     background-color:lightgray;
     bottom: 0;
     }
-    .top-reviewed .sell-info h3 {
+    .box-view .sell-info h3 {
     padding: 3% 6%;
     }
-    .top-reviewed .sell-info p {
+    .box-view .sell-info p {
     padding: 0 6%;
     }
-    .top-reviewed .sell-info #sell-price {
+    .box-view #rating{
+    font-size:20px;
+    }
+    .box-view i {
+    color:#FFD700;
+    }
+    .box-view a{
+    font-size:16px;
+    }
+    .box-view .sell-info #sell-price {
     font-size:18px;
     }
+    
     
     </style>
 </html>
