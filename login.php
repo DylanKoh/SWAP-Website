@@ -79,12 +79,6 @@
                         <a class="nav-link">Home</a>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link">Post an Offer</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="storePage.php">Explore</a>
-                     </li>
-                     <li class="nav-item">
                         <a class="nav-link" href="createAccount.php">Sign Up</a>
                      </li>
                      <li class="nav-item">
@@ -105,8 +99,9 @@
 <tr><td>Username: </td><td><input inputmode="text" placeholder="Username" name="username"></td></tr>
 <tr><td>Password: </td><td><input inputmode="text" type="password" placeholder="Password" name="password"></td></tr>
 </table>
-<input type="submit" value="Login" name="btnLogin">
-<input type="submit" value="Create New Account" name="btnCreateAccount">
+<input type="submit" value="Login" name="btnLogin"><br>
+<a href="createAccount.php">Have not created your Customer account? Click here to Create!</a><br>
+<a href="providerLogin.php">Are you a Service Provider? Click here to Login!</a>
 </form>
 
 <?php
