@@ -105,8 +105,22 @@
 </form>
 
 <?php
-if (isset($_POST['btnCreateAccount'])){
-    header("Location: createAccount.php");
+//Login to DB and to Users table
+if (isset($_POST["btnLogin"])){
+    if (isset($_POST['username']) && isset($_POST['password'])){
+        if (strlen($_POST['username']) > 0 && strlen($_POST['password']) > 0){
+            echo "Hello Check";
+        }
+        else{
+            alertMessage("Please ensure fills are not empty!");
+        }
+    }
+    else{
+        alertMessage("Please ensure fills are filled!");
+    }
+}
+function alertMessage($message){
+    echo "<script type='text/javascript'>alert('$message');</script>";
 }
 ?>
 </body>
