@@ -1,7 +1,7 @@
 <?php
-include 'alertMessage.php';
+include_once 'alertMessageFunc.php'; 
 $conn=mysqli_connect('localhost', 'root', '', 'swapcasestudy');
 if (!$conn){
-    die(alertMessage('Unable to connect to database! Please try again later!'));
+    die(promptMessage('Unable to connect to database! Please try again later!'));
 }
 ?>

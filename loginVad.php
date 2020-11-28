@@ -1,21 +1,21 @@
 <?php
 include 'connection.php';
-include 'alertMessage.php';
+include_once 'alertMessageFunc.php'; 
 //Login to DB and to Users table
 if (isset($_POST["btnLogin"])){
     if (isset($_POST['username']) && isset($_POST['password'])){
-        if (strlen($_POST['username']) > 0 && strlen($_POST['password']) > 0){
+        if (!empty($_POST['username']) && !empty($_POST['password'])){
             echo "Hello Check";
             //Check if account exist
             //If exist, Log in or Validate 2FA if applicable
             //Else, error message
         }
         else{
-            alertMessage("Please ensure fills are not empty!");
+            promptMessage("Please ensure fills are not empty!");
         }
     }
     else{
-        alertMessage("Please ensure fills are filled!");
+        promptMessage("Please ensure fills are filled!");
     }
 }
 ?>
