@@ -1,4 +1,5 @@
 <?php
+include 'connection.php';
 //Login to DB and to Users table
 if (isset($_POST["btnLogin"])){
     if (isset($_POST['username']) && isset($_POST['password'])){
