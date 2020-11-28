@@ -5,6 +5,11 @@
     </head>
 
 	<body>
+    	<?php
+        //Connecting to Mysql Database:
+        include 'connect.php'; 
+        ?>
+        
 		<div class="webhead">
 			<a id="left">Hire a Pentester</a>	
     			<input type="text" id="nav-search" placeholder="Search for Pentester">
@@ -21,10 +26,34 @@
 		
 		<h1>Top Reviewed Sellers</h1>
 		
-		<div class="sell-column">
-    		<div class="container">
-        		<div class="box-view">
-        			<div class="sell-info">
+		<?php 
+		$rows= 0;
+		
+		//Retrieving Service data from database:
+		$stmt= $con->prepare("SELECT services.servicesId, services.serviceName, services.serviceDesc, services.providersFkid, services.price, providers.username FROM services 
+                              INNER JOIN providers ON services.providersFkid = providers.providersId");
+		$res = $stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($servicesId, $serviceName, $serviceDesc, $providersFkid, $price, $username);
+		
+		//Creation of tables with data:
+		echo "<div class='sell-column'>";
+		while($stmt->fetch()){
+    		echo"<div class='container'><div class='box-view'><div class='sell-info'>";      
+    		echo"<p id='title' style='font-size:22px;'><b>". $serviceName . "</b></p>";
+    		echo"<p style='font-size:14px;'> Provider: ".$username."</p>";
+    		echo "<p id='sell-price'>Price Range: $100+</p>";
+    		echo"<p id='rating'>5 <i class='fas fa-star fa-sm'></i> <a>(121)</a></p>";
+    		echo"</div> </div> </div>";
+    		
+		}
+	
+		?>
+		
+		<!-- <div class='sell-column'>
+    		<div class='container'>
+        		<div class='box-view'>
+        			<div class='sell-info'>
         				<h3>Caleb</h3>
         				<p id="sell-price">Price Range: $100+</p>
         				<p>I enjoy pentesting as a hobby</p>
@@ -65,17 +94,18 @@
         			</div>
         		</div>
     		</div>
-		</div>
+		</div> -->
 		
-		<h1>Lowest Price</h1>
+		<!-- <h1>Lowest Price</h1>
 		<div class="box-view">
 			<div class="sell-info">
 				<h3>Sean </h3>
 				<p id="sell-price">Price Range: $10+</p>
-				<p>New to renting my services</p> <!-- Brief description -->
+				<p>New to renting my services</p>
 				<p id="rating">4.9 <i class="fas fa-star fa-sm"></i> <a>(5)</a></p>
 			</div>
 		</div>
+		-->
 		
 	</div>
     </body>
@@ -167,12 +197,12 @@
     .box-view .sell-info {
     position: absolute;
     width: 100%;
-    height: 35%;
+    height: 40%;
     background-color:lightgray;
     bottom: 0;
     }
     .box-view .sell-info h3 {
-    padding: 3% 6%;
+    padding: 1% 6%;
     }
     .box-view .sell-info p {
     padding: 0 6%;
@@ -186,8 +216,9 @@
     .box-view a{
     font-size:16px;
     }
-    .box-view .sell-info #sell-price {
+    .box-view .sell-info #title {
     font-size:18px;
+    padding-top: 5px;
     }
     
     
