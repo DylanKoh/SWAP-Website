@@ -1,5 +1,6 @@
 <?php
 include 'connection.php';
+include 'alertMessage.php';
 //Login to DB and to Users table
 if (isset($_POST["btnLogin"])){
     if (isset($_POST['username']) && isset($_POST['password'])){
@@ -16,8 +17,5 @@ if (isset($_POST["btnLogin"])){
     else{
         alertMessage("Please ensure fills are filled!");
     }
-}
-function alertMessage($message){
-    echo "<script type='text/javascript'>alert('$message');</script>";
 }
 ?>
