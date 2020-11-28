@@ -93,7 +93,7 @@
          </nav>
       </header>
 <body>
-<h1 align="center">Login to your Account</h1>
+<h1 align="center">Login to your Account (Customer)</h1>
 <form action="loginVad.php" method="post">
 <table>
 <tr><td>Username: </td><td><input inputmode="text" placeholder="Username" name="username"></td></tr>
