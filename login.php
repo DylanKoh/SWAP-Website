@@ -94,7 +94,7 @@
       </header>
 <body>
 <h1 align="center">Login to your Account</h1>
-<form action="" method="post">
+<form action="loginVad.php" method="post">
 <table>
 <tr><td>Username: </td><td><input inputmode="text" placeholder="Username" name="username"></td></tr>
 <tr><td>Password: </td><td><input inputmode="text" type="password" placeholder="Password" name="password"></td></tr>
@@ -104,28 +104,7 @@
 <a href="providerLogin.php">Are you a Service Provider? Click here to Login!</a>
 </form>
 
-<?php
-//Login to DB and to Users table
-if (isset($_POST["btnLogin"])){
-    if (isset($_POST['username']) && isset($_POST['password'])){
-        if (strlen($_POST['username']) > 0 && strlen($_POST['password']) > 0){
-            echo "Hello Check";
-            //Check if account exist
-            //If exist, Log in or Validate 2FA if applicable
-            //Else, error message
-        }
-        else{
-            alertMessage("Please ensure fills are not empty!");
-        }
-    }
-    else{
-        alertMessage("Please ensure fills are filled!");
-    }
-}
-function alertMessage($message){
-    echo "<script type='text/javascript'>alert('$message');</script>";
-}
-?>
+
 </body>
 </html>
 
