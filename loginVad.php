@@ -5,7 +5,7 @@ if (isset($_POST["btnLogin"])){
     if (!empty($_POST['username']) && !empty($_POST['password'])){
         $username=$_POST['username'];
         $password=$_POST['password'];
-        $stmt=$conn->prepare('SELECT usersId,password,salt_1,salt_2,googleSecret,passwordDate * FROM users where username=?');
+        $stmt=$conn->prepare('SELECT usersId,password,salt_1,salt_2,googleSecret,passwordDate FROM users where username=?');
         $stmt->bind_param('s', $username);
         $stmt->execute();
         $stmt->bind_result($userID, $correctPassword, $salt_1, $salt_2, $googleSecret, $passwordDate);
