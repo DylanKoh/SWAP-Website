@@ -19,7 +19,17 @@ if (isset($_POST["btnLogin"])){
                 header('Location:login.php?error=invalid');
             }
             else{
-                
+                session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
+                session_start();
+                $_SESSION['userID']=$userID;
+                //$_SESSION['isProvider']=FALSE; //Use this only if decided combined store page
+                if($googleSecret!=NULL){
+                    $_SESSION['googleSecret']=$googleSecret;
+                    header('Location:loginUserValidate.php');
+                }
+                else{
+                    header('Location:storePage.php');
+                }
             }
         }
         else{
