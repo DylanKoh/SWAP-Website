@@ -1,22 +1,48 @@
 <?php
-//Login to DB and to Providers table
+include 'connection.php'; //Include login connection to database
+include_once 'alertMessageFunc.php';
 if (isset($_POST["btnLogin"])){
-    if (isset($_POST['username']) && isset($_POST['password'])){
-        if (strlen($_POST['username']) > 0 && strlen($_POST['password']) > 0){
-            echo "Hello Check";
-            //Check if account exist
-            //If exist, Log in or Validate 2FA if applicable
-            //Else, error message
+    if (!empty($_POST['username']) && !empty($_POST['password'])){
+        $username=$_POST['username'];
+        $password=$_POST['password'];
+        $stmt=$conn->prepare('SELECT providersID,password,salt_1,salt_2,googleSecret,passwordDate FROM providers where username=?');
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $stmt->bind_result($providersID, $correctPassword, $salt_1, $salt_2, $googleSecret, $passwordDate);
+        if ($stmt->fetch()){
+            $password1=$salt_1.$password;
+            $hash_1=hash('sha256', $password1);
+            $password2=$hash_1.$salt_2;
+            $hash_2=hash('sha256', $password2);
+            $encodedPassword=base64_encode($hash_2);
+            if ($encodedPassword!=$correctPassword){
+                header('Location:providerLogin.php?error=invalid');
+            }
+            else{
+                session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
+                session_start();
+                $_SESSION['providersID']=$providersID;
+                //$_SESSION['isProvider']=TRUE; //Use this only if decided combined store page
+                if($googleSecret!=NULL){
+                    $_SESSION['googleSecret']=$googleSecret;
+                    header('Location:loginProviderValidate.php');
+                    exit();
+                }
+                else{
+                    header('Location:storePage.php');
+                    //header('Location:StorePost.php');
+                    exit();
+                }
+            }
         }
         else{
-            alertMessage("Please ensure fills are not empty!");
+            header('Location:providerLogin.php?error=invalid');
+            exit();
         }
     }
     else{
-        alertMessage("Please ensure fills are filled!");
+        header('Location:providerLogin.php?error=empty');
+        exit();
     }
-}
-function alertMessage($message){
-    echo "<script type='text/javascript'>alert('$message');</script>";
 }
 ?>
