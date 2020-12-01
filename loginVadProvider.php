@@ -5,10 +5,10 @@ if (isset($_POST["btnLogin"])){
     if (!empty($_POST['username']) && !empty($_POST['password'])){
         $username=$_POST['username'];
         $password=$_POST['password'];
-        $stmt=$conn->prepare('SELECT usersId,password,salt_1,salt_2,googleSecret,passwordDate FROM providers where username=?');
+        $stmt=$conn->prepare('SELECT providersID,password,salt_1,salt_2,googleSecret,passwordDate FROM providers where username=?');
         $stmt->bind_param('s', $username);
         $stmt->execute();
-        $stmt->bind_result($userID, $correctPassword, $salt_1, $salt_2, $googleSecret, $passwordDate);
+        $stmt->bind_result($providersID, $correctPassword, $salt_1, $salt_2, $googleSecret, $passwordDate);
         if ($stmt->fetch()){
             $password1=$salt_1.$password;
             $hash_1=hash('sha256', $password1);
@@ -21,7 +21,7 @@ if (isset($_POST["btnLogin"])){
             else{
                 session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
                 session_start();
-                $_SESSION['userID']=$userID;
+                $_SESSION['providersID']=$providersID;
                 //$_SESSION['isProvider']=TRUE; //Use this only if decided combined store page
                 if($googleSecret!=NULL){
                     $_SESSION['googleSecret']=$googleSecret;
