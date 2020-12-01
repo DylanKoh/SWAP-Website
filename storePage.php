@@ -42,14 +42,16 @@
 		//Creation of tables with data:
 		echo "<div class='sell-column'>";
 		while($stmt->fetch()){
-    		echo"<div class='container'><div class='box-view'><div class='sell-info'>";      
+    		echo"<a href='storePage.php?id=".$servicesId."'><div class='container'>";
+            echo"<div class='box-view'><div class='sell-info'>";      
     		echo"<p id='title' style='font-size:22px;'><b>". $serviceName . "</b></p>";
     		echo"<p style='font-size:14px;'> Provider: ".$username."</p>";
     		echo "<p id='sell-price'>Price: $". $price. "</p>";
     		echo"<p id='rating'>5 <i class='fas fa-star fa-sm'></i> <a>(No. of Reviews)</a></p>";
-    		echo"</div> </div> </div> </div>";
+    		echo"</div> </div> </div></a>";
     		
 		}
+		echo "</div>";
 	
 		?>
 		
@@ -63,37 +65,43 @@
                       <h2>Post A Service</h2>
                     </div>
                     
-                    <form>
+                    <form action='StorePost.php' method='post' onSubmit='window.location.reload()'>
                         <div class="modal-body">
-                        <a>
-                          <label for='sName'><b>Service Name:</b></label> <br>
-                          <input type='text' placeholder='Enter service name' name='serName' required> <br>
-                        </a>
-                        
-                        <a> 
-                          <label for='sDesc'><b>Service Description:</b></label> <br>
-                          <input type='text' placeholder='Enter your service description' name='serDesc' required> <br>
-                        </a>  
-                          
-                        <a>
-                          <label for='sPrice'><b>Price of your service: </b></label> <br>
-                          <input type='text' placeholder='Enter price of service' name='serPrice' required>
-                       	</a>   
-                          
-                          
+                            <a>
+                              <label for='sName'><b>Service Name:</b></label> <br>
+                              <input id='name' type='text' placeholder='Enter service name' name='serName' required> <br>
+                            </a>
+                            
+                            <a> 
+                              <label for='sDesc'><b>Service Description:</b></label> <br>
+                              <textarea class='desc' placeholder='Enter your service description' name='serDesc' required></textarea> <br>
+                            </a>  
+                              
+                            <a>
+                              <label for='sPrice'><b>Price of your service: </b></label> <br>
+                              <input id='price' type='text' class='price' placeholder='Enter price of service' name='serPrice' required>
+                           	</a><br>
+                           	<button class='post-ser'>Post</button>
                         </div>
                     </form>
+                    
                     <div class="modal-footer">
                       <h3></h3>
         		</div>
     		</div>
 		</div>
-	
-		
 	</div>
     </body>
     
     <style>
+    .sell-column a {
+    text-decoration: none;
+    color:black;
+    }
+    
+    .sell-column {
+    height: 80%;
+    }
     
 	.modal {
       display: none; 
@@ -111,14 +119,14 @@
     /* Modal Content/Box */
     .modal-content {
       background-color: #fefefe;
-      margin: 10% auto;
-      border: 1px solid #888;
-      height: 500px;
+      margin: 7% auto;
+      border: 0px solid #888;
+      height: 600px;
       width: 60%;
     }
     
     .modal-header {
-      padding: 2px 24px;
+      padding: 2px 36px;
       background-color: #003366;
       color: white;
       height: 60px;
@@ -134,32 +142,53 @@
     }
     
     .modal-body {
-    padding: 20px 24px;
+    padding: 20px 36px;
+    height: 400px;
     }
     
+    .modal-body .post-ser {
+    background-color: white;
+    border: 1px solid black;
+    margin-top:10px;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    font-size:18px;
+    border-radius: 5px;
+    }
+    
+    .modal-body label{
+    width:100%;
+    height: 20px;
+    }
+    
+    
     /* Full-width input fields */
-    .modal-body input[type=text] {
-      width: 60%;
-      padding: 12px 20px;
-      margin: 8px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
+    .modal-body input[type=text]{
+    width: 80%;
+    padding: 12px 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    }
+    
+    
+    .modal-body .desc {
+    padding: 12px 10px;
+    margin: 10px 0px;
+    height: 160px;
+    width: 80%;
     }
     
     .modal-body label {
     font-size: 20px;
     }
     
-    .modal-body a {
-    padding-bottom: 20px;
-    }
-    
-    .modal-footer {
+    /*.modal-footer {
       padding: 2px 16px;
       background-color: #5cb85c;
       color: white;
     }
+    */
     
     /* The Close Button */
     .close {
@@ -169,8 +198,7 @@
       font-weight: bold;
     }
     
-    .close:hover,
-    .close:focus {
+    .close:hover, .close:focus {
       color: black;
       text-decoration: none;
       cursor: pointer;

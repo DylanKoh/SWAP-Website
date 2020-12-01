@@ -103,12 +103,16 @@ box-shadow: 0 2px 4px 0 rgba(0,0,0,0.24), 0 5px 10px 0 rgba(0,0,0,0.19);
 
 /* Section 1 content */
 .sell-column{
-display:flex;
 padding-top:20px;
-
+display: inline-flex;
+max-width: 80%;
+justify-content: space-around;
+flex-wrap:wrap;
 }
-.sell-column .container{
-padding-right:20px;
+
+.sell-column a {
+text-decoration: none;
+color:black;
 }
 
 .box-view {
