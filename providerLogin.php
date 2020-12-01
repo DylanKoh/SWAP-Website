@@ -103,7 +103,15 @@
 <a href="createAccount.php">Have not created your Provider account? Click here to Create!</a><br>
 <a href="login.php">Are you a Customer? Click here to Login!</a>
 </form>
-
+<?php 
+include_once 'alertMessageFunc.php';
+if (isset($_GET['error']) && $_GET['error'] == 'invalid'){
+    promptMessage('Username or password is incorrect or does not exist!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'empty'){
+    promptMessage('Please fill in fields of Username and Password!');
+}
+?>
 
 </body>
 </html>
