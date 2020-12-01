@@ -26,18 +26,22 @@ if (isset($_POST["btnLogin"])){
                 if($googleSecret!=NULL){
                     $_SESSION['googleSecret']=$googleSecret;
                     header('Location:loginUserValidate.php');
+                    exit();
                 }
                 else{
                     header('Location:storePage.php');
+                    exit();
                 }
             }
         }
         else{
             header('Location:login.php?error=invalid');
+            exit();
         }
     }
     else{
         header('Location:login.php?error=empty');
+        exit();
     }
 }
 ?>
