@@ -42,7 +42,7 @@
 		//Creation of tables with data:
 		echo "<div class='sell-column'>";
 		while($stmt->fetch()){
-    		echo"<a href='storePage.php?id=".$servicesId."'><div class='container'>";
+    		echo"<a href='storePage.php?id=$servicesId'><div class='container'>";
             echo"<div class='box-view'><div class='sell-info'>";      
     		echo"<p id='title' style='font-size:22px;'><b>". $serviceName . "</b></p>";
     		echo"<p style='font-size:14px;'> Provider: ".$username."</p>";
@@ -67,7 +67,7 @@
                     
                     <form action='StorePost.php' method='post' onSubmit='window.location.reload()'>
                         <div class="modal-body">
-                            <a>
+                            <a onclick= 'store()'>
                               <label for='sName'><b>Service Name:</b></label> <br>
                               <input id='name' type='text' placeholder='Enter service name' name='serName' required> <br>
                             </a>
@@ -100,7 +100,7 @@
     }
     
     .sell-column {
-    height: 80%;
+    height: 60%;
     }
     
 	.modal {
