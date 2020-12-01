@@ -1,0 +1,20 @@
+* {
+	font-family: 'Open Sans';
+	box-sizing: border-box;
+}
+
+.chatContainer {
+	width: 400px;
+	height: 500px;
+	border: 2px solid #ddd; 
+}
+
+.chatContainer > .chatHeader {
+	width: 100px;
+	background: white;
+	padding: 5px;
+	border-bottom: 1px solid #ddd;
+}
+
+
+
