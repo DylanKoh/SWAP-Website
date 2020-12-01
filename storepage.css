@@ -107,7 +107,6 @@ padding-top:20px;
 display: inline-flex;
 max-width: 80%;
 justify-content: space-around;
-flex-wrap:wrap;
 }
 
 .sell-column a {
@@ -123,6 +122,7 @@ background-color:#fdfdf8;
 overflow: hidden;
 box-shadow: 0 2px 4px 0 rgba(0,0,0,0.4);
 border: 1px solid black;
+margin-left: 20px;
 }
 .box-view .sell-info {
 position: absolute;
