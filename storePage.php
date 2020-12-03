@@ -1,6 +1,7 @@
 <html>
     <head>
     	<script src="https://kit.fontawesome.com/9d4359df6d.js"></script>
+    	<link rel="stylesheet" type="text/css" href="header.css">
     	<link rel="stylesheet" type="text/css" href="storepage.css">
     	<title>Pentesters for Hire</title>
     </head>
@@ -42,7 +43,7 @@
 		//Creation of tables with data:
 		echo "<div class='sell-column'>";
 		while($stmt->fetch()){
-    		echo"<a href='storePage.php?id=$servicesId'><div class='container'>";
+    		echo"<a href='storeIndiv.php?id=$servicesId'><div class='container'>";
             echo"<div class='box-view'><div class='sell-info'>";      
     		echo"<p id='title' style='font-size:22px;'><b>". $serviceName . "</b></p>";
     		echo"<p style='font-size:14px;'> Provider: ".$username."</p>";
@@ -65,9 +66,8 @@
                       <h2>Post A Service</h2>
                     </div>
                     
-                    <form action='StorePost.php' method='post' onSubmit='window.location.reload()'>
+                    <form action='StorePost.php' method='post' onsubmit="setTimeout(function(){window.location.reload();},10);">
                         <div class="modal-body">
-                            <a onclick= 'store()'>
                               <label for='sName'><b>Service Name:</b></label> <br>
                               <input id='name' type='text' placeholder='Enter service name' name='serName' required> <br>
                             </a>
@@ -81,130 +81,13 @@
                               <label for='sPrice'><b>Price of your service: </b></label> <br>
                               <input id='price' type='text' class='price' placeholder='Enter price of service' name='serPrice' required>
                            	</a><br>
-                           	<button class='post-ser'>Post</button>
+                           	<button class='post-ser' type="submit" >Post</button>
                         </div>
                     </form>
-                    
-                    <div class="modal-footer">
-                      <h3></h3>
-        		</div>
     		</div>
 		</div>
 	</div>
     </body>
-    
-    <style>
-    .sell-column a {
-    text-decoration: none;
-    color:black;
-    }
-    
-    .sell-column {
-    height: 60%;
-    }
-    
-	.modal {
-      display: none; 
-      position: fixed; 
-      z-index: 1; 
-      left: 0;
-      top: 0;
-      width: 100%; 
-      height: 100%; 
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0,0,0);
-      background-color: rgba(0,0,0,0.4);
-    }
-    
-    /* Modal Content/Box */
-    .modal-content {
-      background-color: #fefefe;
-      margin: 7% auto;
-      border: 0px solid #888;
-      height: 600px;
-      width: 60%;
-    }
-    
-    .modal-header {
-      padding: 2px 36px;
-      background-color: #003366;
-      color: white;
-      height: 60px;
-    }
-    
-    .modal-header h2 {
-    margin:18px 0px;
-    }
-    
-    .modal-header span {
-    margin: 8px 2px;
-    font-size: 40px;
-    }
-    
-    .modal-body {
-    padding: 20px 36px;
-    height: 400px;
-    }
-    
-    .modal-body .post-ser {
-    background-color: white;
-    border: 1px solid black;
-    margin-top:10px;
-    padding: 10px 30px;
-    text-align: center;
-    text-decoration: none;
-    font-size:18px;
-    border-radius: 5px;
-    }
-    
-    .modal-body label{
-    width:100%;
-    height: 20px;
-    }
-    
-    
-    /* Full-width input fields */
-    .modal-body input[type=text]{
-    width: 80%;
-    padding: 12px 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    }
-    
-    
-    .modal-body .desc {
-    padding: 12px 10px;
-    margin: 10px 0px;
-    height: 160px;
-    width: 80%;
-    }
-    
-    .modal-body label {
-    font-size: 20px;
-    }
-    
-    /*.modal-footer {
-      padding: 2px 16px;
-      background-color: #5cb85c;
-      color: white;
-    }
-    */
-    
-    /* The Close Button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-    
-    .close:hover, .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-	</style>
-	
 	<script type="text/javascript">
 	
 		//Obtain the modal
