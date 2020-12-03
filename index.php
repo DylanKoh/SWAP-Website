@@ -7,6 +7,9 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js%22%3E"></script>
+ 	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
    </head>
    <style>
       /* Header start */
@@ -24,18 +27,29 @@
       width: 100px;
       }
       /* Header end */
-      .users {   
-      -ms-flex: 70%;
-      flex: 70%;
-      background-color: white;
-      padding: 30px;
+      
+      /*login button start*/
+      .loginImage {
+      max-width: 100%;
+      max-height: 100%;
       }
-      .userimg {
-      background-color: #aaa;
-      height: 140px;
-      width: 140px;
-      padding: 20px;
+      
+      .login #btn {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      font-size: 16px;
+      padding: 12px 24px;
+      text-align: center;
       }
+      /*login buutton end*/
+      
+      /*about start*/
+      .about {
+      padding: 20px
+      }
+      /*about end*/
+      
       /* footer start */
       .col-md-4 a {
       font-size: 2.5em;
@@ -101,33 +115,27 @@
          </nav>
       </header>
       <!-- Header end -->
-      <div class="users">
-         <h2>Top Sellers</h2>
-         <br>
-         <h5>Seller 1</h5>
-         <div class="userimg">Seller 1 Image</div>
-         <p>Seller Rating &#9733 &#9733 &#9733 &#9733 &#9733</p>
-         <p>Seller Bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-         <br>
-         <h5>Seller 2</h5>
-         <div class="userimg">Seller 2 Image</div>
-         <p>Seller Rating &#9733 &#9733 &#9733 &#9733 &#9733</p>
-         <p>Seller Bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      
+      <div class=login>
+      <img src=SwapImage/choosing_your_pentester.png alt=choosing_your_pentester class="loginImage">
+       <a href="login.php"><button type="button" class="btn btn-outline-light btn-lg" id="btn">Login</button></a>
       </div>
+      
+      <div class=about>
+      <h2>Interested in Hiring a Pentester?</h2>
+      <br>
+      Do you need a penetration tester to help test your system/web application? <br>
+      Freelance pentesters will be able to post their services here based on their specific skillsets, and you can choose to hire them based on your requirements.<br><br>
+      <h4>Why do you need a pentester?</h4><br>
+      - Uncover critical vulnerabilities before cybercriminals can exploit them<br>
+      - Gives you an opportunity to remedy these vulnerabilities<br>
+      - It helps to improve the current status of your security infrastructure<br>
+      - You can assess the potential impact of a successful attack on your infrastructure
+      </div>
+      
       <br><br>
-      <div class="users">
-         <h2>Top Buyers</h2>
-         <br>
-         <h5>Buyer 1</h5>
-         <div class="userimg">Buyer 1 Image</div>
-         <p>Buyer Rating &#9733 &#9733 &#9733 &#9733 &#9733</p>
-         <p>Buyer Bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-         <br>
-         <h5>Buyer 2</h5>
-         <div class="userimg">Buyer 2 Image</div>
-         <p>Buyer Rating &#9733 &#9733 &#9733 &#9733 &#9733</p>
-         <p>Buyer Bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      </div>
+      
+         
       <!-- Footer start -->
       <footer>
          <div class="container-fluid padding">
