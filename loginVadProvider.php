@@ -22,7 +22,7 @@ if (isset($_POST["btnLogin"])){
                 session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
                 session_start();
                 $_SESSION['providersID']=$providersID;
-                //$_SESSION['isProvider']=TRUE; //Use this only if decided combined store page
+                $_SESSION['isProvider']=TRUE; //Use this only if decided combined store page
                 if($googleSecret!=NULL){
                     $_SESSION['googleSecret']=$googleSecret;
                     header('Location:loginProviderValidate.php');
@@ -30,7 +30,6 @@ if (isset($_POST["btnLogin"])){
                 }
                 else{
                     header('Location:storePage.php');
-                    //header('Location:StorePost.php');
                     exit();
                 }
             }

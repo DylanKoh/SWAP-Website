@@ -22,7 +22,7 @@ if (isset($_POST["btnLogin"])){
                 session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
                 session_start();
                 $_SESSION['userID']=$userID;
-                //$_SESSION['isProvider']=FALSE; //Use this only if decided combined store page
+                $_SESSION['isProvider']=FALSE; //Use this only if decided combined store page
                 if($googleSecret!=NULL){
                     $_SESSION['googleSecret']=$googleSecret;
                     header('Location:loginUserValidate.php');
