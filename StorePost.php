@@ -1,14 +1,16 @@
 <?php
     //Connecting to Mysql Database
-    include 'connect.php';
+    include 'connection.php';
+    
+    //Sessions
+    session_start();
     
     $name= $_POST['serName'];
     $desc = $_POST['serDesc'];
-    $provId = '1';
-    //$_POST['provId'];
+    $provId = $_SESSION['provId'];
     $price = $_POST['serPrice'];
     
-    $query= $con->prepare("INSERT INTO `services` (`serviceName`, `serviceDesc`, `providersFkid`, `price`) VALUES (?,?,?,?)");
+    $query= $conn->prepare("INSERT INTO `services` (`serviceName`, `serviceDesc`, `providersFkid`, `price`) VALUES (?,?,?,?)");
     $query->bind_param('ssid', $name, $desc, $provId, $price); //bind the parameters
     if ($query->execute()){ //execute query
         echo "<br>Successfully added!";

@@ -9,7 +9,15 @@
 	<body>
     	<?php
         //Connecting to Mysql Database:
-        include 'connect.php'; 
+        include 'connection.php'; 
+        
+        //Sessions
+        
+        session_start();
+        
+        $_SESSION['provId'] ='1';
+        $_SESSION['isProvider'] ='yes';
+        $isProv = $_SESSION['isProvider'];
         ?>
         
 		<div class="webhead">
@@ -23,18 +31,24 @@
         		<a class="nav-but" href="login.php">Login</a>
 			</div>
 		</div>
+		
+		
 		<!-- Store body codes -->
 		<div class="store-body">
 		
 		<div class="store-header1">
 		<h1>Top Reviewed Sellers</h1>
-		<button class='post-but' id='mod-button'>Post A Service</button>
+    		<?php 
+        		if ($isProv == 'yes') {
+        		   echo"<button class='post-but' id='mod-button'>Post A Service</button>";
+        		}
+        	?>
 		</div>
 		
 		<?php 
 		
 		//Retrieving Service data from database:
-		$stmt= $con->prepare("SELECT services.servicesId, services.serviceName, services.serviceDesc, services.providersFkid, services.price, providers.username FROM services 
+		$stmt= $conn->prepare("SELECT services.servicesId, services.serviceName, services.serviceDesc, services.providersFkid, services.price, providers.username FROM services 
                               INNER JOIN providers ON services.providersFkid = providers.providersId");
 		$res = $stmt->execute();
 		$stmt->store_result();
@@ -66,8 +80,9 @@
                       <h2>Post A Service</h2>
                     </div>
                     
-                    <form action='StorePost.php' method='post' onsubmit="setTimeout(function(){window.location.reload();},10);">
+                    <form action='StorePost.php' method='post' onsubmit='setTimeout(function(){window.location.reload();},10);'>
                         <div class="modal-body">
+                        <a>
                               <label for='sName'><b>Service Name:</b></label> <br>
                               <input id='name' type='text' placeholder='Enter service name' name='serName' required> <br>
                             </a>
@@ -82,10 +97,7 @@
                               <input id='price' type='text' class='price' placeholder='Enter price of service' name='serPrice' required>
                            	</a><br>
                            	<button class='post-ser' type="submit" >Post</button>
-                        </div>
-                    </form>
-    		</div>
-		</div>
+        </div></form></div></div>
 	</div>
     </body>
 	<script type="text/javascript">
