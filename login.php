@@ -111,6 +111,9 @@ if (isset($_GET['error']) && $_GET['error'] == 'invalid'){
 elseif (isset($_GET['error']) && $_GET['error'] == 'empty'){
     promptMessage('Please fill in fields of Username and Password!');
 }
+elseif (isset($_GET['error']) && $_GET['error'] == 'notloggedin'){
+    promptMessage('You have been redirected back as you were not logged in!');
+}
 ?>
 
 </body>
