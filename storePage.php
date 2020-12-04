@@ -37,7 +37,7 @@
 		<div class="store-body">
 		
 		<div class="store-header1">
-		<h1>Top Reviewed Sellers</h1>
+		<h1>Pentesting Services</h1>
     		<?php 
         		if ($isProv == 'yes') {
         		   echo"<button class='post-but' id='mod-button'>Post A Service</button>";

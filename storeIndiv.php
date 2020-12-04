@@ -164,14 +164,16 @@
 <style>
 /* Posting a review section */
 .rev-contain {
-width: 70%;
+width: 75%;
 height:160px;
 border: 1px solid black;
-padding: 5px 5px;
+padding: 10px 15px;
 }
+
 .rev-contain .rev-text{
-width: 70%;
-height: 40px;
+width: 100%;
+height: 65%;
+margin: 10px 0px;
 }
 
 
