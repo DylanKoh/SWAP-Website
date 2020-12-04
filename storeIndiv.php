@@ -26,6 +26,9 @@
             		<a class="nav-but" href="login.php">Login</a>
     			</div>
     		</div>
+    		<div class='sec-head'>
+    			<div class='edit-but'></div>
+    		</div>
     		
 		<!-- Body of website -->
     		<div class='store-body'>
@@ -74,18 +77,27 @@
         				}
         				?>
         				
-        				<div class='review-header'>
-        					<h2>Reviews</h2>
-        				</div>
-        				<div class='reviews'>
-    						<div class='review-card'>
-    							<p class='rev-head'><b>Bob</b></p>
-    							<p><i class='fas fa-star fa-sm'></i>5</p>
-    							<p class='desc'> The provider was fast and easy to understand, he was really helpful.</p>
-    							
-    						</div>
-    					</div>
-    					
+        				<?php 
+        				$stmt= $con->prepare("SELECT users.username, reviews.rating, reviews.comments, reviews.ratingDate FROM services
+                                            INNER JOIN providers ON services.providersFkid = providers.providersId
+                                            INNER JOIN orders ON services.servicesId = orders.servicesFkid
+                                            INNER JOIN reviews ON orders.ordersId = reviews.ordersFkid
+                                            INNER JOIN users ON orders.customerFkid = users.usersId
+                                            WHERE services.servicesId=$servId");
+        				$res = $stmt->execute();
+        				$stmt->store_result();
+        				$stmt->bind_result($revName, $revRate, $revComment, $revDate);
+        				echo"<div class='review-header'><h2>Reviews</h2></div>";
+        				echo"<div class='reviews'>";
+        				while($stmt->fetch()){
+        				    echo"<div class='review-card'>";
+    						echo"<p class='rev-head'><b>$revName</b></p>";
+    						echo"<p><i class='fas fa-star fa-sm'></i>$revRate</p>";
+    						echo"<p class='desc'>$revComment</p>";
+    						echo"</div>";
+        				}
+        				echo"</div>";
+    					?>
     				</div>
     				
     			</div>
@@ -104,12 +116,17 @@ padding: 0px;
 margin: 0px;
 }
 
+.sec-head {
+width: 100%;
+height: 60px;
+background:	#F8F8FF;
+}
+
 .store-body {
 width:70%;
 height: 100%;
 background: white;
 margin: auto;
-margin-top: 50px;
 display:flex;
 }
 
@@ -160,6 +177,10 @@ border-bottom: 1px solid black;
 padding: 5px 0px;
 }
 
+.fa-sm {
+color: #FFD700;
+}
+
 .left-contain #desc1 {
 font-size: 20px;
 margin-top: 10px;
@@ -167,6 +188,7 @@ margin-top: 10px;
 
 .left-contain #desc2 {
 width: 80%;
+font-size: 16px;
 }
 
 .left-contain h1 {
@@ -247,7 +269,8 @@ padding: 15px 0px;
 .right-contain .reviews {
 width: 100%;
 height: 70%;
-border: 1px solid black;
+border: 3px solid black;
+overflow:auto;
 }
 
 .right-contain .reviews .review-card {
