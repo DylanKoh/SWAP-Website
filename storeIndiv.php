@@ -173,7 +173,7 @@
     				</div>
     				
     			</div>
-    			<!-- Review modal -->
+    			<!-- Review modal content-->
     			<div id="reviewModal" class="revModal">
 			
             		<div class="revmodal-content">
