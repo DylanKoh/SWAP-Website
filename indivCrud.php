@@ -16,7 +16,7 @@
         $query= $conn->prepare("UPDATE services SET serviceName = ?, serviceDesc = ?, providersFkid = ?, price = ? WHERE servicesId=$servId");
         $query->bind_param('ssii',$name, $desc, $provId, $price); //bind the parameters
         if ($query->execute()){ //execute query
-            echo "Successfully editted";
+            echo "Successfully edited";
         }else{
             echo "Delete unsuccessful";
         }
