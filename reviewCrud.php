@@ -10,6 +10,7 @@
     $orderId = $_SESSION['orderId'];
     $userId = $_SESSION['userId'];
     
+    
         $query= $conn->prepare("INSERT INTO `reviews` (`ordersFkid`, `usersFkid`, `rating`, `comments`) VALUES (?,?,?,?)");
         $query->bind_param('iiis', $orderId, $userId, $rating, $comments); //bind the parameters
         if ($query->execute()){ //execute query

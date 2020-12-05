@@ -20,7 +20,6 @@
         $_SESSION['userId']='1';
         $isProv = $_SESSION['isProvider'];
         
-        
         ?>
         
 		<div class="webhead">

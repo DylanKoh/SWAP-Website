@@ -211,7 +211,7 @@
     </body>
 
 <style>
-/* Posting a review section */
+/* Posting of review section */
 
 .rev-contain {
 width: 75%;

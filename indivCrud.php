@@ -12,6 +12,7 @@
     $price = $_POST['serPrice'];
     $revId = $_POST['reviewId'];
 
+    
     //Update function:
     if(isset($_POST["updatebtn"])){
         $query= $conn->prepare("UPDATE services SET serviceName = ?, serviceDesc = ?, providersFkid = ?, price = ? WHERE servicesId=$revId");

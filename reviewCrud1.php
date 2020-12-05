@@ -5,7 +5,6 @@
     //Sessions
     session_start();
 
-
     $rateUpdate = $_POST['ratingUpdate'];
     $comUpdate = $_POST['commentUpdate'];
     $revId = $_POST['reviewId'];
