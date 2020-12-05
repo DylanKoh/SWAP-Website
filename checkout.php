@@ -1,5 +1,3 @@
-<?php
-?>
 <html>
    <head>
       <script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
@@ -27,25 +25,59 @@
       width: 100px;
       }
       /* Header end */
-      /*login button start*/
-      .loginImage {
-      max-width: 100%;
-      max-height: 100%;
+      @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i&display=swap");
+      .checkout * {
+      box-sizing: border-box;
+      line-height: 1.5;
       }
-      .login #btn {
-      position: absolute;
-      top: 60%;
-      left: 50%;
-      font-size: 16px;
-      padding: 12px 24px;
-      text-align: center;
+      .checkout_title {
+      font-size: 2em;
+      font-weight: 600;
+      padding: 10px;
       }
-      /*login buutton end*/
-      /*about start*/
-      .about {
-      padding: 20px
+      .checkout_item {
+      display: flex;
+      flex-direction: column;
+      padding:10px;
       }
-      /*about end*/
+      .checkout_item > * {
+      align-self: flex-start;
+      }
+      .checkout_label {
+      font-weight: 600;
+      padding: 10px 0;
+      }
+      .checkout_input {
+      -webkit-appearance: none;
+      width: 100%;
+      max-width: 425px;
+      }
+      .checkout_input:focus {
+      background: #ffffff;
+      }
+      .checkout_input::placeholder {
+      color: #bbbbbb;
+      }
+      textarea.checkout_input {
+      resize: none;
+      min-height: 200px;
+      }
+      .checkout_btn {
+      font-family: "Source Sans Pro", sans-serif;
+      font-weight: 600;
+      font-size: 1.1em;
+      padding: 10px 16px;
+      margin: 10px 0;
+      color: #ffffff;
+      background: #14b64a;
+      border: 2px solid #0fa942;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      }
+      .checkout_btn:active {
+      background: #0fa942;
+      }
       /* footer start */
       .col-md-4 a {
       font-size: 2.5em;
@@ -74,9 +106,19 @@
       border-top: 1px solid #d5d5d5;
       width: 75%;
       }
+      p {
+      padding-left: 10px;
+      }
       /* footer end */
    </style>
    <body>
+      <?php 
+         //connect to db
+         include 'connection.php';
+         
+         //start session
+         session_start();
+         ?>
       <!-- Header start -->
       <header>
          <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
@@ -111,23 +153,29 @@
          </nav>
       </header>
       <!-- Header end -->
-      <div class=login>
-         <img src=SwapImage/choosing_your_pentester.png alt=choosing_your_pentester class="loginImage">
-         <a href="login.php"><button type="button" class="btn btn-outline-light btn-lg" id="btn">Login</button></a>
-      </div>
-      <div class=about>
-         <h2>Interested in Hiring a Pentester?</h2>
+      <form class="checkout" Action="checkoutPost.php" method="post">
+         <div class="checkout_title">Checkout</div>
+         <div class="checkout_item">
+            <label for="cardNumber" class="checkout_label">Credit Card Number</label>
+            <input type="text" class="checkout_input" name="creditCard" id="creditCard" placeholder="Credit Card Number">
+         </div>
+         <div class="checkout_item">
+            <label for="cardExpiry" class="checkout_label">Expiry Date</label>
+            <input type="text" class="checkout_input" name="expiryDate" id="expiryDate" placeholder="Expiry Date (MM/YY)">
+         </div>
+         <div class="checkout_item">
+            <label for="fourDigits" class="checkout_label">Last 4 Digits of Credit Card</label>
+            <input type="text" class="checkout_input" name="fourDigits" id="fourDigits" placeholder="Last 4 Digits">
+         </div>
          <br>
-         Do you need a penetration tester to help test your system/web application? <br>
-         Freelance pentesters will be able to post their services here based on their specific skillsets, and you can choose to hire them based on your requirements.<br><br>
-         <h4>Why do you need a pentester?</h4>
-         <br>
-         - Uncover critical vulnerabilities before cybercriminals can exploit them<br>
-         - Gives you an opportunity to remedy these vulnerabilities<br>
-         - It helps to improve the current status of your security infrastructure<br>
-         - You can assess the potential impact of a successful attack on your infrastructure
-      </div>
-      <br><br>
+            <input type="radio" name="action" id="yes" value="yes">Save Payment Information<br>
+            <input type="radio" name="action" id="no" value="no">Don't Save Payment Information<br>
+            <input type="radio" name="action" id="update" value="update">Update Payment Information<br>
+            <input type="radio" name="action" id="delete" value="delete">Delete Payment Information<br>   
+         <div class="checkout_item">
+            <button name="checkout_btn" class="checkout_btn" type="submit">Checkout</button>
+         </div>
+      </form>
       <!-- Footer start -->
       <footer>
          <div class="container-fluid padding">
