@@ -9,12 +9,16 @@
         //Connecting to Mysql Database:
         include 'connection.php'; 
         
+        $reviewId = $_COOKIE['revCookie'];
+        $reviewId = '1';
+        echo 'Review id= '.$reviewId;
         $servId= $_GET['id'];
         
         //Session info
         session_start();
         $provId = $_SESSION['provId'];
         $isProv = $_SESSION['isProvider'];
+        $userId= $_SESSION['userId'];
 		?>
     	
     </head>
@@ -26,7 +30,7 @@
         			<button id="nav-sea-but" type="submit">Search</button>
         		<div class="webhead-right">
             		<a href="index.php">Home</a>
-            		<a href="">Explore</a>
+            		<a href="http://localhost/Swapcasestudy/storePage.php">Explore</a>
             		<a href="about.php">About</a>
             		<a class="nav-but" href="login.php">Login</a>
     			</div>
@@ -102,12 +106,19 @@
     				}
     				?>
     				
+    				<!-- Post a review section! -->
     				<div class='rev-contain'>
     				<h4>Leave a review</h4>
-    				<textarea class='rev-text'></textarea>
-    				<button>Post</button></div>
+    				<form action='reviewCrud.php' method='post'>
+    				<textarea class='rev-text' name='revComments'></textarea>
+    				<input name='revRating' type='number' placeholder='Rate' min='1' max='5'><br>
+    				<button class='post-review' name='reviewbtn' type='submit'>Post</button></form>
+    				</div>
+    				
+    				
     				</div>
     				<div class='right-contain'>
+    				
     				
     				<?php 
     				$stmt= $conn->prepare("SELECT COUNT(reviews.rating), providers.username, AVG(reviews.rating) FROM services
@@ -134,7 +145,7 @@
         				?>
         				
         				<?php 
-        				$stmt= $conn->prepare("SELECT users.username, reviews.rating, reviews.comments, reviews.ratingDate FROM services
+        				$stmt= $conn->prepare("SELECT users.username, reviews.rating, reviews.comments, reviews.ratingDate, reviews.ordersFkid, reviews.usersFkid, reviews.reviewsId FROM services
                                             INNER JOIN providers ON services.providersFkid = providers.providersId
                                             INNER JOIN orders ON services.servicesId = orders.servicesFkid
                                             INNER JOIN reviews ON orders.ordersId = reviews.ordersFkid
@@ -142,14 +153,19 @@
                                             WHERE services.servicesId=$servId");
         				$res = $stmt->execute();
         				$stmt->store_result();
-        				$stmt->bind_result($revName, $revRate, $revComment, $revDate);
+        				$stmt->bind_result($revName, $revRate, $revComment, $revDate, $ordId, $usId, $revId);
         				echo"<div class='review-header'><h2>Reviews</h2></div>";
         				echo"<div class='reviews'>";
         				while($stmt->fetch()){
         				    echo"<div class='review-card'>";
+        				    if(($userId==$usId)){
+        				        echo"<button class='myRevBtn' id='myRevBtn' style='float:right' onclick='saveRevIds($revId)'>Edit</button>";
+        				    }
     						echo"<p class='rev-head'><b>$revName</b></p>";
     						echo"<p><i class='fas fa-star fa-sm'></i>$revRate</p>";
     						echo"<p class='desc'>$revComment</p>";
+    						echo"<p class='daterev'>Date posted: $revDate</p>";
+    						echo"<p>$revId</p>";
     						echo"</div>";
         				}
         				echo"</div>";
@@ -157,25 +173,63 @@
     				</div>
     				
     			</div>
+    			<!-- Review modal -->
+    			<div id="reviewModal" class="revModal">
+			
+            		<div class="revmodal-content">
+                		<?php 
+                		$stmt= $conn->prepare("SELECT `rating`, `comments` FROM `reviews` WHERE reviews.reviewsId=$reviewId");
+                		$res = $stmt->execute();
+                		$stmt->store_result();
+                		$stmt->bind_result($revRate, $revComments);
+                		while($stmt->fetch()){
+                		}
+                			echo"<div class='revmodal-header'>";
+                			echo"<span class='closerev'>&times;</span>";
+                            echo"<h2>Edit your review</h2></div>";
+                            echo"<form action='reviewCrud1.php' method='post'>";
+                            echo"<div class='revmodal-body'><a> ";
+                            echo"<label for='rCom'><b>Review comments:</b></label> <br>";
+                            echo"<textarea class='comments' placeholder='Enter your review' name='commentUpdate' required>$revComments</textarea> <br>";
+                            echo"</a><a>";
+                            echo"<label for='rRate'><b>Rating: </b></label>";
+                            echo"<input class='rate-box' type='number' placeholder='Rate' min='1' max='5' name='ratingUpdate' value=$revRate required>";
+                            echo"</a><br>";
+                            echo"<div class='but-rev'>";
+                            echo"<button class='edit-rev' type='submit' name='revUpdateBtn'>Edit</button>";
+                            echo"<button class='dele-rev' type='submit' name='revDeleteBtn'>Delete</button>";
+                        	echo"<input name='reviewId' value=$reviewId type='hidden'>";
+                        	echo"<a></a>";
+                            echo"</div></div></form>";
+                		?>
+                </div></div>
+                
+                
     		</div>
+    		
     		
     </body>
 
 <style>
 /* Posting a review section */
+
 .rev-contain {
 width: 75%;
-height:160px;
+height:185px;
 border: 1px solid black;
+margin-top: 10px;
 padding: 10px 15px;
 }
 
 .rev-contain .rev-text{
 width: 100%;
-height: 65%;
+height: 50%;
 margin: 10px 0px;
 }
 
+.rev-contain .post-review {
+margin-top: 10px;
+}
 
 /* Modal form */
 
@@ -286,10 +340,121 @@ width: 80%;
   cursor: pointer;
 }
 
+
+
+
+
+/* Review Modal */
+
+.revmodal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: hidden; /* Enable scroll if needed */
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+/* Modal Content/Box */
+.revmodal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  border: 0px solid #888;
+  height: 420px;
+  width: 40%;
+}
+
+.revmodal-header {
+  padding: 2px 36px;
+  background-color: #003366;
+  color: white;
+  height: 60px;
+}
+
+.revmodal-header h2 {
+margin:18px 0px;
+}
+
+.revmodal-header span {
+margin: 8px 2px;
+font-size: 40px;
+}
+
+.revmodal-body {
+padding: 20px 36px;
+height: 400px;
+}
+
+.revmodal-body .rate-box {
+margin-top:10px;
+margin-left:5px;
+width: 60px;
+}
+
+.revmodal-body .but-rev {
+margin-top:20px;
+width:100%;
+text-align: center;
+text-decoration: none;
+}
+
+.revmodal-body .but-rev .edit-rev {
+float:left;
+background-color: white;
+border: 1px solid black;
+padding: 10px 30px;
+font-size:18px;
+border-radius: 5px;
+}
+
+.revmodal-body .but-rev .dele-rev {
+float:right;
+background-color: red;
+color:white;
+border: 1px solid black;
+padding: 10px 30px;
+font-size:18px;
+border-radius: 5px;
+}
+
+.revmodal-body label{
+width:100%;
+height: 20px;
+font-size: 20px;
+}
+
+
+/* Full-width input fields */
+
+.revmodal-body .comments {
+padding: 12px 10px;
+margin: 10px 0px;
+height: 160px;
+width: 100%;
+}
+
+/* The Close Button */
+.closerev {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.closerev:hover, .closerev:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 </style>
 
 <script type="text/javascript">
-	
+		
 		//Obtain the modal
 		var modal = document.getElementById("servModal");
 
@@ -313,7 +478,42 @@ width: 80%;
         window.onclick = function(event) {
           if (event.target == modal) {
             modal.style.display = "none";
-          }
-    }
+              }
+        }
+        
+        
+        //Obtain the modal
+		var revmodal = document.getElementById("reviewModal");
+
+        // Get the button that opens the modal
+        var btnrev = document.getElementsByClassName("myRevBtn");
+        
+        // Get the <span> element that closes the modal
+        var spanrev = document.getElementsByClassName("closerev")[0];
+        
+        
+        for(var i=0; i < btnrev.length;i++){
+        	btnrev[i].onclick = function() {
+        		revmodal.style.display = "block";
+        	}
+        }
+        
+        // When the user clicks on <span> (x), close the modal
+        spanrev.onclick = function() {
+          revmodal.style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == revmodal) {
+            revmodal.style.display = "none";
+              }
+        }
+        
+        function saveRevIds(revId) {
+        console.log('Hello');
+        var cname = 'revCookie';
+        document.cookie = cname + "=" + revId + ";";
+        }
     </script>
 </html>

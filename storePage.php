@@ -14,10 +14,13 @@
         //Sessions
         
         session_start();
-        
         $_SESSION['provId'] ='1';
         $_SESSION['isProvider'] ='yes';
+        $_SESSION['orderId']='1';
+        $_SESSION['userId']='1';
         $isProv = $_SESSION['isProvider'];
+        
+        
         ?>
         
 		<div class="webhead">
