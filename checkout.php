@@ -153,27 +153,27 @@
          </nav>
       </header>
       <!-- Header end -->
-      <form class="checkout" Action="saveCheckout.php" method="post">
+      <form class="checkout" Action="checkoutPost.php" method="post">
          <div class="checkout_title">Checkout</div>
          <div class="checkout_item">
             <label for="cardNumber" class="checkout_label">Credit Card Number</label>
-            <input type="text" class="checkout_input" name="cardNumber" id="cardNumber" placeholder="Credit Card Number">
+            <input type="text" class="checkout_input" name="creditCard" id="creditCard" placeholder="Credit Card Number">
          </div>
          <div class="checkout_item">
             <label for="cardExpiry" class="checkout_label">Expiry Date</label>
-            <input type="text" class="checkout_input" name="cardExpiry" id="cardExpiry" placeholder="Expiry Date (MM/YY)">
+            <input type="text" class="checkout_input" name="expiryDate" id="expiryDate" placeholder="Expiry Date (MM/YY)">
          </div>
          <div class="checkout_item">
-            <label for="cardCVV" class="checkout_label">CVV/CSC Code</label>
-            <input type="text" class="checkout_input" name="cardCVV" id="cardCVV" placeholder="CVV/CSC Code (4-digits on the back of your card)">
+            <label for="fourDigits" class="checkout_label">Last 4 Digits of Credit Card</label>
+            <input type="text" class="checkout_input" name="fourDigits" id="fourDigits" placeholder="Last 4 Digits">
          </div>
          <br>
-         <p>Would you like to save your payment information?
-         <p>
-            <input type="radio" name="action" id="yes" value="yes">Yes<br>
-            <input type="radio" name="action" id="no" value="no">No<br>
+            <input type="radio" name="action" id="yes" value="yes">Save Payment Information<br>
+            <input type="radio" name="action" id="no" value="no">Don't Save Payment Information<br>
+            <input type="radio" name="action" id="update" value="update">Update Payment Information<br>
+            <input type="radio" name="action" id="delete" value="delete">Delete Payment Information<br>   
          <div class="checkout_item">
-            <button class="checkout_btn" type="submit">Checkout</button>
+            <button name="checkout_btn" class="checkout_btn" type="submit">Checkout</button>
          </div>
       </form>
       <!-- Footer start -->
