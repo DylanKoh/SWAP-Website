@@ -86,7 +86,13 @@ if($noAdd) {
     } else {
         echo "Unable to update!";
     }
-} 
+} else if($isDelete) {
+    echo "<form action='checkoutDelete.php' method='post'><br>";
+    echo "Are you sure you want to delete your payment information, user " . $userFkid . "? <br><br>";
+    echo "<input type='hidden' name='userFkid' value='".$creditCard."'>";
+    echo "<input type='submit' value='Delete'>";
+    echo "</form>";
+}
 
 
 
