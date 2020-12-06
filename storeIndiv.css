@@ -112,13 +112,14 @@ font-size: 40px;
 margin:5px 0px;
 }
 
+
 /* right container*/
 
 .right-contain {
 margin-left: auto;
 margin-top: 68px;
 width: 47%;
-height: 80%;
+height: 85%;
 display: inline-block;
 border: 0px solid black;
 }
@@ -191,6 +192,10 @@ padding: 15px 20px;
 border-bottom: 1px solid black;
 }
 
+.right-contain .reviews .review-card .rev-edit {
+margin-top:10px;
+}
+
 .right-contain .reviews .review-card a {
 padding-top: 10px;
 }
@@ -201,4 +206,8 @@ padding: 5px 0px;
 }
 .right-contain .reviews .review-card .desc {
 padding: 5px 0px;
+}
+
+.daterev {
+font-size:12px;
 }
