@@ -2,11 +2,12 @@
 
 //start session
 session_start();
-$_SESSION['userID'] ='1';
+$_SESSION['userID'] ='3';
 $_SESSION['isUser'] ='yes';
 $isUser = $_SESSION['isUser'];
 
 //connect to db
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 include 'connection.php';
 
 $hasAction = isset($_POST["action"]);
@@ -25,16 +26,10 @@ if($hasAction) {
     echo "No option was selected!";
 }
 
-//testing
-// $query=$conn->prepare("SELECT * FROM users WHERE usersId=1");
-// $query->execute();
-// $query->store_result();
-// $query->bind_result($userID, $correctPassword, $salt_1, $salt_2, $googleSecret, $passwordDate);
-
 $creditCard = $_POST["creditCard"];
 $expiryDate = $_POST["expiryDate"];
 $fourDigits = $_POST["fourDigits"];
-//$userFkid = $_SESSION['userID'];
+$userFkid = $_SESSION['userID'];
 $textToHash = $creditCard . $expiryDate;
 
 $key = 'qkwjdiw239&&jdafweihbrhnan&^%$ggdnawhd4njshjwuuO';
@@ -64,7 +59,7 @@ if($noAdd) {
     echo "Credit Card Number: " . $creditCard . "<br>";
     echo "Expiry Date: " . $expiryDate . "<br>";
     echo "Last 4 digits: " . $fourDigits . "<br>";
-    echo "Your UserID: " . $_SESSION['userID'] . "<br>";
+    echo "Your UserID: " . $userId . "<br>";
     echo "Hash: " . $secret . "<br>";
     //echo "Decrypted Hash: " . $decSecret . "<br>";
     echo "Salt1: " . $hash_1 . "<br>";
@@ -73,17 +68,25 @@ if($noAdd) {
     
     
     echo "Payment has been completed! Payment information has not been saved.";
-}
-else if($isAdd) {
-    $stmt=$conn->prepare("INSERT INTO sales VALUES (?,?,?,?,?,?,?)");
-    $stmt->bind_param("isiisss", $creditCard, $expiryDate, $fourDigits, $_SESSION['userID'], $secret, $hash_1, $hash_2);
+} else if($isAdd) { /*add function*/
+    $stmt=$conn->prepare("INSERT INTO `sales` (`creditCard`, `expiryDate`, `fourDigits`, `usersFkid`, `secret`, `hash_1`, `hash_2`) VALUES (?,?,?,?,?,?,?)");
+    $stmt->bind_param("isiisss", $creditCard, $expiryDate, $fourDigits, $userFkid, $secret, $hash_1, $hash_2);
     $res=$stmt->execute();
     if($res) {
         echo "Inserted successfully";
     } else {
         echo "Unable to insert";
     }
-}
+} else if($isUpdate) { /*Update Fuction*/
+    $stmt=$conn->prepare("UPDATE sales SET creditCard=?, expiryDate=?, fourDigits=?, secret=?, hash_1=?, hash_2=? WHERE UsersFkid=?");
+    $stmt->bind_param("isisssi", $creditCard, $expiryDate, $fourDigits, $secret, $hash_1, $hash_2, $userFkid);
+    $res=$stmt->execute();
+    if($res) {
+        echo "Updated successfully!";
+    } else {
+        echo "Unable to update!";
+    }
+} 
 
 
 
