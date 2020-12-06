@@ -75,7 +75,7 @@ if($noAdd) {
     echo "Payment has been completed! Payment information has not been saved.";
 }
 else if($isAdd) {
-    $stmt=$conn->prepare("INSERT INTO sales (`creditCard`, `expiryDate`, `fourDigits`, `usersFkid`, `secret`, `hash_1`, `hash_2`) VALUES (?,?,?,?,?,?,?)");
+    $stmt=$conn->prepare("INSERT INTO sales VALUES (?,?,?,?,?,?,?)");
     $stmt->bind_param("isiisss", $creditCard, $expiryDate, $fourDigits, $_SESSION['userID'], $secret, $hash_1, $hash_2);
     $res=$stmt->execute();
     if($res) {
