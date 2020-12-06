@@ -22,10 +22,11 @@ if($hasAction) {
     echo "No option was selected!";
 }
 
-$query=$conn->prepare("SELECT * FROM users WHERE usersId=1");
-$query->execute();
-$query->store_result();
-$query->bind_result($userID, $correctPassword, $salt_1, $salt_2, $googleSecret, $passwordDate);
+//testing
+// $query=$conn->prepare("SELECT * FROM users WHERE usersId=1");
+// $query->execute();
+// $query->store_result();
+// $query->bind_result($userID, $correctPassword, $salt_1, $salt_2, $googleSecret, $passwordDate);
 
 $creditCard = $_POST["creditCard"];
 $expiryDate = $_POST["expiryDate"];
@@ -49,7 +50,7 @@ if($noAdd) {
 }
 else if($isAdd) {
     $stmt=$conn->prepare("INSERT INTO sales (`creditCard`, `expiryDate`, `fourDigits`, `usersFkid`, `secret`, `hash_1`, `hash_2`) VALUES (?,?,?,?,?,?,?)");
-    $stmt->bind_param("isiisss", $creditCard, $expiryDate, $fourDigits, $userFkid, $secret, $hash_1, $hash_2);
+    $stmt->bind_param("isiisss", $creditCard, $expiryDate, $fourDigits, $_SESSION['userID'], $secret, $hash_1, $hash_2);
     $res=$stmt->execute();
     if($res) {
         echo "Inserted successfully";
