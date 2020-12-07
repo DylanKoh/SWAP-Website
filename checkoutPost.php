@@ -42,7 +42,7 @@ function encryptText($data, $key) {
     return base64_encode($encrypted . '::' . $iv);
 }
 
-// test decrypt
+// test decryption
 // function decryptText($data, $key) {
 //     $encryption_key = base64_decode($key);
 //     list(encrypted_data, $iv) = array_pad(explode('::', base64_decode($data), 2), 2, null);
