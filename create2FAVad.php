@@ -5,7 +5,7 @@ session_start(); //Starts session
 $ga=new PHPGangsta_GoogleAuthenticator();
 $googleSecret=$_SESSION['googleSecret'];
 $keyedCode=$_POST['verificationCode'];
-$isVerified=$ga->verifyCode($userGSecret, $keyedCode);
+$isVerified=$ga->verifyCode($googleSecret, $keyedCode,0);
 if ($isVerified){
     header('Location:createAccount.php?createAcc=success');
     exit();

@@ -58,16 +58,17 @@ VALUES (?,?,?,?,?,?,?)');
                     }
                     $hashedPassword=hash('sha256', $salt_1.$password);
                     $finalPassword=base64_encode(hash('sha256', $hashedPassword.$salt_2));
-                    $stmt->bind_param('s,s,s,s,s,s,s',$fullName,$email,$finalPassword,$salt_1,$salt_2,$googleSecret,$username);
+                    $stmt->bind_param('sssssss',$fullName,$email,$finalPassword,$salt_1,$salt_2,$googleSecret,$username);
                     if ($stmt->execute()){
                         if ($googleSecret!=NULL){
                             $getQRCodeURL=$ga->getQRCodeGoogleUrl("SWAPWebsite ($username)",$googleSecret);
                             echo "<form action='create2FAVad.php' method='post'>";
                             echo "<img src='$getQRCodeURL' title='Scan on Google 2FA Application' />";
                             echo "<br><input name='verificationCode'>";
-                            echo "<br><input type='submit' value='Verify'";
+                            echo "<br><input type='submit' value='Verify'>";
                             echo "</form>";
                             $_SESSION['googleSecret']=$googleSecret;
+                            $_SESSION['username']=$username;
                         }
                         else{
                             header("Location:createAccount.php?createAcc=success");
@@ -76,7 +77,10 @@ VALUES (?,?,?,?,?,?,?)');
                         
                     }
                     else{
-                        header("Location:createAccount.php?error=createErr&fullname=$fullName&username=$username&email=$email");
+                        //header("Location:createAccount.php?error=createErr&fullname=$fullName&username=$username&email=$email");
+                        echo var_dump($salt_1);
+                        echo var_dump($salt_2);
+                        echo var_dump($finalPassword);
                         exit();
                     }
                     $stmt->close();
@@ -116,14 +120,14 @@ VALUES (?,?,?,?,?,?,?)');
                     }
                     $hashedPassword=hash('sha256', $salt_1.$password);
                     $finalPassword=base64_encode(hash('sha256', $hashedPassword.$salt_2));
-                    $stmt->bind_param('s,s,s,s,s,s,s',$fullName,$email,$finalPassword,$salt_1,$salt_2,$googleSecret,$username);
+                    $stmt->bind_param('sssssss',$fullName,$email,$finalPassword,$salt_1,$salt_2,$googleSecret,$username);
                     if ($stmt->execute()){
                         if ($googleSecret!=NULL){
                             $getQRCodeURL=$ga->getQRCodeGoogleUrl("SWAPWebsite ($username)",$googleSecret);
                             echo "<form action='create2FAVad.php' method='post'>";
                             echo "<img src='$getQRCodeURL' title='Scan on Google 2FA Application' />";
                             echo "<br><input name='verificationCode'>";
-                            echo "<br><input type='submit' value='Verify'";
+                            echo "<br><input type='submit' value='Verify'>";
                             echo "</form>";
                             $_SESSION['googleSecret']=$googleSecret;
                         }
@@ -148,11 +152,12 @@ VALUES (?,?,?,?,?,?,?)');
 else{
     if (isset($_GET['error']) && $_GET['error']=='incorrectcode'){
         $googleSecret=$_SESSION['googleSecret'];
+        $username=$_SESSION['username'];
         $getQRCodeURL=$ga->getQRCodeGoogleUrl("SWAPWebsite ($username)",$googleSecret);
         echo "<form action='create2FAVad.php' method='post'>";
         echo "<img src='$getQRCodeURL' title='Scan on Google 2FA Application' />";
         echo "<br><input name='verificationCode'>";
-        echo "<br><input type='submit' value='Verify'";
+        echo "<br><input type='submit' value='Verify'>";
         echo "</form>";
         echo "<p style='color: red;'>Incorrect code!</p>";
     }
