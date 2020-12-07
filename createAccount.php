@@ -128,13 +128,23 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'notEmail'){
     promptMessage('Please enter a valid email!');
 }
 elseif (isset($_GET['error']) && $_GET['error'] == 'passwordWeak'){
-    promptMessage('Please ensure that password contains at least 1 upper case, 1 lower case, 1 numeric and 1 special character and is 
-at least 8 characters long overall!');
+    promptMessage('Password must contain 1 upper, lower case, numeric and special character! No. of characters must be at least 8!');
 }
 elseif (isset($_GET['error']) && $_GET['error'] == 'passwordNoMatch'){
     promptMessage('Please ensure that password matches!');
 }
+elseif (isset($_GET['error']) && $_GET['error'] == 'emailTaken'){
+    promptMessage('Email has already been taken! Please try using another email!');
+}
+elseif (isset($_GET['createAcc']) && $_GET['createAcc'] == 'success'){
+    promptMessage('Successfully created account!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'createErr'){
+    promptMessage('There was an error creating an account, please try again later!');
+}
+    
 ?>
+
 
 </body>
 </html>
