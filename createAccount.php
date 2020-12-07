@@ -94,10 +94,11 @@
       </header>
 <body>
 <h1 align="center">Create a new Account</h1>
-<form action="" method="post">
+<form action="createAccountDo.php" method="post">
 <table>
 <tr><td>Full Name: </td><td><input inputmode="text" placeholder="Full Name" name="fullname"></td></tr>
 <tr><td>Username: </td><td><input inputmode="text" placeholder="Username" name="username"></td></tr>
+<tr><td>Email: </td><td><input inputmode="text" placeholder="Email" name="email"></td></tr>
 <tr><td>Password: </td><td><input inputmode="text" type="password" placeholder="Password" name="password"></td></tr>
 <tr><td>Confirm Password: </td><td><input inputmode="text" type="password" placeholder="Confirm Password" name="rePassword"></td></tr>
 <tr><td>Sign up as:</td></tr>
@@ -109,28 +110,11 @@
 <a href="login.php">Already have a Customer Account? Click here to Login!</a><br>
 <a href="providerLogin.php">Already have a Service Provider Account? Click here to Login!</a>
 </form>
-
-<?php
-//Login to DB and to Users table
-if (isset($_POST["btnCreate"])){
-    if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['rePassword']) && isset($_POST['fullname']) && isset($_POST['rbType'])){
-        if (strlen($_POST['username']) > 0 && strlen($_POST['password']) > 0){
-            echo "Hello Check";
-            //Check if username or email exist
-            //If not exist, create account or set up 2FA if applicable
-            //Else, error message
-        }
-        else{
-            alertMessage("Please ensure fills are not empty!");
-        }
-    }
-    else{
-        alertMessage("Please ensure fills are filled!");
-    }
-}
-function alertMessage($message){
-    echo "<script type='text/javascript'>alert('$message');</script>";
+<?php 
+if (isset($_GET['error']) && $_GET['error'] == 'invalid'){
+    
 }
 ?>
+
 </body>
 </html>
