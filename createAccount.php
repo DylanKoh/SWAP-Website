@@ -96,9 +96,18 @@
 <h1 align="center">Create a new Account</h1>
 <form action="createAccountDo.php" method="post">
 <table>
-<tr><td>Full Name: </td><td><input inputmode="text" placeholder="Full Name" name="fullname"></td></tr>
-<tr><td>Username: </td><td><input inputmode="text" placeholder="Username" name="username"></td></tr>
-<tr><td>Email: </td><td><input inputmode="text" placeholder="Email" name="email"></td></tr>
+<tr><td>Full Name: </td><td><input inputmode="text" placeholder="Full Name" name="fullname" value="<?php 
+if (isset($_GET['fullname']))
+    echo $_GET['fullname'];
+?>"></td></tr>
+<tr><td>Username: </td><td><input inputmode="text" placeholder="Username" name="username" value="<?php 
+if (isset($_GET['username']))
+    echo $_GET['username'];
+?>"></td></tr>
+<tr><td>Email: </td><td><input inputmode="text" placeholder="Email" name="email" value="<?php 
+if (isset($_GET['email']))
+    echo $_GET['email'];
+?>"></td></tr>
 <tr><td>Password: </td><td><input inputmode="text" type="password" placeholder="Password" name="password"></td></tr>
 <tr><td>Confirm Password: </td><td><input inputmode="text" type="password" placeholder="Confirm Password" name="rePassword"></td></tr>
 <tr><td>Sign up as:</td></tr>
@@ -106,13 +115,24 @@
 <tr><td><input type="radio" name="rbType" value="customer"></td><td>Customer</td></tr>
 <tr><td>Setup 2FA now: </td><td><input type="checkbox" name="cb2FA"></td></tr>
 </table>
-<input type="submit" value="Login" name="btnCreate"><br>
+<input type="submit" value="Sign Up" name="btnCreate"><br>
 <a href="login.php">Already have a Customer Account? Click here to Login!</a><br>
 <a href="providerLogin.php">Already have a Service Provider Account? Click here to Login!</a>
 </form>
 <?php 
-if (isset($_GET['error']) && $_GET['error'] == 'invalid'){
-    
+require_once 'alertMessageFunc.php';
+if (isset($_GET['error']) && $_GET['error'] == 'emptyfields'){
+    promptMessage('Please fill in all of the fields!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'notEmail'){
+    promptMessage('Please enter a valid email!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'passwordWeak'){
+    promptMessage('Please ensure that password contains at least 1 upper case, 1 lower case, 1 numeric and 1 special character and is 
+at least 8 characters long overall!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'passwordNoMatch'){
+    promptMessage('Please ensure that password matches!');
 }
 ?>
 
