@@ -112,7 +112,7 @@ VALUES (?,?,?,?,?,?,?)');
                     $salt_1=$ga->createSecret();
                     $salt_2=$ga->createSecret();
                     if (@$_POST['cb2FA']!=NULL){
-                        $googleSecret=$ga->createSecret();
+                        $googleSecret=$ga->createSecret(); // Creates Google Secret
                     }
                     $hashedPassword=hash('sha256', $salt_1.$password);
                     $finalPassword=base64_encode(hash('sha256', $hashedPassword.$salt_2));
