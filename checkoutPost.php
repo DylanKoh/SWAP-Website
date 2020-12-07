@@ -29,6 +29,7 @@ if($hasAction) {
 $creditCard = $_POST["creditCard"];
 $expiryDate = $_POST["expiryDate"];
 $fourDigits = $_POST["fourDigits"];
+$pin = $_POST["paymentPin"];
 $userFkid = $_SESSION['userID'];
 $textToHash = $creditCard . $expiryDate;
 
@@ -51,7 +52,10 @@ function encryptText($data, $key) {
 $secret = encryptText($textToHash, $key);
 // $decSecret = decryptText($secret, $key);
 
-$hash_1 = password_hash($secret, PASSWORD_BCRYPT);
+$salt_1 = $pin . $secret;
+
+$hash_1 = encryptText($salt_1, $key);
+
 $hash_2 = password_hash($secret, PASSWORD_BCRYPT);
 
 if($noAdd) {

@@ -170,6 +170,10 @@
             <label for="fourDigits" class="checkout_label">Last 4 Digits of Credit Card</label>
             <input type="text" class="checkout_input" name="fourDigits" id="fourDigits" placeholder="Last 4 Digits">
          </div>
+         <div class="checkout_item">
+            <label for="fourDigits" class="checkout_label">Pin</label>
+            <input type="text" class="checkout_input" name="paymentPin" id="paymentPin" placeholder="Pin">
+         </div>
          <br>
             <input type="radio" name="action" id="yes" value="yes">Save Payment Information<br>
             <input type="radio" name="action" id="no" value="no">Don't Save Payment Information<br>
