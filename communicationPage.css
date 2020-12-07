@@ -1,3 +1,44 @@
+.container {
+	width: 80%;
+	margin: 0 atuo;
+}
+
+header {
+	background: #55d6aa;
+}
+
+nav {
+	float: right;
+}
+
+nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+nav li {
+	display: inline-block;
+	margin-left: 70px;
+	padding-top: 25px;
+	position: relative;
+}
+
+nav a {
+	color: #444;
+	text-decoration: none;
+	text-transform: upper
+}
+
+nav a:hover {
+	color: #000;
+}
+
+body {
+	margin: 0;
+	background: #222;
+}
+
 * {
 	font-family: 'Open Sans';
 	box-sizing: border-box;
@@ -6,7 +47,7 @@
 .chatContainer {
 	width: 400px;
 	height: 500px;
-	border: 2px solid #ddd; 
+	border: 2px solid #ddd;
 }
 
 .chatContainer > .chatHeader {
