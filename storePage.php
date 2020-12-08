@@ -102,6 +102,11 @@
         </div></form></div></div>
 	</div>
     </body>
+    <style>
+    .store-body {
+    height:800px;
+    }
+    </style>
 	<script type="text/javascript">
 	
 		//Obtain the modal
