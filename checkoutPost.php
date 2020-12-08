@@ -73,22 +73,22 @@ if($noAdd) {
     
     
     echo "Payment has been completed! Payment information has not been saved.";
-} else if($isAdd) { /*add function*/
+    } else if($isAdd) { /*add function*/
     if(empty($creditCard)) { //check for empty credit card field
         ?><script>alert('credit card field blank'); window.location.href='checkout.php'</script> <?php
     } else if(!preg_match('/^[0-9]{15,16}$/', $creditCard)) { //only allow numbers in credit card field
         ?><script>alert('invalid credit card format'); window.location.href='checkout.php'</script> <?php
-    } else if(empty($expiryDate)) {
+    } else if(empty($expiryDate)) { //check for empty expiry date field
         ?><script>alert('expiry date field blank'); window.location.href='checkout.php'</script> <?php
-    } else if(!preg_match('/^\d{2}\/\d{2}$/', $expiryDate)) {
+    } else if(!preg_match('/^\d{2}\/\d{2}$/', $expiryDate)) { //only allow __/__ format in expiry date field
         ?><script>alert('invalid date format'); window.location.href='checkout.php'</script> <?php    
-    } else if(empty($fourDigits)) {
+    } else if(empty($fourDigits)) { //check for empty four digit field
         ?><script>alert('four digits field blank'); window.location.href='checkout.php'</script> <?php
-    } else if(!preg_match('/^[0-9]{4}$/', $fourDigits)) {
+    } else if(!preg_match('/^[0-9]{4}$/', $fourDigits)) { //only allow 4 numbers in four digit field
         ?><script>alert('invalid four digits format'); window.location.href='checkout.php'</script> <?php
-    } else if(empty($pin)) {
+    } else if(empty($pin)) { //check for empty pin field
         ?><script>alert('pin field blank'); window.location.href='checkout.php'</script> <?php
-    } else if(empty($pin)) {
+    } else if(!preg_match('/^[0-9]{6}$/', $pin)) { //only allow 6 numbers in pin field
         ?><script>alert('invalid pin format'); window.location.href='checkout.php'</script> <?php
     } else {
     $stmt=$conn->prepare("INSERT INTO `sales` (`creditCard`, `expiryDate`, `fourDigits`, `usersFkid`, `secret`, `hash_1`, `hash_2`) VALUES (?,?,?,?,?,?,?)");
