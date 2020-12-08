@@ -22,7 +22,6 @@ if (isset($_POST["btnLogin"])){
                 session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
                 session_start(); //Starts session
                 $_SESSION['providersID']=$providersID;
-                $_SESSION['isProvider']=TRUE; //Use this only if decided combined store page
                 if($googleSecret!=NULL){
                     $_SESSION['googleSecret']=$googleSecret;
                     header('Location:loginProviderValidate.php');
