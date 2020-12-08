@@ -77,10 +77,7 @@ VALUES (?,?,?,?,?,?,?)');
                         
                     }
                     else{
-                        //header("Location:createAccount.php?error=createErr&fullname=$fullName&username=$username&email=$email");
-                        echo var_dump($salt_1);
-                        echo var_dump($salt_2);
-                        echo var_dump($finalPassword);
+                        header("Location:createAccount.php?error=createErr&fullname=$fullName&username=$username&email=$email");
                         exit();
                     }
                     $stmt->close();
