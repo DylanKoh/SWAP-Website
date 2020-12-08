@@ -1,6 +1,5 @@
 <?php
 include 'connection.php'; //Include login connection to database
-include_once 'alertMessageFunc.php'; 
 if (isset($_POST["btnLogin"])){
     if (!empty($_POST['username']) && !empty($_POST['password'])){
         $username=$_POST['username'];
@@ -16,9 +15,7 @@ if (isset($_POST["btnLogin"])){
             $hash_2=hash('sha256', $password2);
             $encodedPassword=base64_encode($hash_2);
             if ($encodedPassword!=$correctPassword){
-                echo $encodedPassword;
-                echo $correctPassword;
-                //header('Location:login.php?error=invalid');
+                header('Location:login.php?error=invalid');
             }
             else{
                 session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
