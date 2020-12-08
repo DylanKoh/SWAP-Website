@@ -26,10 +26,10 @@ if($hasAction) {
     echo "No option was selected!";
 }
 
-$creditCard = $_POST["creditCard"];
-$expiryDate = $_POST["expiryDate"];
-$fourDigits = $_POST["fourDigits"];
-$pin = $_POST["paymentPin"];
+$creditCard = htmlentities($_POST["creditCard"]);
+$expiryDate = htmlentities($_POST["expiryDate"]);
+$fourDigits = htmlentities($_POST["fourDigits"]);
+$pin = htmlentities($_POST["paymentPin"]);
 $userFkid = $_SESSION['userID'];
 $textToHash = $creditCard . $expiryDate;
 
