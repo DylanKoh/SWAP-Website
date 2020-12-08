@@ -26,6 +26,6 @@
         }
     }
     else {
-    
+        echo "<script language='javascript'>;alert('Please only add correct characters!');</script>";
     }
 ?>

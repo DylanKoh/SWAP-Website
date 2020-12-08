@@ -155,7 +155,6 @@
         				echo"<div class='reviews'>";
         				while($stmt->fetch()){
         				    echo"<div id='revcard$revId' class='review-card'>";
-        				    echo"<p class='revHideId' value=$revId style='visibility: hidden;'>$revId</p>";
         				    if(($userId==$usId)){
         				        echo"<button class='myRevBtn' id='myRevBtn' style='float:right' onclick=saveRevIds($revId)>Edit</button>";
         				    }
@@ -163,6 +162,7 @@
     						echo"<p>$revRate <i class='fas fa-star fa-sm'></i></p>";
     						echo"<p class='desc'>$revComment</p>";
     						echo"<p class='daterev'>Date posted: $revDate</p>";
+    						echo"<p class='revHideId' value=$revId style='visibility: hidden;'>$revId</p>";
     						echo"</div>";
         				}
         				echo"</div>";
@@ -508,17 +508,15 @@ width: 100%;
         }
         
         function saveRevIds(revId) {
-        alert(revId);
         var carddiv = document.getElementById("revcard"+revId);
-        alert(carddiv.innerHTML);
         var modalComments = document.getElementById("comments");
-      	modalComments.innerHTML = carddiv.childNodes[4].innerHTML;
+      	modalComments.innerHTML = carddiv.childNodes[3].innerHTML;
       	
       	var reviewIds = document.getElementById("revIds");
-      	reviewIds.value = carddiv.childNodes[0].innerHTML;
+      	reviewIds.value = carddiv.childNodes[5].innerHTML;
       	
       	var reviewRate = document.getElementById("revRates");
-      	ratingNum = carddiv.childNodes[3].innerHTML;
+      	ratingNum = carddiv.childNodes[2].innerHTML;
       	reviewRate.value = parseInt(ratingNum, 10);
       	
         revmodal.style.display = "block";

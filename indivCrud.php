@@ -35,7 +35,7 @@
        
         //Delete function:
         else if (isset($_POST['deletebtn'])){
-            $query = $conn->prepare("DELETE FROM services WHERE services.servicesId=$servId AND providersFkid =$provId");
+            $query = $conn->prepare("DELETE FROM services WHERE services.servicesId=$servId AND providersFkid=$provId");
             if ($query->execute()){ //execute query
                 echo "Successfully deleted";
                 // header!!
