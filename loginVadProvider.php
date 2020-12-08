@@ -19,10 +19,9 @@ if (isset($_POST["btnLogin"])){
                 header('Location:providerLogin.php?error=invalid');
             }
             else{
-                session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-                session_start();
+                session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
+                session_start(); //Starts session
                 $_SESSION['providersID']=$providersID;
-                $_SESSION['isProvider']=TRUE; //Use this only if decided combined store page
                 if($googleSecret!=NULL){
                     $_SESSION['googleSecret']=$googleSecret;
                     header('Location:loginProviderValidate.php');

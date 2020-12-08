@@ -94,10 +94,20 @@
       </header>
 <body>
 <h1 align="center">Create a new Account</h1>
-<form action="" method="post">
+<form action="createAccountDo.php" method="post">
 <table>
-<tr><td>Full Name: </td><td><input inputmode="text" placeholder="Full Name" name="fullname"></td></tr>
-<tr><td>Username: </td><td><input inputmode="text" placeholder="Username" name="username"></td></tr>
+<tr><td>Full Name: </td><td><input inputmode="text" placeholder="Full Name" name="fullname" value="<?php 
+if (isset($_GET['fullname']))
+    echo $_GET['fullname'];
+?>"></td></tr>
+<tr><td>Username: </td><td><input inputmode="text" placeholder="Username" name="username" value="<?php 
+if (isset($_GET['username']))
+    echo $_GET['username'];
+?>"></td></tr>
+<tr><td>Email: </td><td><input inputmode="text" placeholder="Email" name="email" value="<?php 
+if (isset($_GET['email']))
+    echo $_GET['email'];
+?>"></td></tr>
 <tr><td>Password: </td><td><input inputmode="text" type="password" placeholder="Password" name="password"></td></tr>
 <tr><td>Confirm Password: </td><td><input inputmode="text" type="password" placeholder="Confirm Password" name="rePassword"></td></tr>
 <tr><td>Sign up as:</td></tr>
@@ -105,32 +115,36 @@
 <tr><td><input type="radio" name="rbType" value="customer"></td><td>Customer</td></tr>
 <tr><td>Setup 2FA now: </td><td><input type="checkbox" name="cb2FA"></td></tr>
 </table>
-<input type="submit" value="Login" name="btnCreate"><br>
+<input type="submit" value="Sign Up" name="btnCreate"><br>
 <a href="login.php">Already have a Customer Account? Click here to Login!</a><br>
 <a href="providerLogin.php">Already have a Service Provider Account? Click here to Login!</a>
 </form>
-
-<?php
-//Login to DB and to Users table
-if (isset($_POST["btnCreate"])){
-    if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['rePassword']) && isset($_POST['fullname']) && isset($_POST['rbType'])){
-        if (strlen($_POST['username']) > 0 && strlen($_POST['password']) > 0){
-            echo "Hello Check";
-            //Check if username or email exist
-            //If not exist, create account or set up 2FA if applicable
-            //Else, error message
-        }
-        else{
-            alertMessage("Please ensure fills are not empty!");
-        }
-    }
-    else{
-        alertMessage("Please ensure fills are filled!");
-    }
+<?php 
+require_once 'alertMessageFunc.php';
+if (isset($_GET['error']) && $_GET['error'] == 'emptyfields'){
+    promptMessage('Please fill in all of the fields!');
 }
-function alertMessage($message){
-    echo "<script type='text/javascript'>alert('$message');</script>";
+elseif (isset($_GET['error']) && $_GET['error'] == 'notEmail'){
+    promptMessage('Please enter a valid email!');
 }
+elseif (isset($_GET['error']) && $_GET['error'] == 'passwordWeak'){
+    promptMessage('Password must contain 1 upper, lower case, numeric and special character! No. of characters must be at least 8!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'passwordNoMatch'){
+    promptMessage('Please ensure that password matches!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'emailTaken'){
+    promptMessage('Email has already been taken! Please try using another email!');
+}
+elseif (isset($_GET['createAcc']) && $_GET['createAcc'] == 'success'){
+    promptMessage('Successfully created account!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'createErr'){
+    promptMessage('There was an error creating an account, please try again later!');
+}
+    
 ?>
+
+
 </body>
 </html>

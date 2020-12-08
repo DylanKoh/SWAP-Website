@@ -118,6 +118,9 @@
          
          //start session
          session_start();
+         $_SESSION['userID'] ='1';
+         $_SESSION['isUser'] ='yes';
+         $isUser = $_SESSION['isUser'];
          ?>
       <!-- Header start -->
       <header>
@@ -167,14 +170,22 @@
             <label for="fourDigits" class="checkout_label">Last 4 Digits of Credit Card</label>
             <input type="text" class="checkout_input" name="fourDigits" id="fourDigits" placeholder="Last 4 Digits">
          </div>
+         <div class="checkout_item">
+            <label for="fourDigits" class="checkout_label">Pin</label>
+            <input type="text" class="checkout_input" name="paymentPin" id="paymentPin" placeholder="Pin">
+         </div>
          <br>
             <input type="radio" name="action" id="yes" value="yes">Save Payment Information<br>
             <input type="radio" name="action" id="no" value="no">Don't Save Payment Information<br>
             <input type="radio" name="action" id="update" value="update">Update Payment Information<br>
             <input type="radio" name="action" id="delete" value="delete">Delete Payment Information<br>   
-         <div class="checkout_item">
-            <button name="checkout_btn" class="checkout_btn" type="submit">Checkout</button>
-         </div>
+         <?php 
+        		if ($isUser == 'yes') {
+        		   echo"<button name='checkout_btn' class='checkout_btn' type='submit'>Checkout</button>";
+        		} else {
+        		    echo "<br> Unable to checkout as you are not logged in!";
+        		}
+        	?>
       </form>
       <!-- Footer start -->
       <footer>

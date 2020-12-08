@@ -9,9 +9,6 @@
         //Connecting to Mysql Database:
         include 'connection.php'; 
         
-        $reviewId = $_COOKIE['revCookie'];
-        $reviewId = '1';
-        echo 'Review id= '.$reviewId;
         $servId= $_GET['id'];
         
         //Session info
@@ -157,15 +154,15 @@
         				echo"<div class='review-header'><h2>Reviews</h2></div>";
         				echo"<div class='reviews'>";
         				while($stmt->fetch()){
-        				    echo"<div class='review-card'>";
+        				    echo"<div id='revcard$revId' class='review-card'>";
+        				    echo"<p class='revHideId' value=$revId style='visibility: hidden;'>$revId</p>";
         				    if(($userId==$usId)){
-        				        echo"<button class='myRevBtn' id='myRevBtn' style='float:right' onclick='saveRevIds($revId)'>Edit</button>";
+        				        echo"<button class='myRevBtn' id='myRevBtn' style='float:right' onclick=saveRevIds($revId)>Edit</button>";
         				    }
     						echo"<p class='rev-head'><b>$revName</b></p>";
-    						echo"<p><i class='fas fa-star fa-sm'></i>$revRate</p>";
+    						echo"<p>$revRate <i class='fas fa-star fa-sm'></i></p>";
     						echo"<p class='desc'>$revComment</p>";
     						echo"<p class='daterev'>Date posted: $revDate</p>";
-    						echo"<p>$revId</p>";
     						echo"</div>";
         				}
         				echo"</div>";
@@ -178,29 +175,23 @@
 			
             		<div class="revmodal-content">
                 		<?php 
-                		$stmt= $conn->prepare("SELECT `rating`, `comments` FROM `reviews` WHERE reviews.reviewsId=$reviewId");
-                		$res = $stmt->execute();
-                		$stmt->store_result();
-                		$stmt->bind_result($revRate, $revComments);
-                		while($stmt->fetch()){
-                		}
                 			echo"<div class='revmodal-header'>";
                 			echo"<span class='closerev'>&times;</span>";
                             echo"<h2>Edit your review</h2></div>";
                             echo"<form action='reviewCrud1.php' method='post'>";
                             echo"<div class='revmodal-body'><a> ";
                             echo"<label for='rCom'><b>Review comments:</b></label> <br>";
-                            echo"<textarea class='comments' placeholder='Enter your review' name='commentUpdate' required>$revComments</textarea> <br>";
+                            echo"<textarea id='comments' class='comments' placeholder='Enter your review' name='commentUpdate' required></textarea> <br>";
                             echo"</a><a>";
                             echo"<label for='rRate'><b>Rating: </b></label>";
-                            echo"<input class='rate-box' type='number' placeholder='Rate' min='1' max='5' name='ratingUpdate' value=$revRate required>";
+                            echo"<input id='revRates' class='rate-box' type='number' placeholder='Rate' min='1' max='5' name='ratingUpdate' required>";
                             echo"</a><br>";
                             echo"<div class='but-rev'>";
                             echo"<button class='edit-rev' type='submit' name='revUpdateBtn'>Edit</button>";
                             echo"<button class='dele-rev' type='submit' name='revDeleteBtn'>Delete</button>";
-                        	echo"<input name='reviewId' value=$reviewId type='hidden'>";
+                        	echo"<input id='revIds' name='reviewId' type='hidden'>";
                         	echo"<a></a>";
-                            echo"</div></div></form>";
+                            echo"</div></div></form>";  
                 		?>
                 </div></div>
                 
@@ -486,17 +477,23 @@ width: 100%;
 		var revmodal = document.getElementById("reviewModal");
 
         // Get the button that opens the modal
-        var btnrev = document.getElementsByClassName("myRevBtn");
+        //var btnrev = document.getElementsByClassName("myRevBtn");
+        var btnrev = document.getElementById("myRevBtn");
+        
         
         // Get the <span> element that closes the modal
         var spanrev = document.getElementsByClassName("closerev")[0];
         
+        // When the user clicks the button, open the modal 
+//         btnrev.onclick = function() {
+//           revmodal.style.display = "block";
+//         }
         
-        for(var i=0; i < btnrev.length;i++){
-        	btnrev[i].onclick = function() {
-        		revmodal.style.display = "block";
-        	}
-        }
+//         for(var i=0; i < btnrev.length;i++){
+//         	btnrev[i].onclick = function() {
+//         		revmodal.style.display = "block";
+//         	}
+//         }
         
         // When the user clicks on <span> (x), close the modal
         spanrev.onclick = function() {
@@ -511,9 +508,24 @@ width: 100%;
         }
         
         function saveRevIds(revId) {
-        console.log('Hello');
-        var cname = 'revCookie';
-        document.cookie = cname + "=" + revId + ";";
+        alert(revId);
+        var carddiv = document.getElementById("revcard"+revId);
+        alert(carddiv.innerHTML);
+        var modalComments = document.getElementById("comments");
+      	modalComments.innerHTML = carddiv.childNodes[4].innerHTML;
+      	
+      	var reviewIds = document.getElementById("revIds");
+      	reviewIds.value = carddiv.childNodes[0].innerHTML;
+      	
+      	var reviewRate = document.getElementById("revRates");
+      	ratingNum = carddiv.childNodes[3].innerHTML;
+      	reviewRate.value = parseInt(ratingNum, 10);
+      	
+        revmodal.style.display = "block";
+        
         }
+        
     </script>
+    
+    
 </html>

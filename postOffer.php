@@ -1,12 +1,21 @@
+<?php
+//check connection to MySql database
+include 'connection.php';
+
+session_start();
+$_SESSION['servicesId']='1';
+$_SESSION['userId']='1';
+
+?>
 <html>
-<head>
-      <script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
+	<head>
+	<script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
       <!--bootstrap-->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-   </head>
-   <style>
+	</head>
+	<style>
       /* Header start */
       .navbar {
       padding: .8rem;
@@ -22,18 +31,25 @@
       width: 100px;
       }
       /* Header end */
-      .users {   
-      -ms-flex: 70%;
-      flex: 70%;
-      background-color: white;
-      padding: 30px;
+      /*login button start*/
+      .loginImage {
+      max-width: 100%;
+      max-height: 100%;
       }
-      .userimg {
-      background-color: #aaa;
-      height: 140px;
-      width: 140px;
-      padding: 20px;
+      .login #btn {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      font-size: 16px;
+      padding: 12px 24px;
+      text-align: center;
       }
+      /*login buutton end*/
+      /*about start*/
+      .about {
+      padding: 20px
+      }
+      /*about end*/
       /* footer start */
       .col-md-4 a {
       font-size: 2.5em;
@@ -69,21 +85,22 @@
       <header>
          <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
             <div class="container-fluid">
-               <a href="index.php" href="index.html"><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
+               <a href="index.html" href="index.html"><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                <span class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarResponsive">
                   <ul class="navbar-nav ml-auto">
+                     <li class="nav-item">
+                        <a class="nav-link" href="index.php">Home</a>
+                     </li>
                      <li class="nav-item active">
-                        <a class="nav-link">Home</a>
+                        <a class="nav-link">Post an Offer</a>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link" href="createAccount.php">Sign Up</a>
+                        <a class="nav-link" href="storePage.php">Explore</a>
                      </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                     </li>
+     
                   </ul>
                </div>
                <div class="dropdown" id="dropdown" style="visibility: hidden">
@@ -92,30 +109,24 @@
             </div>
          </nav>
       </header>
-<body>
-<h1 align="center">Login to your Account</h1>
-<form action="loginVadProvider.php" method="post">
-<table>
-<tr><td>Username: </td><td><input inputmode="text" placeholder="Username" name="username"></td></tr>
-<tr><td>Password: </td><td><input inputmode="text" type="password" placeholder="Password" name="password"></td></tr>
-</table>
-<input type="submit" value="Login" name="btnLogin"><br>
-<a href="createAccount.php">Have not created your Provider account? Click here to Create!</a><br>
-<a href="login.php">Are you a Customer? Click here to Login!</a>
-</form>
-<?php 
-include_once 'alertMessageFunc.php';
-if (isset($_GET['error']) && $_GET['error'] == 'invalid'){
-    promptMessage('Username or password is incorrect or does not exist!');
-}
-elseif (isset($_GET['error']) && $_GET['error'] == 'empty'){
-    promptMessage('Please fill in fields of Username and Password!');
-}
-elseif (isset($_GET['error']) && $_GET['error'] == 'notloggedin'){
-    promptMessage('You have been redirected back as you were not logged in!');
-}
-?>
-
-</body>
+      <!-- Header end -->
+      
+    		
+        			<form action='postOfferCRUD.php' method='post'>
+        			<table>
+<!--         			For insert, -->
+<!--         			will require  -->
+<!--         			userId as customerFkid -->
+<!--         			servicesId -->
+<!--         			comments (can be empty) -->
+<!--         			status of isCompleted to be false -->
+        			
+                      <tr><h2>Post an Offer</h2><td>
+                      <label for='sName'><b>Comments:</b></label> <br>
+                      <input id='name' type='text' placeholder='Enter your comment' name='serName' required> <br> <br>
+                      <button class='post-ser' type="submit" >Post</button>
+		</form>
+	</table>
+    </body>
+      
 </html>
-
