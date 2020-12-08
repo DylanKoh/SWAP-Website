@@ -103,9 +103,7 @@
 	</div>
     </body>
     <style>
-    .store-body {
-    height:800px;
-    }
+    
     </style>
 	<script type="text/javascript">
 	
