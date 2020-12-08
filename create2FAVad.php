@@ -8,6 +8,7 @@ $keyedCode=$_POST['verificationCode'];
 $isVerified=$ga->verifyCode($googleSecret, $keyedCode,0);
 if ($isVerified){
     header('Location:createAccount.php?createAcc=success');
+    session_destroy();
     exit();
 }
 else{
