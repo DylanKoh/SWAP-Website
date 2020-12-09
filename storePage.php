@@ -102,6 +102,9 @@
         </div></form></div></div>
 	</div>
     </body>
+    <style>
+    
+    </style>
 	<script type="text/javascript">
 	
 		//Obtain the modal

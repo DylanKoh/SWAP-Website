@@ -172,7 +172,7 @@
          </div>
          <div class="checkout_item">
             <label for="fourDigits" class="checkout_label">Pin</label>
-            <input type="text" class="checkout_input" name="paymentPin" id="paymentPin" placeholder="Pin">
+            <input type="text" class="checkout_input" name="paymentPin" id="paymentPin" placeholder="6-Digit Numeric Pin">
          </div>
          <br>
             <input type="radio" name="action" id="yes" value="yes">Save Payment Information<br>
