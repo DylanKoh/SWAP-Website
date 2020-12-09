@@ -98,15 +98,15 @@
 <table>
 <tr><td>Full Name: </td><td><input inputmode="text" placeholder="Full Name" name="fullname" value="<?php 
 if (isset($_GET['fullname']))
-    echo $_GET['fullname'];
+    echo htmlspecialchars(strip_tags($_GET['fullname']));
 ?>"></td></tr>
 <tr><td>Username: </td><td><input inputmode="text" placeholder="Username" name="username" value="<?php 
 if (isset($_GET['username']))
-    echo $_GET['username'];
+    echo htmlspecialchars(strip_tags($_GET['username']));
 ?>"></td></tr>
 <tr><td>Email: </td><td><input inputmode="text" placeholder="Email" name="email" value="<?php 
 if (isset($_GET['email']))
-    echo $_GET['email'];
+    echo htmlspecialchars(strip_tags($_GET['email']));
 ?>"></td></tr>
 <tr><td>Password: </td><td><input inputmode="text" type="password" placeholder="Password" name="password"></td></tr>
 <tr><td>Confirm Password: </td><td><input inputmode="text" type="password" placeholder="Confirm Password" name="rePassword"></td></tr>
