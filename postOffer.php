@@ -2,10 +2,32 @@
 //check connection to MySql database
 include 'connection.php';
 
+session_set_cookie_params(0,'/','localhost', TRUE, TRUE);
 session_start();
 $_SESSION['servicesId']='1';
-$_SESSION['userId']='1';
+$_SESSION['usersId']='1';
 
+?>
+<?php    
+    //Retrieving services from database:
+    $stmt= $conn->prepare("SELECT services.servicesId, services.serviceName, services.serviceDesc, services.providersFkid, services.price  FROM services
+                                  INNER JOIN providers ON services.providersFkid = providers.providersId INNER JOIN orders ON services.servicesId = orders.servicesFkid");
+    $res = $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($servicesId, $serviceName, $serviceDesc, $providersFkid, $price);
+    
+    echo "<div class='sell-column'>";
+    while($stmt->fetch()){
+        echo"<a id=$servicesId'><div class='container'>";
+        echo"<div class='box-view'><div class='sell-info'>";
+        echo"<p id='title' style='font-size:22px;'><b>". $serviceName . "</b></p>";
+        echo"<p style='font-size:14px;'> Provider: ".$username."</p>";
+        echo "<p id='sell-price'>Price: $". $price. "</p>";
+        echo"<p id='rating'>5 <i class='fas fa-star fa-sm'></i> <a>(No. of Reviews)</a></p>";
+        echo"</div> </div> </div></a>";
+        
+    }
+    echo "</div>";
 ?>
 <html>
 	<head>
@@ -117,13 +139,15 @@ $_SESSION['userId']='1';
 <!--         			For insert, -->
 <!--         			will require  -->
 <!--         			userId as customerFkid -->
-<!--         			servicesId -->
+
 <!--         			comments (can be empty) -->
 <!--         			status of isCompleted to be false -->
         			
                       <tr><h2>Post an Offer</h2><td>
-                      <label for='sName'><b>Comments:</b></label> <br>
-                      <input id='name' type='text' placeholder='Enter your comment' name='serName' required> <br> <br>
+                      <label for='sComment'><b>Comments:</b></label> <br> 
+                      <!--         			servicesId -->
+                      <input id='comment' type='text' placeholder='Enter your comment' name='orderComments' required> <br> <br>
+                      <input id='status' type='radio' name='completedStatus' value='False' required> <br><br>;
                       <button class='post-ser' type="submit" >Post</button>
 		</form>
 	</table>
