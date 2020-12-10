@@ -31,6 +31,7 @@ if (isset($_SESSION['providersID'])){
                     if ($isVerified){
                         unsetVariable('2FAToken');
                         unsetVariable('2FATokenTime');
+                        unsetVariable('googleSecret');
                         $authToken=hash('sha256', uniqid(rand(), TRUE));
                         initialiseSessionVar('authToken', $authToken);
                         initialiseSessionVar('authTokenTime', time());
