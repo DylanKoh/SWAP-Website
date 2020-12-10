@@ -3,6 +3,7 @@
     include 'connection.php';
     
     //Sessions
+    session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
     session_start();
     
     $comments= $_POST['revComments'];
@@ -13,7 +14,6 @@
     //Regular expression patterns:
     $rateVal = '/^[1-5]$/'; //Rating only accepts values between 1 and 5
     $comVal = '/^([0-9A-Za-z\s]+[.!_-]*)*+$/';
-    $invalidChar = "/^['\"<>;]*$/";
     
     if (preg_match($rateVal, $rating) && preg_match($comVal, $comments)){
         $query= $conn->prepare("INSERT INTO `reviews` (`ordersFkid`, `usersFkid`, `rating`, `comments`) VALUES (?,?,?,?)");

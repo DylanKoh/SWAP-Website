@@ -15,7 +15,7 @@ padding:0;
 padding-top:3%;
 width: 80%;
 margin: auto;
-height: 800px;
+height: 1200px;
 }
 
 
@@ -153,6 +153,7 @@ max-width: 100%;
 justify-content: space-around;
 flex-wrap:wrap;
 height: 60%;
+float: left;
 }
 
 .sell-column a {

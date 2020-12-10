@@ -32,6 +32,13 @@ font-size: 16px;
 border-radius: 5px;
 outline-width: 0;
 }
+
+.searchfield {
+width: 400px;
+height: 100%;
+display: inline-block;
+}
+
 .webhead-right {
 float: right;
 margin: 15px;
