@@ -5,7 +5,11 @@ $createAccountToken=hash('sha256', uniqid(rand(), TRUE));
 initialiseSessionVar('createAccountToken',$createAccountToken);
 initialiseSessionVar('createAccountTokenTime',time());
 if (isset($_SESSION['googleSecret'])){
+    echo "<form action='createAccountDo.php' method='post'>";
+    echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
+    echo "</form>";
     header('Location:createAccountDo.php');
+    
 }
 ?>
 <html>
@@ -105,7 +109,7 @@ if (isset($_SESSION['googleSecret'])){
 <body>
 <h1 align="center">Create a new Account</h1>
 <form action="createAccountDo.php" method="post">
-<input hidden name="createAccountToken" value="<?php echo $createAccountToken ?>">
+<input hidden name='createAccountToken' value="<?php echo $createAccountToken; ?>">
 <table>
 <tr><td>Full Name: </td><td><input inputmode="text" placeholder="Full Name" name="fullname" value="<?php 
 if (isset($_GET['fullname']))

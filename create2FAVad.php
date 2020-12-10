@@ -16,7 +16,7 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
         }
         else{
             $createAccountToken=$_POST['createAccountToken'];
-            echo "<form action='createAccountDo.php' method='post'>";
+            echo "<form action='createAccountDo.php?error=incorrectcode' method='post'>";
             echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
             echo "</form>";
             header('Location:createAccountDo.php?error=incorrectcode');
