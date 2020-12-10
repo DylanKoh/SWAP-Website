@@ -17,6 +17,7 @@ if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
 <?php
 require_once 'PHPGangsta/GoogleAuthenticator.php';
 require_once 'sessionInitialise.php';
+require_once 'alertMessageFunc.php';
 if (isset($_SESSION['usersID'])){
     if (isset($_POST['2FAToken']) && $_POST['2FAToken'] == $_SESSION['2FAToken'])  //Check if token valid
     {
@@ -48,6 +49,9 @@ if (isset($_SESSION['usersID'])){
                         exit();
                     }
                 }
+            }
+            else{
+                promptMessage('Allowed code is only 6 numeric characters!');
             }
         }
         else{
