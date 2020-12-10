@@ -12,6 +12,7 @@
         //Connecting to Mysql Database:
         include 'connection.php'; 
         
+        header("X-Frame-Options: DENY");
         $servId= $_GET['id'];
         
         //Session info
@@ -37,7 +38,7 @@
             		<a href="index.php">Home</a>
             		<a href="storePage.php">Explore</a>
             		<a href="about.php">About</a>
-            		<a class="nav-but" href="login.php">Settings</a>
+            		<a class="nav-but" href="profilePage.php">Settings</a>
     			</div>
     		</div>
     		<?php 
