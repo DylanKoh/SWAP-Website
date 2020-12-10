@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; img-src https://api.qrserver.com/v1/create-qr-code/; style-src 'self' 'unsafe-inline' ");
 header("X-Frame-Options: DENY");
 require 'connection.php';
 require_once 'PHPGangsta/GoogleAuthenticator.php';

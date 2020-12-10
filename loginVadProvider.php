@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 include 'connection.php'; //Include login connection to database
 include_once 'sessionInitialise.php';
