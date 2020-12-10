@@ -78,6 +78,7 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
                                     echo "<br><input type='submit' value='Verify'>";
                                     echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
                                     echo "</form>";
+                                    echo $_SESSION['createAccountToken'];
                                     initialiseSessionVar('googleSecret',$googleSecret);
                                     initialiseSessionVar('username',$username);
                                 }
@@ -139,6 +140,7 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
                                     echo "<br><input type='submit' value='Verify'>";
                                     echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
                                     echo "</form>";
+                                    echo $_SESSION['createAccountToken'];
                                     initialiseSessionVar('googleSecret',$googleSecret);
                                     initialiseSessionVar('username',$username);
                                 }
@@ -176,6 +178,19 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
                 echo "</form>";
                 echo "<p style='color: red;'>Incorrect code!</p>";
             }
+            /* else{
+                $googleSecret=$_SESSION['googleSecret'];
+                $username=$_SESSION['username'];
+                $createAccountToken=$_POST['createAccountToken'];
+                $getQRCodeURL=$ga->getQRCodeGoogleUrl("SWAPWebsite ($username)",$googleSecret);
+                echo "<form action='create2FAVad.php' method='post'>";
+                echo "<img src='$getQRCodeURL' title='Scan on Google 2FA Application' />";
+                echo "<br><input name='verificationCode'>";
+                echo "<br><input type='submit' value='Verify'>";
+                echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
+                echo "</form>";
+                echo "<p style='color: red;'>Incorrect code!</p>";
+            } */
         }
     }
     else{
@@ -185,7 +200,9 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
     }
 }
 else{
-    header('HTTP/1.0 403 Forbidden');
+    echo $_SESSION['createAccountToken'];
+    echo $_POST['createAccountToken'];
+    //header('HTTP/1.0 403 Forbidden');
     exit();
 }
 

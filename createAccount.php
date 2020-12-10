@@ -4,13 +4,7 @@ header("X-Frame-Options: DENY");
 $createAccountToken=hash('sha256', uniqid(rand(), TRUE));
 initialiseSessionVar('createAccountToken',$createAccountToken);
 initialiseSessionVar('createAccountTokenTime',time());
-if (isset($_SESSION['googleSecret'])){
-    echo "<form action='createAccountDo.php' method='post'>";
-    echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
-    echo "</form>";
-    header('Location:createAccountDo.php');
-    
-}
+
 ?>
 <html>
 <head>
@@ -79,6 +73,7 @@ if (isset($_SESSION['googleSecret'])){
       /* footer end */
    </style>
    <body>
+   
       <!-- Header start -->
       <header>
          <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
@@ -108,6 +103,14 @@ if (isset($_SESSION['googleSecret'])){
       </header>
 <body>
 <h1 align="center">Create a new Account</h1>
+<?php 
+   echo "<form action='createAccountDo.php?error=incorrectcode' method='post'>";
+   echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
+   if (isset($_SESSION['googleSecret'])){
+       echo "<input type='submit' value='Redo 2FA verification' name='btnReSubmit'>";       
+   }
+   echo "</form>";
+?>
 <form action="createAccountDo.php" method="post">
 <input hidden name='createAccountToken' value="<?php echo $createAccountToken; ?>">
 <table>
