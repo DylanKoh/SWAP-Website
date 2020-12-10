@@ -1,6 +1,16 @@
+<?php 
+require_once 'sessionInitialise.php';
+header("X-Frame-Options: DENY");/* 
+session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
+session_start(); //Starts session */
+$createAccountToken=hash('sha256', uniqid(rand(), TRUE));
+initialiseSession('createAccountToken',$createAccountToken);
+initialiseSession('createAccountTokenTime',time());
+if (isset($_SESSION['googleSecret'])){
+    echo "hello";
+}
+?>
 <html>
-<meta http-equiv="Content-Security-Policy" 
-content="default-src 'self'; script-src 'self' https://localhost/SWAPWebsite/alertMessageFunc.php 'unsafe-inline';">
 <head>
       <script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
       <!--bootstrap-->
@@ -97,6 +107,7 @@ content="default-src 'self'; script-src 'self' https://localhost/SWAPWebsite/ale
 <body>
 <h1 align="center">Create a new Account</h1>
 <form action="createAccountDo.php" method="post">
+<input hidden name="createAccountToken" value="<?php echo $createAccountToken ?>">
 <table>
 <tr><td>Full Name: </td><td><input inputmode="text" placeholder="Full Name" name="fullname" value="<?php 
 if (isset($_GET['fullname']))
@@ -147,7 +158,9 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'createErr'){
 elseif (isset($_GET['error']) && $_GET['error'] == 'illegalCharacters'){
     promptMessage('Please ensure fullname has only alphabetical characters! Username allows only alphabets, numbers and "_?!" characters!');
 }
-    
+elseif (isset($_GET['error']) && $_GET['error'] == 'sessionExpired'){
+    promptMessage('Your session has expired! Please redo account creation!');
+}
 ?>
 
 
