@@ -10,7 +10,7 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
         $isVerified=$ga->verifyCode($googleSecret, $keyedCode,0);
         if ($isVerified){
             destroySession();
-            echo "Successfully Created an account!";
+            echo "Successfully Created an account!<br><br>";
             echo "<a href='index.php'>Back to Home</a>";
             exit();
         }
@@ -20,7 +20,6 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
             echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
             echo "<input type='submit' value='Redo 2FA verification' name='btnReSubmit'>"; 
             echo "</form>";
-            //header('Location:createAccountDo.php?error=incorrectcode');
             exit();
         }
     }
