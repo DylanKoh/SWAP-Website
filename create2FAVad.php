@@ -1,4 +1,6 @@
 <?php
+header("Content-Security-Policy: default-src 'self'");
+header("X-Frame-Options: DENY");
 require_once 'PHPGangsta/GoogleAuthenticator.php';
 require_once 'sessionInitialise.php';
 $ga=new PHPGangsta_GoogleAuthenticator();

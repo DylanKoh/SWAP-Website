@@ -1,4 +1,5 @@
 <?php
+header("Content-Security-Policy: default-src 'self'");
 header("X-Frame-Options: DENY");
 require 'connection.php';
 require_once 'PHPGangsta/GoogleAuthenticator.php';

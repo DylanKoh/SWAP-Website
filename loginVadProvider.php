@@ -1,4 +1,6 @@
 <?php
+header("Content-Security-Policy: default-src 'self'");
+header("X-Frame-Options: DENY");
 include 'connection.php'; //Include login connection to database
 include_once 'sessionInitialise.php';
 if (isset($_POST["btnLogin"])){

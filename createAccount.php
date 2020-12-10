@@ -1,5 +1,6 @@
 <?php 
 require_once 'sessionInitialise.php';
+header("Content-Security-Policy: default-src 'self'");
 header("X-Frame-Options: DENY");
 $createAccountToken=hash('sha256', uniqid(rand(), TRUE));
 initialiseSessionVar('createAccountToken',$createAccountToken);

@@ -1,3 +1,7 @@
+<?php 
+header("Content-Security-Policy: default-src 'self'");
+header("X-Frame-Options: DENY");
+?>
 <html>
 <body>
 <p>Please enter your 2FA code from the Google Authenticator Application</p>
