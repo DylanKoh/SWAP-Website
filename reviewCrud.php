@@ -1,4 +1,6 @@
 <?php
+header("Content-Security-Policy: default-src 'self'");
+    
     //Connecting to Mysql Database
     include 'connection.php';
     

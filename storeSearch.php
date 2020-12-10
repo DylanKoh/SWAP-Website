@@ -1,3 +1,7 @@
+<?php
+header("Content-Security-Policy: default-src 'self'");
+header("X-Frame-Options: DENY");
+?>
 <html>
     <head>
     	<script src="css/kitfontawesome9d4359df6d.js"></script>
@@ -6,7 +10,7 @@
         <?php
             //Connecting to Mysql Database:
             include 'connection.php'; 
-            header("X-Frame-Options: DENY");
+            
             
             //Sessions
             session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);

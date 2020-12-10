@@ -1,4 +1,6 @@
-<?php 
+<?php
+header("Content-Security-Policy: default-src 'self'");
+header("X-Frame-Options: DENY");
 ?>
 <html>
     <head>
@@ -12,7 +14,6 @@
     	<?php
         //Connecting to Mysql Database:
         include 'connection.php'; 
-        header("X-Frame-Options: DENY");
         
         //Sessions
         
