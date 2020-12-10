@@ -76,8 +76,8 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
                                     echo "<br><input name='verificationCode'>";
                                     echo "<br><input type='submit' value='Verify'>";
                                     echo "</form>";
-                                    $_SESSION['googleSecret']=$googleSecret;
-                                    $_SESSION['username']=$username;
+                                    initialiseSessionVar('googleSecret',$googleSecret);
+                                    initialiseSessionVar('username',$username);
                                 }
                                 else{
                                     header("Location:createAccount.php?createAcc=success");
@@ -135,10 +135,13 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
                                     echo "<br><input name='verificationCode'>";
                                     echo "<br><input type='submit' value='Verify'>";
                                     echo "</form>";
-                                    $_SESSION['googleSecret']=$googleSecret;
+                                    initialiseSessionVar('googleSecret',$googleSecret);
+                                    initialiseSessionVar('username',$username);
                                 }
                                 else{
-                                    header("Location:createAccount.php?createAcc=success");
+                                    destroySession();
+                                    echo "Successfully Created an account!";
+                                    echo "<a href='index.php'>Back to Home</a>";
                                     exit();
                                 }
                                 

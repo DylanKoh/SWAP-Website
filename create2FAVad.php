@@ -1,6 +1,6 @@
 <?php
 require_once 'PHPGangsta/GoogleAuthenticator.php';
-session_start(); //Starts session
+require_once 'sessionInitialise.php';
 $ga=new PHPGangsta_GoogleAuthenticator();
 if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SESSION['createAccountToken'] && $googleSecret=$_SESSION['googleSecret']){
     $tokenCreateAccount=time()-$_SESSION['createAccountToken'];
@@ -9,8 +9,9 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
         $keyedCode=$_POST['verificationCode'];
         $isVerified=$ga->verifyCode($googleSecret, $keyedCode,0);
         if ($isVerified){
-            session_destroy();
-            header('Location:createAccount.php?createAcc=success');
+            destroySession();
+            echo "Successfully Created an account!";
+            echo "<a href='index.php'>Back to Home</a>";
             exit();
         }
         else{
@@ -19,8 +20,8 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
         }
     }
     else{
-        unset($_SESSION['createAccountToken']);
-        unset($_SESSION['createAccountTokenTime']);
+        unsetVariable('createAccountToken');
+        unsetVariable('createAccountTokenTime');
         header("Location:createAccount.php?createAcc=sessionExpired");
         exit();
     }
