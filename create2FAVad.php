@@ -26,5 +26,8 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
         exit();
     }
 }
+else{
+    
+}
     
 ?>

@@ -167,6 +167,7 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
                 echo "<img src='$getQRCodeURL' title='Scan on Google 2FA Application' />";
                 echo "<br><input name='verificationCode'>";
                 echo "<br><input type='submit' value='Verify'>";
+                echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
                 echo "</form>";
                 echo "<p style='color: red;'>Incorrect code!</p>";
             }
