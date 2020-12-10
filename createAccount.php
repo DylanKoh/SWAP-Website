@@ -142,6 +142,9 @@ elseif (isset($_GET['createAcc']) && $_GET['createAcc'] == 'success'){
 elseif (isset($_GET['error']) && $_GET['error'] == 'createErr'){
     promptMessage('There was an error creating an account, please try again later!');
 }
+elseif (isset($_GET['error']) && $_GET['error'] == 'illegalCharacters'){
+    promptMessage('Please ensure fullname has only alphabetical characters! Username allows only alphabets, numbers and "_?!" characters!');
+}
     
 ?>
 

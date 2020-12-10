@@ -10,8 +10,14 @@ if (isset($_POST["btnCreate"])){
     $email=$_POST['email'];
     $password=$_POST['password'];
     $rePassword=$_POST['rePassword'];
+    $fullnamePattern='/^^[a-zA-Z\s]+$/';
+    $usernamePattern='/^([a-zA-Z0-9]+[_?!]*)+$/';
     if (empty($fullName) || empty($username) || empty($email) || empty($password) || empty($rePassword) || !isset($_POST['rbType'])){
         header("Location:createAccount.php?error=emptyfields&fullname=$fullName&username=$username&email=$email");
+        exit();
+    }
+    elseif (!preg_match($fullnamePattern, $fullName) || !preg_match($usernamePattern, $username)){
+        header("Location:createAccount.php?error=illegalCharacters&email=$email");
         exit();
     }
     elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)){
