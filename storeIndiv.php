@@ -3,10 +3,10 @@
 <html>
 	<head>
 	<!-- linking all relevant css  --> 
-		<script src="https://kit.fontawesome.com/9d4359df6d.js"></script>
-    	<link rel="stylesheet" type="text/css" href="header.css">
-    	<link rel="stylesheet" type="text/css" href="storeIndiv.css">
-    	<link rel="stylesheet" type="text/css" href="storeIndiv1.css">
+		<script src="css/kitfontawesome9d4359df6d.js"></script>
+    	<link rel="stylesheet" type="text/css" href="css/header.css">
+    	<link rel="stylesheet" type="text/css" href="css/storeIndiv.css">
+    	<link rel="stylesheet" type="text/css" href="css/storeIndiv1.css">
     	<title></title>
 		<?php
         //Connecting to Mysql Database:

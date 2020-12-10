@@ -10,7 +10,7 @@ header("X-Frame-Options: DENY");
       <link rel="stylesheet" href="css/bootstrapcdn452.css">
       <script src="css/ajaxgoogleapisajaxlibs351.js"></script>
       <script src="css/cdnjscloudflareajaxpopper1160.js"></script>
-      <script src="css/bootstrapcdn452.css"></script>
+      <script src="css/bootstrapcdn452.js"></script>
    </head>
    <style>
       /* Header start */
