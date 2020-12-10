@@ -1,10 +1,10 @@
-
 <html>
 <body>
 <p>Please enter your 2FA code from the Google Authenticator Application</p>
 
 <form action="" method="post">
 Code: <input name="code" type="text"><br>
+<input hidden name='2FAToken' value="<?php echo $_POST["2FAToken"]?>">
 <?php
 if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
     echo "<p style='color: red;'>Incorrect code!</p>";
@@ -16,9 +16,7 @@ if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
 </html>
 <?php
 require_once 'PHPGangsta/GoogleAuthenticator.php';
-session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
-session_start(); //Starts session
-require_once 'connection.php';
+require_once 'sessionInitialise.php';
 if (isset($_SESSION['providersID'])){
     if (isset($_POST['2FAToken']) && $_POST['2FAToken'] == $_SESSION['2FAToken'])  //Check if token valid
     {
@@ -31,15 +29,18 @@ if (isset($_SESSION['providersID'])){
                     $keyedCode=$_POST['code'];
                     $isVerified=$ga->verifyCode($userGSecret, $keyedCode);
                     if ($isVerified){
-                        unset($_SESSION['2FAToken']);
-                        unset($_SESSION['2FATokenTime']);
+                        unsetVariable('2FAToken');
+                        unsetVariable('2FATokenTime');
+                        unsetVariable('googleSecret');
                         $authToken=hash('sha256', uniqid(rand(), TRUE));
-                        $_SESSION['authToken']=$authToken;
-                        $_SESSION['authTokenTime']=time();
-                        echo "<form action='storePage.php' method='post'>";
+                        initialiseSessionVar('authToken', $authToken);
+                        initialiseSessionVar('authTokenTime', time());
+                        echo "<form action='storePage.php' id='submitForm' method='post'>";
                         echo "<input hidden name='authToken' value='$authToken'>";
                         echo "</form>";
-                        header('Location:storePage.php');
+                        echo "<script type='text/javascript'>
+  document.getElementById('submitForm').submit();
+</script>";
                         exit();
                     }
                     else{
@@ -50,17 +51,20 @@ if (isset($_SESSION['providersID'])){
             }
         }
         else{
+            destroySession();
             header('Location:providerLogin.php?error=sessionExpired');
             exit();
         }
         
     }
     else{
+        destroySession();
         header('Location:providerLogin.php?error=invalidToken');
         exit();
     }
 }
 else{
+    destroySession();
     header('Location:providerLogin.php?error=notloggedin');
     exit();
 }

@@ -1,6 +1,6 @@
 <?php
 include 'connection.php'; //Include login connection to database
-include_once 'alertMessageFunc.php';
+include_once 'sessionInitialise.php';
 if (isset($_POST["btnLogin"])){
     if (!empty($_POST['username']) && !empty($_POST['password'])){
         $username=$_POST['username'];
@@ -19,28 +19,30 @@ if (isset($_POST["btnLogin"])){
                 header('Location:providerLogin.php?error=invalid');
             }
             else{
-                session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
-                session_start(); //Starts session
-                $_SESSION['providersID']=$providersID;
+                initialiseSessionVar('providersID', $providersID);
                 if($googleSecret!=NULL){
-                    $_SESSION['googleSecret']=$googleSecret;
+                    initialiseSessionVar('googleSecret', $googleSecret);
                     $auth2FAToken=hash('sha256', uniqid(rand(), TRUE));
-                    $_SESSION['2FAToken']=$auth2FAToken;
-                    $_SESSION['2FATokenTime']=time();
-                    echo "<form action='loginProviderValidate.php' method='post'>";
+                    initialiseSessionVar('2FAToken', $auth2FAToken);
+                    initialiseSessionVar('2FATokenTime', time());
+                    echo "<form action='loginProviderValidate.php' id='submitForm' method='post'>";
                     echo "<input hidden name='2FAToken' value='$auth2FAToken'>";
                     echo "</form>";
-                    header('Location:loginProviderValidate.php');
+                    echo "<script type='text/javascript'>
+  document.getElementById('submitForm').submit();
+</script>";
                     exit();
                 }
                 else{
                     $authToken=hash('sha256', uniqid(rand(), TRUE));
-                    $_SESSION['authToken']=$authToken;
-                    $_SESSION['authTokenTime']=time();
-                    echo "<form action='storePage.php' method='post'>";
+                    initialiseSessionVar('authToken', $authToken);
+                    initialiseSessionVar('authTokenTime', time());
+                    echo "<form action='storePage.php' id='submitForm' method='post'>";
                     echo "<input hidden name='authToken' value='$authToken'>";
                     echo "</form>";
-                    header('Location:storePage.php');
+                    echo "<script type='text/javascript'>
+  document.getElementById('submitForm').submit();
+</script>";
                     exit();
                 }
             }

@@ -5,8 +5,8 @@ require_once 'PHPGangsta/GoogleAuthenticator.php';
 require_once 'sessionInitialise.php';
 $ga=new PHPGangsta_GoogleAuthenticator();
 if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SESSION['createAccountToken']){
-    $tokenCreateAccount=time()-$_SESSION['createAccountTokenTime'];
-    if ($tokenCreateAccount <= 300 ){ //If token is still below to 5mins old, allow code logic to run
+    $tokenCreateAccountAge=time()-$_SESSION['createAccountTokenTime'];
+    if ($tokenCreateAccountAge <= 300 ){ //If token is still below to 5mins old, allow code logic to run
         if (isset($_POST["btnCreate"])){
             $fullName=$_POST['fullname'];
             $username=$_POST['username'];
