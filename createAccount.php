@@ -5,7 +5,7 @@ $createAccountToken=hash('sha256', uniqid(rand(), TRUE));
 initialiseSession('createAccountToken',$createAccountToken);
 initialiseSession('createAccountTokenTime',time());
 if (isset($_SESSION['googleSecret'])){
-    echo "hello";
+    header('Location:createAccountDo.php');
 }
 ?>
 <html>
