@@ -1,3 +1,5 @@
+<?php 
+?>
 <html>
 <head>
       <script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
@@ -113,6 +115,12 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'empty'){
 }
 elseif (isset($_GET['error']) && $_GET['error'] == 'notloggedin'){
     promptMessage('You have been redirected back as you were not logged in!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'sessionExpired'){
+    promptMessage('Your session has expired! Please re-login!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'invalidToken'){
+    promptMessage('Your token used is not valid! Please re-login!');
 }
 ?>
 

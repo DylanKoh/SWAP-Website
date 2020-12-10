@@ -1,3 +1,5 @@
+<?php 
+?>
 <html>
     <head>
     	<script src="https://kit.fontawesome.com/9d4359df6d.js"></script>

@@ -1,5 +1,6 @@
 <?php
 include 'connection.php'; //Include login connection to database
+header("Content-Security-Policy: script-src 'https://localhost/SWAPWebsite'; "); //Starts Content Security Policy to protect any remote code execution
 if (isset($_POST["btnLogin"])){
     if (!empty($_POST['username']) && !empty($_POST['password'])){
         $username=$_POST['username'];
@@ -23,10 +24,22 @@ if (isset($_POST["btnLogin"])){
                 $_SESSION['usersID']=$usersID;
                 if($googleSecret!=NULL){
                     $_SESSION['googleSecret']=$googleSecret;
+                    $auth2FAToken=hash('sha256', uniqid(rand(), TRUE));
+                    $_SESSION['2FAToken']=$auth2FAToken;
+                    $_SESSION['2FATokenTime']=time();
+                    echo "<form action='loginUserValidate.php' method='post'>";
+                    echo "<input hidden name='2FAToken' value='$auth2FAToken'>";
+                    echo "</form>";
                     header('Location:loginUserValidate.php');
                     exit();
                 }
                 else{
+                    $authToken=hash('sha256', uniqid(rand(), TRUE));
+                    $_SESSION['authToken']=$authToken;
+                    $_SESSION['authTokenTime']=time();
+                    echo "<form action='storePage.php' method='post'>";
+                    echo "<input hidden name='authToken' value='$authToken'>";
+                    echo "</form>";
                     header('Location:storePage.php');
                     exit();
                 }

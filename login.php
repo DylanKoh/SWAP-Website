@@ -1,3 +1,6 @@
+<?php 
+header("X-Frame-Options: DENY");
+?>
 <html>
 <head>
       <script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>

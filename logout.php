@@ -1,3 +1,5 @@
+<?php 
+?>
 <head>
   <title>SuccessfulLogoutPage</title>
   <meta charset="utf-8">

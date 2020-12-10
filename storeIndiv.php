@@ -1,3 +1,5 @@
+<?php 
+?>
 <html>
 	<head>
 	<!-- linking all relevant css  --> 
