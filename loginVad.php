@@ -23,7 +23,7 @@ if (isset($_POST["btnLogin"])){
             else{
                 initialiseSessionVar('usersID', $usersID);
                 if($googleSecret!=NULL){
-                    $initialiseSessionVar('googleSecret', $googleSecret);
+                    initialiseSessionVar('googleSecret', $googleSecret);
                     $auth2FAToken=hash('sha256', uniqid(rand(), TRUE));
                     initialiseSessionVar('2FAToken', $auth2FAToken);
                     initialiseSessionVar('2FATokenTime', time());

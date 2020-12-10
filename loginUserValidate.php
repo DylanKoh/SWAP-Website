@@ -52,11 +52,13 @@ if (isset($_SESSION['usersID'])){
                         header('Location:loginUserValidate.php?error=incorrectcode');
                         exit();
                     }
+                    
+                }
+                else{
+                    promptMessage('Allowed code is only 6 numeric characters!');
                 }
             }
-            else{
-                promptMessage('Allowed code is only 6 numeric characters!');
-            }
+            
         }
         else{
             destroySession();

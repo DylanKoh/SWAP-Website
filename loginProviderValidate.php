@@ -53,10 +53,11 @@ if (isset($_SESSION['providersID'])){
                         exit();
                     }
                 }
+                else{
+                    promptMessage('Allowed code is only 6 numeric characters!');
+                }
             }
-            else{
-                promptMessage('Allowed code is only 6 numeric characters!');
-            }
+            
         }
         else{
             destroySession();
