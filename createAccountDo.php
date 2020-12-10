@@ -70,11 +70,13 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
                             $stmt->bind_param('sssssss',$fullName,$email,$finalPassword,$salt_1,$salt_2,$googleSecret,$username);
                             if ($stmt->execute()){
                                 if ($googleSecret!=NULL){
+                                    $createAccountToken=$_POST['createAccountToken'];
                                     $getQRCodeURL=$ga->getQRCodeGoogleUrl("SWAPWebsite ($username)",$googleSecret);
                                     echo "<form action='create2FAVad.php' method='post'>";
                                     echo "<img src='$getQRCodeURL' title='Scan on Google 2FA Application' />";
                                     echo "<br><input name='verificationCode'>";
                                     echo "<br><input type='submit' value='Verify'>";
+                                    echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
                                     echo "</form>";
                                     initialiseSessionVar('googleSecret',$googleSecret);
                                     initialiseSessionVar('username',$username);
@@ -129,11 +131,13 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
                             $stmt->bind_param('sssssss',$fullName,$email,$finalPassword,$salt_1,$salt_2,$googleSecret,$username);
                             if ($stmt->execute()){
                                 if ($googleSecret!=NULL){
+                                    $createAccountToken=$_POST['createAccountToken'];
                                     $getQRCodeURL=$ga->getQRCodeGoogleUrl("SWAPWebsite ($username)",$googleSecret);
                                     echo "<form action='create2FAVad.php' method='post'>";
                                     echo "<img src='$getQRCodeURL' title='Scan on Google 2FA Application' />";
                                     echo "<br><input name='verificationCode'>";
                                     echo "<br><input type='submit' value='Verify'>";
+                                    echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
                                     echo "</form>";
                                     initialiseSessionVar('googleSecret',$googleSecret);
                                     initialiseSessionVar('username',$username);
@@ -162,6 +166,7 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
             if (isset($_GET['error']) && $_GET['error']=='incorrectcode'){
                 $googleSecret=$_SESSION['googleSecret'];
                 $username=$_SESSION['username'];
+                $createAccountToken=$_POST['createAccountToken'];
                 $getQRCodeURL=$ga->getQRCodeGoogleUrl("SWAPWebsite ($username)",$googleSecret);
                 echo "<form action='create2FAVad.php' method='post'>";
                 echo "<img src='$getQRCodeURL' title='Scan on Google 2FA Application' />";
