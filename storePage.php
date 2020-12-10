@@ -2,9 +2,9 @@
 ?>
 <html>
     <head>
-    	<script src="https://kit.fontawesome.com/9d4359df6d.js"></script>
-    	<link rel="stylesheet" type="text/css" href="header.css">
-    	<link rel="stylesheet" type="text/css" href="storepage.css">
+    	<script src="css/kitfontawesome9d4359df6d.js"></script>
+    	<link rel="stylesheet" type="text/css" href="css/header.css">
+    	<link rel="stylesheet" type="text/css" href="css/storepage.css">
     	<title>Pentesters for Hire</title>
     </head>
 

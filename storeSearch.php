@@ -1,7 +1,7 @@
 <html>
     <head>
-    	<script src="https://kit.fontawesome.com/9d4359df6d.js"></script>
-    	<link rel="stylesheet" type="text/css" href="header.css">
+    	<script src="css/kitfontawesome9d4359df6d.js"></script>
+    	<link rel="stylesheet" type="text/css" href="css/header.css">
     	<title>Pentesters for Hire</title>
         <?php
             //Connecting to Mysql Database:
