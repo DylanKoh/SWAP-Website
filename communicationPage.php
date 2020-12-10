@@ -7,10 +7,10 @@ $username = $_GET['username']; //to display username
 <html>
 <head>
 <title>Chat</title>
-<link rel='stylesheet' href='communicationPage.css' />
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel='stylesheet' href='css/communicationPage.css' />
+<link href='css/fontsgoogleapiscomfamilyOpenSans400300600700800.css' rel='stylesheet' type='text/css'>
+<script src="css/codejquery1110.js"></script>
+<script src="css/bootstrapcdn341.js"></script>
 </head>
 
 <body>
