@@ -1,6 +1,7 @@
 <?php
 include 'connection.php';
 $usersId='usersId';
+$username="SELECT username FROM users";
 $username = $_GET['username']; //to display username
 ?>
 
@@ -30,35 +31,46 @@ $username = $_GET['username']; //to display username
 <h3>Welcome <?php echo ucwords($username)?></h3>
 <div class="chatMessages">
 <div class="chatBottom">
-<form method="post" onSubmit="return false;" id="message">
+<form action="communicationPage.php" method="post" onSubmit="return false;">
 <input type="hidden" name="usersId" id="usersId" value="<?php echo $username;?>">
 <input type="text" name="messageContent" id="messageContent" value="" placeholder="Type your chat message">
-<input type="submit" name="submit" value="POST">
-<?php
-//Getting messages
-$query=$conn->prepare("SELECT * FROM message WHERE messageContent=?");
-$query->execute();
+<input type="submit" name="submit" value="submit">
 
-//Fetch
-while ($fetch=$query->fetch()) {
-    $username = $fetch['username'];
-    $messageContent = $fetch['messageContent'];
+<?php
+if (isset($_GET['submit'])) {
+    $query=$conn->prepare("SELECT 'messageContent' FROM 'message' WHERE messageContent='?'");
+    $result = $mysqli->query($query);
+    $row = $result->fetch_assoc();
+    $res=$query->execute();
+    $query->store_result();
+    $stmt->bind_result($messageId,$messageContent,$usersFkid,$providersFkid,$isSending,$isReceiving,$messageDate);
+    echo $messageContent["messageContent"];
+    while ($query->fetch()) {
+        echo $messageContent["messageContent"];
+    }
+}else {
+    $messageId = $_POST["messageId"];
+    $messageContent = $_POST["messageContent"];
+    $usersFkid = $_POST["usersFkid"];
+    $providersFkid = $_POST["providersFkid"];
+    $isSending = $_POST["isSending"];
+    $isReceiving = $_POST["isReceiving"];
+    $messageDate = $_POST["messageDate"];
     
-    echo "<li class='cm'><b>".ucwords($username)."</b> - ".$messageContent."</li>";
+    echo "Message:" . $messageContent ."<br>";
     
-    //Secure the chat
-    if (isset($_POST['messageContent']) && isset($_POST['username'])) {
-        $messageContent = strip_tags(stripcslashes($_POST['messageContent']));
-        $username = strip_tags(stripcslashes($_POST['username']));
-        
-        if(empty($messageContent)) {
-            $insert=$conn->prepare("INSERT INTO message VALUES (?,?,?,?,?,?,?)");
-            $insert->execute();
-            
-            echo "<li class='cm'><b>".ucwords($username)."</b> - ".$messageContent."</li>";
+    if (isset($_POST['submit'])) {
+        $query=$conn->prepare("INSERT INTO message VALUES (?,?,?,?,?,?,?)");
+        $query->bind_param("itiiiid",$messageId,$messageContent,$usersFkid,$providersFkid,$isSending,$isReceiving,$messageDate);
+        $res=$query->execute();
+        if ($res){
+            echo  "Insert successfully!";
+        }else {
+            echo "Unable to insert!";
         }
     }
 }
+
 ?>
 </form>
 </div>
