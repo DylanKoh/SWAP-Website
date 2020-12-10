@@ -1,4 +1,5 @@
 <?php
+header("Content-Security-Policy: default-src 'self';"); //Starts Content Security Policy to protect any remote code execution
 include 'connection.php'; //Include login connection to database
 include_once 'alertMessageFunc.php';
 if (isset($_POST["btnLogin"])){

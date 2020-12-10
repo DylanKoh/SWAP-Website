@@ -1,5 +1,6 @@
 <?php
 include 'connection.php'; //Include login connection to database
+header("Content-Security-Policy: default-src 'self';"); //Starts Content Security Policy to protect any remote code execution
 if (isset($_POST["btnLogin"])){
     if (!empty($_POST['username']) && !empty($_POST['password'])){
         $username=$_POST['username'];

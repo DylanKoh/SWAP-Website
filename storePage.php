@@ -1,3 +1,6 @@
+<?php 
+header("Content-Security-Policy: default-src 'self';"); //Starts Content Security Policy to protect any remote code execution
+?>
 <html>
     <head>
     	<script src="https://kit.fontawesome.com/9d4359df6d.js"></script>

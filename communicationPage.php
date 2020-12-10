@@ -1,4 +1,5 @@
 <?php
+header("Content-Security-Policy: default-src 'self';"); //Starts Content Security Policy to protect any remote code execution
 include 'connection.php';
 $usersId='usersId';
 $username = $_GET['username']; //to display username
