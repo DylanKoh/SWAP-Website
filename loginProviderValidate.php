@@ -16,8 +16,7 @@ if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
 </html>
 <?php
 require_once 'PHPGangsta/GoogleAuthenticator.php';
-session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
-session_start(); //Starts session
+require_once 'sessionInitialise.php';
 require_once 'connection.php';
 if (isset($_SESSION['providersID'])){
     if (isset($_POST['2FAToken']) && $_POST['2FAToken'] == $_SESSION['2FAToken'])  //Check if token valid
@@ -36,10 +35,12 @@ if (isset($_SESSION['providersID'])){
                         $authToken=hash('sha256', uniqid(rand(), TRUE));
                         $_SESSION['authToken']=$authToken;
                         $_SESSION['authTokenTime']=time();
-                        echo "<form action='storePage.php' method='post'>";
+                        echo "<form action='storePage.php' id='submitForm' method='post'>";
                         echo "<input hidden name='authToken' value='$authToken'>";
                         echo "</form>";
-                        header('Location:storePage.php');
+                        echo "<script type='text/javascript'>
+  document.getElementById('submitForm').submit();
+</script>";
                         exit();
                     }
                     else{
