@@ -1,0 +1,214 @@
+body {
+background:	#F0F8FF;
+height: 800px;
+}
+
+h1, h2, h3, h4, p{
+padding: 0px;
+margin: 0px;
+}
+
+/* header */
+.sec-head {
+width: 100%;
+height: 60px;
+background:	#F8F8FF;
+}
+
+.sec-head .edit-but {
+width: 70%;
+height: 100%;
+margin:auto;
+}
+
+.sec-head .edit-but .serv-edit {
+float:right;
+background-color: white;
+border: 1.5px solid black;
+padding: 10px 20px;
+margin-top:8px;
+margin-right: 10px;
+text-align: center;
+text-decoration: none;
+font-size:18px;
+border-radius: 5px;
+transition-duration: 0.7s;
+}
+
+.store-body {
+width:70%;
+height: 100%;
+background: white;
+margin: auto;
+display:flex;
+}
+
+.container {
+width: 100%;
+height: 100%;
+padding: 20px 40px;
+display:flex;
+}
+
+/* left container */
+
+.left-contain {
+width: 50%;
+height: 100%;
+display: inline-block;
+}
+
+.left-contain h1, h2 {
+display: inline-block;
+}
+
+.left-contain .image {
+display: inline-block;
+border: 0.1px solid black;
+margin: 20px 0px;
+height: 300px;
+width: 80%;
+object-fit: cover;
+overflow: hidden;
+}
+
+.left-contain .image img {
+background-size: contain;
+background-repeat: no-repeat;
+height: 100%;
+width: 100%;
+}
+
+.left-contain p {
+font-size: 20px;
+margin: 5px 0px;
+}
+
+
+.left-contain #price {
+width: 80%;
+border-bottom: 1px solid black;
+padding: 5px 0px;
+}
+
+.fa-sm {
+color: #FFD700;
+}
+
+.left-contain #desc1 {
+font-size: 20px;
+margin-top: 10px;
+}
+
+.left-contain #desc2 {
+width: 80%;
+font-size: 16px;
+}
+
+.left-contain h1 {
+font-size: 40px;
+}
+
+.left-contain .serv-desc h2 {
+margin:5px 0px;
+}
+
+
+/* right container*/
+
+.right-contain {
+margin-left: auto;
+margin-top: 68px;
+width: 47%;
+height: 85%;
+display: inline-block;
+border: 0px solid black;
+}
+
+.right-contain .prov-info {
+padding: 20px 20px;
+border: 1px solid black;
+
+}
+
+.right-contain .prov-info p {
+margin:5px 0px;
+font-size: 16px
+}
+
+/* css for buttons */
+.buttons {
+margin-top: 20px;
+}
+
+.chat {
+background-color: white;
+border: 1.5px solid black;
+padding: 10px 20px;
+text-align: center;
+text-decoration: none;
+font-size:18px;
+border-radius: 5px;
+transition-duration: 0.7s;
+}
+
+.offer{
+background-color: white;
+border: 1.5px solid black;
+padding: 10px 20px;
+margin-left: 10px;
+text-align: center;
+text-decoration: none;
+font-size:18px;
+border-radius: 5px;
+transition-duration: 0.7s;
+}
+
+.chat:hover {
+background-color: #e7e7e7;
+box-shadow: 0 2px 4px 0 rgba(0,0,0,0.24), 0 5px 10px 0 rgba(0,0,0,0.19);
+}
+
+.offer:hover {
+background-color: #e7e7e7;
+box-shadow: 0 2px 4px 0 rgba(0,0,0,0.24), 0 5px 10px 0 rgba(0,0,0,0.19);
+}
+
+/* css for Reviews section */
+.right-contain .review-header {
+margin-left: 40%;
+padding: 15px 0px;
+}
+
+
+.right-contain .reviews {
+width: 100%;
+height: 70%;
+border: 3px solid black;
+overflow:auto;
+}
+
+.right-contain .reviews .review-card {
+padding: 15px 20px;
+border-bottom: 1px solid black;
+}
+
+.right-contain .reviews .review-card .rev-edit {
+margin-top:10px;
+}
+
+.right-contain .reviews .review-card a {
+padding-top: 10px;
+}
+
+.right-contain .reviews .review-card .rev-head {
+font-size: 20px;
+padding: 5px 0px;
+}
+.right-contain .reviews .review-card .desc {
+padding: 5px 0px;
+}
+
+.daterev {
+font-size:12px;
+}
