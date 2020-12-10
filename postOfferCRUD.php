@@ -1,5 +1,4 @@
 <?php
-header("Content-Security-Policy: script-src 'https://localhost/SWAPWebsite'; "); //Starts Content Security Policy to protect any remote code execution
     $customerFkId= $_SESSION['userId'];
     $servicesFkid = $_SESSION['serviceId'];
     $comments = $_POST['orderComments'];

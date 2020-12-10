@@ -1,5 +1,4 @@
 <?php
-header("Content-Security-Policy: script-src 'https://localhost/SWAPWebsite'; "); //Starts Content Security Policy to protect any remote code execution
 //start session
 session_start();
 $_SESSION['userID'] ='3';

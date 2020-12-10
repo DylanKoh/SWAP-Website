@@ -1,7 +1,6 @@
-<?php 
-header("Content-Security-Policy: script-src 'https://localhost/SWAPWebsite'; "); //Starts Content Security Policy to protect any remote code execution
-?>
 <html>
+<meta http-equiv="Content-Security-Policy" 
+content="default-src 'self'; script-src 'self' https://localhost/SWAPWebsite/alertMessageFunc.php 'unsafe-inline';">
 <head>
       <script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
       <!--bootstrap-->

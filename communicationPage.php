@@ -1,5 +1,4 @@
 <?php
-header("Content-Security-Policy: script-src 'https://localhost/SWAPWebsite'; "); //Starts Content Security Policy to protect any remote code execution
 include 'connection.php';
 $usersId='usersId';
 $username = $_GET['username']; //to display username
