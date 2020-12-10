@@ -176,7 +176,6 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
         unsetVariable('createAccountToken');
         unsetVariable('createAccountTokenTime');
         header("Location:createAccount.php?createAcc=sessionExpired");
-        exit();
     }
 }
 else{

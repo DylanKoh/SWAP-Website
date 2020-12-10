@@ -2,8 +2,8 @@
 require_once 'sessionInitialise.php';
 header("X-Frame-Options: DENY");
 $createAccountToken=hash('sha256', uniqid(rand(), TRUE));
-initialiseSession('createAccountToken',$createAccountToken);
-initialiseSession('createAccountTokenTime',time());
+initialiseSessionVar('createAccountToken',$createAccountToken);
+initialiseSessionVar('createAccountTokenTime',time());
 if (isset($_SESSION['googleSecret'])){
     header('Location:createAccountDo.php');
 }
