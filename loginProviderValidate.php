@@ -1,10 +1,10 @@
-
 <html>
 <body>
 <p>Please enter your 2FA code from the Google Authenticator Application</p>
 
 <form action="" method="post">
 Code: <input name="code" type="text"><br>
+<input hidden name='2FAToken' value="<?php echo $_POST["$auth2FAToken"]?>">
 <?php
 if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
     echo "<p style='color: red;'>Incorrect code!</p>";
@@ -17,7 +17,6 @@ if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
 <?php
 require_once 'PHPGangsta/GoogleAuthenticator.php';
 require_once 'sessionInitialise.php';
-require_once 'connection.php';
 if (isset($_SESSION['providersID'])){
     if (isset($_POST['2FAToken']) && $_POST['2FAToken'] == $_SESSION['2FAToken'])  //Check if token valid
     {
@@ -30,11 +29,11 @@ if (isset($_SESSION['providersID'])){
                     $keyedCode=$_POST['code'];
                     $isVerified=$ga->verifyCode($userGSecret, $keyedCode);
                     if ($isVerified){
-                        unset($_SESSION['2FAToken']);
-                        unset($_SESSION['2FATokenTime']);
+                        unsetVariable('2FAToken');
+                        unsetVariable('2FATokenTime');
                         $authToken=hash('sha256', uniqid(rand(), TRUE));
-                        $_SESSION['authToken']=$authToken;
-                        $_SESSION['authTokenTime']=time();
+                        initialiseSessionVar('authToken', $authToken);
+                        initialiseSessionVar('authTokenTime', time());
                         echo "<form action='storePage.php' id='submitForm' method='post'>";
                         echo "<input hidden name='authToken' value='$authToken'>";
                         echo "</form>";
@@ -51,12 +50,14 @@ if (isset($_SESSION['providersID'])){
             }
         }
         else{
+            destroySession();
             header('Location:providerLogin.php?error=sessionExpired');
             exit();
         }
         
     }
     else{
+        destroySession();
         header('Location:providerLogin.php?error=invalidToken');
         exit();
     }
