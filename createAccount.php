@@ -1,8 +1,6 @@
 <?php 
 require_once 'sessionInitialise.php';
-header("X-Frame-Options: DENY");/* 
-session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
-session_start(); //Starts session */
+header("X-Frame-Options: DENY");
 $createAccountToken=hash('sha256', uniqid(rand(), TRUE));
 initialiseSession('createAccountToken',$createAccountToken);
 initialiseSession('createAccountTokenTime',time());
