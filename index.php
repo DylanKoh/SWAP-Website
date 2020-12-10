@@ -9,7 +9,7 @@ header("X-Frame-Options: DENY");
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js%22%3E"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
    </head>
    <style>
@@ -90,12 +90,6 @@ header("X-Frame-Options: DENY");
                   <ul class="navbar-nav ml-auto">
                      <li class="nav-item active">
                         <a class="nav-link">Home</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link">Post an Offer</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="storePage.php">Explore</a>
                      </li>
                      <li class="nav-item">
                         <a class="nav-link" href="createAccount.php">Sign Up</a>
