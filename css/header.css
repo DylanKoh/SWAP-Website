@@ -1,0 +1,60 @@
+body {
+padding: 0;
+margin: 0;
+width: 100%;
+}
+
+/*Css for headers */
+.webhead {
+height: 80px;
+background: #003366;
+font-size: 24px;
+color: white;
+}
+.webhead #left {
+text-align: center;
+padding: 25px;
+width: 15%;
+float:left;
+}
+.webhead #nav-search{
+margin: 22px 0px;
+margin-left: 10%;
+padding: 8px;
+padding-right: 0px;
+font-size: 16px;
+border-radius: 5px;
+outline-width: 0;
+}
+.webhead #nav-sea-but{
+padding: 8px;
+font-size: 16px;
+border-radius: 5px;
+outline-width: 0;
+}
+
+.searchfield {
+width: 400px;
+height: 100%;
+display: inline-block;
+}
+
+.webhead-right {
+float: right;
+margin: 15px;
+padding: 10px;
+}
+.webhead-right a {
+margin: 12px;
+padding: 8px;
+text-decoration:none;
+color: white;
+}
+.webhead-right .nav-but {
+border: 1px solid white;
+border-radius: 3px;
+}
+.webhead-right a:hover{
+color: #DCDCDC;
+}
+/*End of Headers */
