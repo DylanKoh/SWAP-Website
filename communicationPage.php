@@ -10,7 +10,7 @@ $username = $_GET['username']; //to display username
 <link rel='stylesheet' href='css/communicationPage.css' />
 <link href='css/fontsgoogleapiscomfamilyOpenSans400300600700800.css' rel='stylesheet' type='text/css'>
 <script src="css/codejquery1110.js"></script>
-<script src="css/bootstrapcdn341.js"></script>
+<script src="css/bootstrapcdn452.js"></script>
 </head>
 
 <body>
