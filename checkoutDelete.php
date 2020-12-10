@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy: default-src 'self';"); //Starts Content Security Policy to protect any remote code execution
+header("Content-Security-Policy: default-src 'https//localhost/SWAPWebsite';"); //Starts Content Security Policy to protect any remote code execution
 include 'connection.php';
 session_start();
 $_SESSION['userID'] =3;

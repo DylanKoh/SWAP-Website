@@ -14,7 +14,7 @@ if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
 </body>
 </html>
 <?php
-header("Content-Security-Policy: default-src 'self';"); //Starts Content Security Policy to protect any remote code execution
+header("Content-Security-Policy: default-src 'https//localhost/SWAPWebsite';"); //Starts Content Security Policy to protect any remote code execution
 require_once 'PHPGangsta/GoogleAuthenticator.php';
 session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
 session_start(); //Starts session
