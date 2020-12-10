@@ -104,12 +104,16 @@ initialiseSessionVar('createAccountTokenTime',time());
 <body>
 <h1 align="center">Create a new Account</h1>
 <?php 
-   echo "<form action='createAccountDo.php?error=incorrectcode' method='post'>";
+   echo "<form action='createAccountDo.php?error=incorrectcode' id='resubmitForm' method='post'>";
    echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
    if (isset($_SESSION['googleSecret'])){
        echo "<input type='submit' value='Redo 2FA verification' name='btnReSubmit'>";       
+       echo "</form>";
+       echo "<script type='text/javascript'>
+  document.getElementById('resubmitForm').submit();
+</script>";
    }
-   echo "</form>";
+   
 ?>
 <form action="createAccountDo.php" method="post">
 <input hidden name='createAccountToken' value="<?php echo $createAccountToken; ?>">
