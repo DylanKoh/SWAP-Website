@@ -4,7 +4,7 @@
 
 <form action="" method="post">
 Code: <input name="code" type="text"><br>
-<input hidden name='2FAToken' value="<?php echo $_POST["$auth2FAToken"]?>">
+<input hidden name='2FAToken' value="<?php echo $_POST["2FAToken"]?>">
 <?php
 if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
     echo "<p style='color: red;'>Incorrect code!</p>";
@@ -63,6 +63,7 @@ if (isset($_SESSION['providersID'])){
     }
 }
 else{
+    destroySession();
     header('Location:providerLogin.php?error=notloggedin');
     exit();
 }
