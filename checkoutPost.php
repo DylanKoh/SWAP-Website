@@ -1,4 +1,5 @@
 <?php
+header("Content-Security-Policy: default-src 'self'");
 //start session
 session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
 session_start();
