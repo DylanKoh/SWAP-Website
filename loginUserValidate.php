@@ -23,7 +23,7 @@ if (isset($_SESSION['usersID'])){
         $token2FAAge=time()-$_SESSION['2FATokenTime'];
         if ($token2FAAge <= 180 ){ //If token is still below to 3mins old, allow code logic to run
             if (isset($_POST['btnSubmit'])){
-                if (!empty($_POST['code'])){
+                if (!empty($_POST['code']) && preg_match('/^[0-9]{6}$/', $_POST['code'])){
                     $ga=new PHPGangsta_GoogleAuthenticator();
                     $userGSecret=$_SESSION['googleSecret'];
                     $keyedCode=$_POST['code'];
