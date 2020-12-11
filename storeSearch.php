@@ -1,6 +1,13 @@
 <?php
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+    
+}
+else{
+    
+}
 ?>
 <html>
     <head>
@@ -13,8 +20,6 @@ header("X-Frame-Options: DENY");
             
             
             //Sessions
-            session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-            session_start();
             
             $searchResult = $_POST['search'];
             $procResults = htmlentities($searchResult);
@@ -31,9 +36,9 @@ header("X-Frame-Options: DENY");
                 		</form>
                 	</div>	
         		<div class="webhead-right">
-            		<a href="index.php">Home</a>
             		<a href="storePage.php">Explore</a>
             		<a href="about.php">About</a>
+            		<a href="index.php">Logout</a>
             		<a class="nav-but" href="profilePage.php">Settings</a>
     			</div>
     		</div>

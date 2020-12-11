@@ -1,6 +1,13 @@
 <?php
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+    
+}
+else{
+    
+}
 ?>
 <html>
 	<head>
@@ -16,8 +23,6 @@ header("X-Frame-Options: DENY");
         $servId= $_GET['id'];
         
         //Session info
-        session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-        session_start();
         $provId = $_SESSION['provId'];
         $isProv = $_SESSION['isProvider'];
         $userId= $_SESSION['userId'];
@@ -36,9 +41,9 @@ header("X-Frame-Options: DENY");
             		</form>
             	</div>
         		<div class="webhead-right">
-            		<a href="index.php">Home</a>
             		<a href="storePage.php">Explore</a>
             		<a href="about.php">About</a>
+            		<a href="index.php">Logout</a>
             		<a class="nav-but" href="profilePage.php">Settings</a>
     			</div>
     		</div>
@@ -116,10 +121,17 @@ header("X-Frame-Options: DENY");
     				<!-- Post a review section! -->
     				<div class='rev-contain'>
     				<h4>Leave a review</h4>
-    				<form action='reviewCrud.php' method='post'>
-    				<textarea class='rev-text' name='revComments'></textarea>
-    				<input name='revRating' type='number' placeholder='Rate' min='1' max='5'><br>
-    				<button class='post-review' name='reviewbtn' type='submit'>Post</button></form>
+    				<?php 
+    				echo"<form action='reviewCrud.php' method='post'>";
+    				$reviewToken=hash('sha256', uniqid(rand(), TRUE));     
+    				initialiseSessionVar('reviewToken', $reviewToken);     
+    				initialiseSessionVar('reviewTokenTime', time());    
+    				echo "<input hidden name='reviewToken' value='$reviewToken'>";
+    				echo"<textarea class='rev-text' name='revComments'></textarea>";
+    				echo"<input name='revRating' type='number' placeholder='Rate' min='1' max='5'><br>";
+    				echo"<button class='post-review' name='reviewbtn' type='submit'>Post</button>";
+    				echo"</form>";
+    				?>
     				</div>
     				
     				
@@ -146,10 +158,20 @@ header("X-Frame-Options: DENY");
                             <img src='SwapImage/star-icon-16.png'> ($count)</p>";
             				echo"<div class='buttons'>";
                     		echo"<button class='chat'>Chat</button>";
-                    		echo"<button class='offer' onclick=offerRedirect($servId)>Make an offer</button>";
+                    		echo"<form class='makeoffer' method='post' action='postOffer.php'>";
+                    		$offerToken=hash('sha256', uniqid(rand(), TRUE));     
+                    		initialiseSessionVar('offerToken', $offerToken);     
+                    		initialiseSessionVar('offerTokenTime', time());     
+                    		echo "<input hidden name='offerToken' value='$offerToken'>";
+                    		echo"<input type='hidden' name='serviceIDS' value='$servId'></input>";
+                    		echo"<button class='offer'>Make an offer</button>";
+                    		echo"</form>";
                 			echo"</div></div>";
         				}
         				?>
+        				
+        				
+        				
         				
         				<?php 
         				$stmt= $conn->prepare("SELECT users.username, reviews.rating, reviews.comments, reviews.ratingDate, reviews.ordersFkid, reviews.usersFkid, reviews.reviewsId FROM services
@@ -292,9 +314,6 @@ header("X-Frame-Options: DENY");
         
         }
         
-        function offerRedirect(servId) {
-        window.location.href = 'postOffer.php?id=';
-        }
         
     </script>
     

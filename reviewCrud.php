@@ -1,13 +1,17 @@
 <?php
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
     
+}
+else{
+    
+}
     //Connecting to Mysql Database
     include 'connection.php';
     
     //Sessions
-    session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-    session_start();
-    
     $comments= $_POST['revComments'];
     $rating = $_POST['revRating'];
     $orderId = $_SESSION['orderId'];
