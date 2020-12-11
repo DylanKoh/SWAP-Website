@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php';
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
@@ -15,6 +15,7 @@ else{
     	<link rel="stylesheet" type="text/css" href="css/header.css">
     	<link rel="stylesheet" type="text/css" href="css/storeIndiv.css">
     	<link rel="stylesheet" type="text/css" href="css/storeIndiv1.css">
+    	<!-- <script type="text/javascript" src="storeIndiv.js"></script> -->
     	<title>Search</title>
 		<?php
         //Connecting to Mysql Database:
@@ -29,6 +30,7 @@ else{
         else{
             $userId= $_SESSION['usersID']; 
         }
+        
         
 		?>
     	
@@ -178,7 +180,7 @@ else{
                                             INNER JOIN providers ON services.providersFkid = providers.providersId
                                             INNER JOIN orders ON services.servicesId = orders.servicesFkid
                                             INNER JOIN reviews ON orders.ordersId = reviews.ordersFkid
-                                            INNER JOIN users ON orders.customerFkid = users.usersId
+                                            INNER JOIN users ON reviews.usersFkid = users.usersId
                                             WHERE services.servicesId=$servId");
         				$res = $stmt->execute();
         				$stmt->store_result();
@@ -187,7 +189,7 @@ else{
         				echo"<div class='reviews'>";
         				while($stmt->fetch()){
         				    echo"<div id='revcard$revId' class='review-card'>";
-        				    if(($userId==$usId)){
+        				    if(isset($_SESSION['usersID']) && ($userId==$usId)){
         				        echo"<button class='myRevBtn' id='myRevBtn' onclick=saveRevIds($revId)>Edit</button>";
         				    }
     						echo"<p class='rev-head'><b>$revName</b></p>";
@@ -229,56 +231,50 @@ else{
     		</div>
     </body>
 
-<script type="text/javascript">
-		
-		//Obtain the modal
-		var modal = document.getElementById("servModal");
-
-        // Get the button that opens the modal
-        var btn = document.getElementById("edit-serv-but");
-        
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-        
-        // When the user clicks the button, open the modal 
-        btn.onclick = function() {
-          modal.style.display = "block";
-        }
-        
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
-        
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-              }
-        }
-        
-        
-        //Obtain the modal
+<?php 
+$stmt= $conn->prepare("SELECT providers.providersId FROM services 
+                    INNER JOIN providers ON services.providersFkid = providers.providersId
+                    WHERE services.servicesId= $servId;");
+    		$res = $stmt->execute();
+    		$stmt->store_result();
+    		$stmt->bind_result($providerId);
+    		while($stmt->fetch()){
+    if(isset($_SESSION['providersID']) && $provId==$providerId){
+            echo"<script type='text/javascript'>";
+            echo"var modal = document.getElementById('servModal')
+            ";
+            echo"var btn = document.getElementById('edit-serv-but')
+            ";
+            echo"var span = document.getElementsByClassName('close')[0]
+            ";
+            echo"btn.onclick = function() {
+            ";
+            echo"modal.style.display = 'block';}
+            ";
+            echo"span.onclick = function() {
+            ";
+            echo"modal.style.display = 'none';}
+            ";
+            echo"window.onclick = function(event) {
+            ";
+            echo"if (event.target == modal) {
+            ";
+            echo"modal.style.display = 'none';} }</script>";
+    }
+}
+?>     
+ 
+ <script type="text/javascript">
+ 		//Obtain the modal
 		var revmodal = document.getElementById("reviewModal");
 
         // Get the button that opens the modal
-        //var btnrev = document.getElementsByClassName("myRevBtn");
         var btnrev = document.getElementById("myRevBtn");
         
         
         // Get the <span> element that closes the modal
         var spanrev = document.getElementsByClassName("closerev")[0];
-        
-        // When the user clicks the button, open the modal 
-//         btnrev.onclick = function() {
-//           revmodal.style.display = "block";
-//         }
-        
-//         for(var i=0; i < btnrev.length;i++){
-//         	btnrev[i].onclick = function() {
-//         		revmodal.style.display = "block";
-//         	}
-//         }
+       
         
         // When the user clicks on <span> (x), close the modal
         spanrev.onclick = function() {
@@ -293,7 +289,9 @@ else{
         }
         
         function saveRevIds(revId) {
+        alert(revId);
         var carddiv = document.getElementById("revcard"+revId);
+        alert(carddiv.innerHTML);
         var modalComments = document.getElementById("comments");
       	modalComments.innerHTML = carddiv.childNodes[3].innerHTML;
       	
@@ -307,9 +305,6 @@ else{
         revmodal.style.display = "block";
         
         }
-        
-        
-    </script>
-    
-    
+</script>
+
 </html>
