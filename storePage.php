@@ -1,10 +1,9 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 ?>
 <html>
     <head>
-    	<script src="css/kitfontawesome9d4359df6d.js"></script>
     	<link rel="stylesheet" type="text/css" href="css/header.css">
     	<link rel="stylesheet" type="text/css" href="css/storepage.css">
     	<title>Pentesters for Hire</title>
@@ -24,6 +23,7 @@ header("X-Frame-Options: DENY");
         $_SESSION['orderId']='1';
         $_SESSION['userId']='3';
         $isProv = $_SESSION['isProvider'];
+        echo $_SESSION['usersID'];
         
         ?>
         
@@ -70,10 +70,10 @@ header("X-Frame-Options: DENY");
 		while($stmt->fetch()){
     		echo"<a href='storeIndiv.php?id=$servicesId'><div class='container'>";
             echo"<div class='box-view'><div class='sell-info'>";      
-    		echo"<p id='title' style='font-size:22px;'><b>". $serviceName . "</b></p>";
-    		echo"<p style='font-size:14px;'> Provider: ".$username."</p>";
+    		echo"<p id='title'><b>". $serviceName . "</b></p>";
+    		echo"<p id='provName'> Provider: ".$username."</p>";
     		echo "<p id='sell-price'>Price: $". $price. "</p>";
-    		echo"<p id='rating'>5 <i class='fas fa-star fa-sm'></i> <a>(No. of Reviews)</a></p>";
+    		echo"<p id='rating'>5 <img src='SwapImage/star-icon-16.png'> <a>(No. of Reviews)</a></p>";
     		echo"</div> </div> </div></a>";
     		
 		}
@@ -112,14 +112,7 @@ header("X-Frame-Options: DENY");
 	</div>
 	
     </body>
-    <style>
-	.searchfield {
-	   margin-left: 10%;
-	   width: 400px;
-	   height: 100%;
-	   display: inline-block;
-	}
-	</style>
+    
 	<script type="text/javascript">
 	
 		//Obtain the modal

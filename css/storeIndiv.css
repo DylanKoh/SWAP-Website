@@ -35,6 +35,13 @@ border-radius: 5px;
 transition-duration: 0.7s;
 }
 
+.searchfield {
+margin-left: 10%;
+width: 400px;
+height: 100%;
+display: inline-block;
+}
+
 .store-body {
 width:70%;
 height: 100%;
