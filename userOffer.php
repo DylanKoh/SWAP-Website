@@ -45,6 +45,7 @@ $servID = '1';
     			</div>
     		</div>
 	
+	
 		<div class='orderbody'>
 			<div class='orderhead'><h1>Post an offer</h1></div>
     			<div class='cover-contain'>
