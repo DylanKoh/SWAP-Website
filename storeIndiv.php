@@ -69,16 +69,17 @@ else{
     			<a id="left">Hire a Pentester</a>	
     			<div class='searchfield'>
         			<form class='searchform' method='post' action='storeSearch.php'> 
+        				<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
             			<input type="text" id="nav-search" name='search' placeholder="Search for Services">
             			<button id="nav-sea-but" type="submit">Search</button>
             		</form>
             	</div>
         		<div class="webhead-right">
-        			<form action="storePage.php" method="post">
+        			<form class='navbar-button' action="storePage.php" method="post">
                 		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
                 		<input type="submit" class="nav-but" value="Explore">
             		</form>
-            		<form action="profilePage.php" method="post">
+            		<form class='navbar-button' action="profilePage.php" method="post">
             		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
             		<input type="submit" class="nav-but" value="Settings">
             		</form>

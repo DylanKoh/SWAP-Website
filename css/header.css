@@ -43,7 +43,14 @@ display: inline-block;
 float: right;
 margin: 15px;
 padding: 10px;
+height:100%;
+width: 300px;
 }
+
+.webhead-right .navbar-button{
+	display: inline-block;
+}
+
 .webhead-right a {
 margin: 12px;
 padding: 8px;
