@@ -49,7 +49,6 @@ else{
         include 'connection.php'; 
         
         //Sessions
-        
         $_SESSION['orderId']='1';
         
         
