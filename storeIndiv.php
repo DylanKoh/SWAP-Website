@@ -138,6 +138,9 @@ else{
     			
 		<!-- Body of website -->
     		<div class='store-body'>
+    		
+    		<!-- Service information sql -->
+    		
     			<div class='container'>
     				<div class='left-contain'>
     				<?php 
@@ -207,8 +210,7 @@ else{
         				}
         				?>
         				
-        				
-        				
+        				<!-- Review cards -->
         				
         				<?php 
         				$stmt= $conn->prepare("SELECT users.username, reviews.rating, reviews.comments, reviews.ratingDate, reviews.ordersFkid, reviews.usersFkid, reviews.reviewsId FROM services
@@ -239,6 +241,7 @@ else{
     				</div>
     				
     			</div>
+    			
     			<!-- Review modal contents-->
     			<div id="reviewModal" class="revModal">
 			
@@ -300,6 +303,7 @@ $stmt= $conn->prepare("SELECT providers.providersId FROM services
 ?>     
  
  <script type="text/javascript">
+ 
  		//Obtain the modal
 		var revmodal = document.getElementById("reviewModal");
 
