@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 require_once 'PHPGangsta/GoogleAuthenticator.php';
 $ga=new PHPGangsta_GoogleAuthenticator();
 
