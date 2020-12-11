@@ -30,7 +30,7 @@ else{ //If an ID of sorts is assigned in the session variables
             unsetVariable('resetPasswordTokenTime');
             echo "<form action='resetPassword.php?error=errToken' id='returnForm' method='post'>";
             echo "<input hidden name='authToken' value='$authToken'>";
-            echo "</form";
+            echo "</form>";
             echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
         }
         else{
@@ -65,7 +65,7 @@ else{ //If an ID of sorts is assigned in the session variables
                             unsetVariable('resetPasswordTokenTime');
                             echo "<form action='resetPassword.php?error=passwordIncorrect' id='returnForm' method='post'>";
                             echo "<input hidden name='authToken' value='$authToken'>";
-                            echo "</form";
+                            echo "</form>";
                             echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
                         }
                         else{ //If old password is not correct
@@ -90,7 +90,7 @@ else{ //If an ID of sorts is assigned in the session variables
                         unsetVariable('resetPasswordTokenTime');
                         echo "<form action='resetPassword.php?error=databaseErr' id='returnForm' method='post'>";
                         echo "<input hidden name='authToken' value='$authToken'>";
-                        echo "</form";
+                        echo "</form>";
                         echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
                     }
                 }
@@ -108,7 +108,7 @@ else{ //If an ID of sorts is assigned in the session variables
                             unsetVariable('resetPasswordTokenTime');
                             echo "<form action='resetPassword.php?error=passwordIncorrect' id='returnForm' method='post'>";
                             echo "<input hidden name='authToken' value='$authToken'>";
-                            echo "</form";
+                            echo "</form>";
                             echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
                         }
                         else{ //If old password is correct
@@ -133,7 +133,7 @@ else{ //If an ID of sorts is assigned in the session variables
                         unsetVariable('resetPasswordTokenTime');
                         echo "<form action='resetPassword.php?error=databaseErr' id='returnForm' method='post'>";
                         echo "<input hidden name='authToken' value='$authToken'>";
-                        echo "</form";
+                        echo "</form>";
                         echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
                     }
                 }
