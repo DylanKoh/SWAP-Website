@@ -1,6 +1,13 @@
 <?php
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+    
+}
+else{
+    
+}
 ?>
 <html>
     <head>
@@ -16,14 +23,12 @@ header("X-Frame-Options: DENY");
         
         //Sessions
         
-        session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-        session_start();
         $_SESSION['provId'] ='1';
-        $_SESSION['isProvider'] ='yes';
-        $_SESSION['orderId']='1';
         $_SESSION['userId']='3';
-        $isProv = $_SESSION['isProvider'];
-        echo $_SESSION['usersID'];
+        $_SESSION['orderId']='1';
+        
+        
+        //echo $_SESSION['usersID'];
         
         ?>
         
@@ -36,9 +41,9 @@ header("X-Frame-Options: DENY");
             		</form>
             	</div>	
     		<div class="webhead-right">
-        		<a href="index.php">Home</a>
         		<a href="">Explore</a>
         		<a href="about.php">About</a>
+        		<a href="index.php">Logout</a>
         		<a class="nav-but" href="profilePage.php">Settings</a>
 			</div>
 		</div>
@@ -50,7 +55,7 @@ header("X-Frame-Options: DENY");
 		<div class="store-header1">
 		<h1>Pentesting Services</h1>
     		<?php 
-        		if ($isProv == 'yes') {
+        		if (isset($_SESSION['providersID'])) {
         		   echo"<button class='post-but' id='mod-button'>Post A Service</button>";
         		}
         	?>
