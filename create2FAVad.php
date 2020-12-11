@@ -1,6 +1,6 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
-header("X-Frame-Options: DENY");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'"); //Allow script from self
+header("X-Frame-Options: DENY"); //Helps prevent clickjacking and certain XSS
 require_once 'PHPGangsta/GoogleAuthenticator.php'; //Require Google 2FA code
 require_once 'sessionInitialise.php'; //Initialise Session
 $ga=new PHPGangsta_GoogleAuthenticator(); 
