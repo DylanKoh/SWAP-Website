@@ -23,8 +23,13 @@ else{
         $servId= $_GET['id'];
         
         //Session info
-        $provId = $_SESSION['providersID'];
-        $userId= $_SESSION['usersID'];
+        if(isset($_SESSION['providersID'])){
+            $provId = $_SESSION['providersID'];
+        }
+        else{
+            $userId= $_SESSION['usersID']; 
+        }
+        
 		?>
     	
     </head>
