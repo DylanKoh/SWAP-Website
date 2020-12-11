@@ -51,7 +51,6 @@ else{
         //Sessions
         $_SESSION['orderId']='1';
         
-        
         //echo $_SESSION['usersID'];
         //echo $_SESSION['providersID'];
         
