@@ -36,9 +36,8 @@ else{ //If an ID of sorts is assigned in the session variables
                     echo "There was an error retrieving user data!";
                 }
             }
-            else{ //If user is a Customer
+            elseif (isset($_SESSION['usersID'])){ //If user is a Customer
                 $stmt=$conn->prepare('SELECT username,email,name FROM users where usersID=?');
-                echo intval($_SESSION['usersID']);
                 $stmt->bind_param('i', $_SESSION['usersID']);
                 $stmt->execute();
                 $stmt->bind_result($username,$email,$name);
@@ -135,7 +134,25 @@ else{ //If an ID of sorts is assigned in the session variables
 	</div>
 		
 	</div>
-
+<?php 
+//Runs relevant prompt message to show user error
+require_once 'alertMessageFunc.php';
+if (isset($_GET['error']) && $_GET['error'] == 'emptyfields'){
+    promptMessage('Please fill in all of the fields!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'notEmail'){
+    promptMessage('Please enter a valid email!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'illegalCharacters'){
+    promptMessage('Please ensure fullname has only alphabetical characters! Username allows only alphabets, numbers and "_?!" characters!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'emailTaken'){
+    promptMessage('Email has already been taken! Please try using another email!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'usernameTaken'){
+    promptMessage('Username has already been taken! Please try using another Username!');
+}
+?>
 </body>
 
 

@@ -17,6 +17,7 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
             $fullnamePattern='/^^[a-zA-Z\s]+$/'; //Allow only alphabet characters
             $usernamePattern='/^([a-zA-Z0-9]+[_?!]*)+$/'; //Regex expression for username
             $emailPattern='/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i'; //Regex expression for emails
+            $passwordPattern='/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\#\?\!\@\$\%\^\&\*\-\.\,\/]).{8,}$/'; //Regex expression for Password
             if (empty($fullName) || empty($username) || empty($email) || empty($password) || empty($rePassword) || !isset($_POST['rbType'])){ //If any required fields are empty
                 header("Location:createAccount.php?error=emptyfields&fullname=$fullName&username=$username&email=$email");
                 exit();
@@ -29,7 +30,7 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
                 header("Location:createAccount.php?error=notEmail&fullname=$fullName&username=$username");
                 exit();
             }
-            elseif (!preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\#\?\!\@\$\%\^\&\*\-\.\,\/]).{8,}$/', $password)){ //If password is not valid
+            elseif (!preg_match($passwordPattern, $password)){ //If password is not valid
                 header("Location:createAccount.php?error=passwordWeak&fullname=$fullName&username=$username&email=$email");
                 exit();
             }

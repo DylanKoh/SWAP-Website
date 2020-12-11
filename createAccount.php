@@ -163,6 +163,9 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'passwordNoMatch'){
 elseif (isset($_GET['error']) && $_GET['error'] == 'emailTaken'){
     promptMessage('Email has already been taken! Please try using another email!');
 }
+elseif (isset($_GET['error']) && $_GET['error'] == 'usernameTaken'){
+    promptMessage('Username has already been taken! Please try using another Username!');
+}
 elseif (isset($_GET['error']) && $_GET['error'] == 'createErr'){
     promptMessage('There was an error creating an account, please try again later!');
 }
