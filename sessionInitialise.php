@@ -8,6 +8,7 @@ function unsetVariable($variable){
     unset($_SESSION["$variable"]);
 }
 function destroySession() {
+    session_unset();
     session_destroy();
 }
 ?>
