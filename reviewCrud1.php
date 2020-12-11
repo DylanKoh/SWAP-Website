@@ -13,9 +13,9 @@ else{
     
     //Sessions
 
-    $rateUpdate = $_POST['ratingUpdate'];
-    $comUpdate = $_POST['commentUpdate'];
-    $revId = $_POST['reviewId'];
+    $rateUpdate = htmlentities($_POST['ratingUpdate']);
+    $comUpdate = htmlentities($_POST['commentUpdate']);
+    $revId = htmlentities($_POST['reviewId']);
     $usId = $_SESSION['userId'];
     echo $_SESSION['usersID'];
     

@@ -12,8 +12,8 @@ else{
     include 'connection.php';
     
     //Sessions
-    $comments= $_POST['revComments'];
-    $rating = $_POST['revRating'];
+    $comments= htmlentities($_POST['revComments']);
+    $rating = htmlentities($_POST['revRating']);
     $orderId = $_SESSION['orderId'];
     $userId = $_SESSION['userId'];
     echo $_SESSION['usersID'];

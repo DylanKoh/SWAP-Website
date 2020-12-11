@@ -133,12 +133,10 @@ else{
     				echo"</form>";
     				?>
     				</div>
-    				
-    				
     				</div>
+    				
+    				
     				<div class='right-contain'>
-    				
-    				
     				<?php 
     				$stmt= $conn->prepare("SELECT COUNT(reviews.rating), providers.username, AVG(reviews.rating) FROM services
                                         INNER JOIN providers ON services.providersFkid = providers.providersId
@@ -194,7 +192,7 @@ else{
     						echo"<p>$revRate <img src='SwapImage/star-icon-16.png'></p>";
     						echo"<p class='desc'>$revComment</p>";
     						echo"<p class='daterev'>Date posted: $revDate</p>";
-    						echo"<p class='revHideId' value=$revId>$revId</p>";
+    						echo"<p hidden class='revHideId' value=$revId>$revId</p>";
     						echo"</div>";
         				}
         				echo"</div>";
@@ -226,14 +224,8 @@ else{
                             echo"</div></div></form>";  
                 		?>
                 </div></div>
-                
-                
     		</div>
-    		
-    		
     </body>
-
-
 
 <script type="text/javascript">
 		

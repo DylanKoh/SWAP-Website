@@ -19,8 +19,7 @@ else{
             include 'connection.php'; 
             
             
-            //Sessions
-            
+            //Data variables
             $searchResult = $_POST['search'];
             $procResults = htmlentities($searchResult);
         ?>
