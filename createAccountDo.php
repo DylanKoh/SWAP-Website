@@ -15,24 +15,25 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
             $password=$_POST['password'];
             $rePassword=$_POST['rePassword'];
             $fullnamePattern='/^^[a-zA-Z\s]+$/'; //Allow only alphabet characters
-            $usernamePattern='/^([a-zA-Z0-9]+[_?!]*)+$/';
+            $usernamePattern='/^([a-zA-Z0-9]+[_?!]*)+$/'; //Regex expression for username
+            $emailPattern='/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i'; //Regex expression for emails
             if (empty($fullName) || empty($username) || empty($email) || empty($password) || empty($rePassword) || !isset($_POST['rbType'])){ //If any required fields are empty
                 header("Location:createAccount.php?error=emptyfields&fullname=$fullName&username=$username&email=$email");
                 exit();
             }
-            elseif (!preg_match($fullnamePattern, $fullName) || !preg_match($usernamePattern, $username)){
+            elseif (!preg_match($fullnamePattern, $fullName) || !preg_match($usernamePattern, $username)){ //If username or fullname contains illegal characters
                 header("Location:createAccount.php?error=illegalCharacters&email=$email");
                 exit();
             }
-            elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match($emailPattern, $email)){ //If email is not a valid email
                 header("Location:createAccount.php?error=notEmail&fullname=$fullName&username=$username");
                 exit();
             }
-            elseif (!preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\#\?\!\@\$\%\^\&\*\-\.\,\/]).{8,}$/', $password)){
+            elseif (!preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\#\?\!\@\$\%\^\&\*\-\.\,\/]).{8,}$/', $password)){ //If password is not valid
                 header("Location:createAccount.php?error=passwordWeak&fullname=$fullName&username=$username&email=$email");
                 exit();
             }
-            elseif ($password!=$rePassword){
+            elseif ($password!=$rePassword){ //If passwords don't match
                 header("Location:createAccount.php?error=passwordNoMatch&fullname=$fullName&username=$username&email=$email");
                 exit();
             }
