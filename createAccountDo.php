@@ -1,7 +1,7 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; img-src https://api.qrserver.com/v1/create-qr-code/; style-src 'self' 'unsafe-inline' ");
-header("X-Frame-Options: DENY");
-require 'connection.php';
+header("Content-Security-Policy: default-src 'self'; img-src https://api.qrserver.com/v1/create-qr-code/; style-src 'self' 'unsafe-inline' "); //Allow script from self and google api to run for QR code
+header("X-Frame-Options: DENY"); //Helps prevent clickjacking and certain XSS
+require 'connection.php'; //Connection to dB
 require_once 'PHPGangsta/GoogleAuthenticator.php';
 require_once 'sessionInitialise.php';
 $ga=new PHPGangsta_GoogleAuthenticator();
