@@ -58,5 +58,7 @@ if (isset($_POST["btnLogin"])){
         header('Location:providerLogin.php?error=empty');
         exit();
     }
+    
+    
 }
 ?>
