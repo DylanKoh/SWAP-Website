@@ -71,7 +71,7 @@ else{
     		<div class="webhead-right">
         		<a href="">Explore</a>
         		<a href="about.php">About</a>
-        		<a href="index.php">Logout</a>
+        		<a href="logout.php">Logout</a>
         		<a class="nav-but" href="profilePage.php">Settings</a>
 			</div>
 		</div>
