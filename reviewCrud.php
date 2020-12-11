@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
     
     //Connecting to Mysql Database
     include 'connection.php';
@@ -12,6 +12,7 @@ header("Content-Security-Policy: default-src 'self'");
     $rating = $_POST['revRating'];
     $orderId = $_SESSION['orderId'];
     $userId = $_SESSION['userId'];
+    echo $_SESSION['usersID'];
     
     //Regular expression patterns:
     $rateVal = '/^[1-5]$/'; //Rating only accepts values between 1 and 5
@@ -22,12 +23,12 @@ header("Content-Security-Policy: default-src 'self'");
         $query->bind_param('iiis', $orderId, $userId, $rating, $comments); //bind the parameters
         if ($query->execute()){ //execute query
             echo "<br>Successfully added!";
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            //header('Location: ' . $_SERVER['HTTP_REFERER']);
         }else{
             echo "<br>Adding unsuccessful";
         }
     }
     else {
-        echo "<script language='javascript'>;alert('Please only add correct characters!');</script>";
+        echo "<script language='javascript'>;alert('Please only add correct characters!'); window.location.href = document.referrer;</script>";
     }
 ?>

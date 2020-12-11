@@ -1,15 +1,14 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 ?>
 <html>
 	<head>
 	<!-- linking all relevant css  --> 
-		<script src="css/kitfontawesome9d4359df6d.js"></script>
     	<link rel="stylesheet" type="text/css" href="css/header.css">
     	<link rel="stylesheet" type="text/css" href="css/storeIndiv.css">
     	<link rel="stylesheet" type="text/css" href="css/storeIndiv1.css">
-    	<title></title>
+    	<title>Search</title>
 		<?php
         //Connecting to Mysql Database:
         include 'connection.php'; 
@@ -22,6 +21,7 @@ header("X-Frame-Options: DENY");
         $provId = $_SESSION['provId'];
         $isProv = $_SESSION['isProvider'];
         $userId= $_SESSION['userId'];
+        echo $_SESSION['usersID'];
 		?>
     	
     </head>
@@ -139,14 +139,14 @@ header("X-Frame-Options: DENY");
         				while($stmt->fetch()){
         					echo"<div class='prov-info'>";
         					echo"<h3>Provider: <a>$username</a></h3>";
-            				echo"<p>Rating: <i class='fas fa-star fa-sm'></i>";
-            				echo"<i class='fas fa-star fa-sm'></i>";
-            				echo"<i class='fas fa-star fa-sm'></i>";
-            				echo"<i class='fas fa-star fa-sm'></i>";
-            				echo"<i class='fas fa-star fa-sm'></i> ($count)</p>";
+            				echo"<p>Rating: <img src='SwapImage/star-icon-16.png'>
+                            <img src='SwapImage/star-icon-16.png'>
+                            <img src='SwapImage/star-icon-16.png'>
+                            <img src='SwapImage/star-icon-16.png'>
+                            <img src='SwapImage/star-icon-16.png'> ($count)</p>";
             				echo"<div class='buttons'>";
                     		echo"<button class='chat'>Chat</button>";
-                    		echo"<button class='offer'>Make an offer</button>";
+                    		echo"<button class='offer' onclick=offerRedirect($servId)>Make an offer</button>";
                 			echo"</div></div>";
         				}
         				?>
@@ -166,13 +166,13 @@ header("X-Frame-Options: DENY");
         				while($stmt->fetch()){
         				    echo"<div id='revcard$revId' class='review-card'>";
         				    if(($userId==$usId)){
-        				        echo"<button class='myRevBtn' id='myRevBtn' style='float:right' onclick=saveRevIds($revId)>Edit</button>";
+        				        echo"<button class='myRevBtn' id='myRevBtn' onclick=saveRevIds($revId)>Edit</button>";
         				    }
     						echo"<p class='rev-head'><b>$revName</b></p>";
-    						echo"<p>$revRate <i class='fas fa-star fa-sm'></i></p>";
+    						echo"<p>$revRate <img src='SwapImage/star-icon-16.png'></p>";
     						echo"<p class='desc'>$revComment</p>";
     						echo"<p class='daterev'>Date posted: $revDate</p>";
-    						echo"<p class='revHideId' value=$revId style='visibility: hidden;'>$revId</p>";
+    						echo"<p class='revHideId' value=$revId>$revId</p>";
     						echo"</div>";
         				}
         				echo"</div>";
@@ -210,14 +210,7 @@ header("X-Frame-Options: DENY");
     		
     		
     </body>
-<style>
-.searchfield {
-margin-left: 10%;
-width: 400px;
-height: 100%;
-display: inline-block;
-}
-</style>
+
 
 
 <script type="text/javascript">
@@ -297,6 +290,10 @@ display: inline-block;
       	
         revmodal.style.display = "block";
         
+        }
+        
+        function offerRedirect(servId) {
+        window.location.href = 'postOffer.php?id=';
         }
         
     </script>

@@ -1,10 +1,10 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 ?>
 <html>
     <head>
-    	<script src="css/kitfontawesome9d4359df6d.js"></script>
+    	<link rel="stylesheet" type="text/css" href="css/storeSearch.css">
     	<link rel="stylesheet" type="text/css" href="css/header.css">
     	<title>Pentesters for Hire</title>
         <?php
@@ -56,10 +56,10 @@ header("X-Frame-Options: DENY");
     		while($stmt->fetch()){
         		echo"<a href='storeIndiv.php?id=$servicesId'><div class='container'>";
                 echo"<div class='box-view'><div class='sell-info'>";      
-        		echo"<p id='title' style='font-size:22px;'><b>". $serviceName . "</b></p>";
-        		echo"<p style='font-size:14px;'> Provider: ".$username."</p>";
+        		echo"<p id='title'><b>". $serviceName . "</b></p>";
+        		echo"<p id='provName'> Provider: ".$username."</p>";
         		echo "<p id='sell-price'>Price: $". $price. "</p>";
-        		echo"<p id='rating'>5 <i class='fas fa-star fa-sm'></i> <a>(No. of Reviews)</a></p>";
+        		echo"<p id='rating'>5 <img src='SwapImage/star-icon-16.png'> <a>(No. of Reviews)</a></p>";
         		echo"</div> </div> </div></a>";
         		
     		}
@@ -69,79 +69,4 @@ header("X-Frame-Options: DENY");
     		</div>
     
     </body>
-    <style>
-.searchfield {
-margin-left: 10%;
-display: inline-block;
-height: 100%;
-width: 400px;
-}
-    
-h1, h2, h3, h4, p{
-margin:0;
-padding:0;
-}
-    
-/*store-card */
-.store-card {
-padding-top:3%;
-width: 80%;
-margin: auto;
-height: 1200px;
-}
-
-/* Section 1 content */
-.sell-column{
-padding-top:20px;
-display: flex;
-max-width: 100%;
-justify-content: center;
-flex-wrap:wrap;
-height: 60%;
-float: left;
-}
-
-.sell-column a {
-text-decoration: none;
-color:black;
-}
-
-.box-view {
-position: relative;
-width: 260px;
-height: 320px;
-background-color:#fdfdf8;
-overflow: hidden;
-box-shadow: 0 2px 4px 0 rgba(0,0,0,0.4);
-border: 1px solid black;
-margin-left: 20px;
-}
-.box-view .sell-info {
-position: absolute;
-width: 100%;
-height: 35%;
-background-color:lightgray;
-bottom: 0;
-}
-.box-view .sell-info h3 {
-padding: 1% 6%;
-}
-.box-view .sell-info p {
-padding: 0 6%;
-}
-.box-view #rating{
-font-size:16px;
-}
-.box-view i {
-color:#FFD700;
-}
-.box-view a{
-font-size:16px;
-}
-.box-view .sell-info #title {
-font-size:18px;
-padding-top: 5px;
-padding-bottom: 5px;
-}
-</style>
 </html>

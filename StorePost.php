@@ -14,6 +14,7 @@ header("Content-Security-Policy: default-src 'self'");
     $provId = $_SESSION['provId'];
     $price = $_POST['serPrice'];
     
+    
     //Regular expression patterns:
     $nameVal ='/^([0-9A-Za-z\s]+[!-]*)+$/';//To allow characters, numbers, spaces, exclamation marks and dashes.
     $descVal = '/^([0-9A-Za-z\s]+[.!_-]*)+$/'; //Allowing Characters, numbers, spaces and some special characters.
