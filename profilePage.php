@@ -37,3 +37,70 @@ else{
     }
 }
 ?>
+
+
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/header.css">
+		<link rel="stylesheet" type="text/css" href="css/profilepage.css">
+
+	</head>
+<body>
+<!-- Header -->
+	<div class="webhead">
+			<a id="left">Hire a Pentester</a>	
+    			<div class='searchfield'>
+        			<form class='searchform' method='post' action='storeSearch.php'> 
+            			<input type="text" id="nav-search" name='search' placeholder="Search for Services">
+            			<input hidden name="authToken" value="<?php echo $_POST['authToken']?>">
+            			<button id="nav-sea-but" type="submit">Search</button>
+            		</form>
+            	</div>	
+    		<div class="webhead-right">
+    			<form class='navbar-button' action="storePage.php" method="post">
+                		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+                		<input type="submit" class="nav-but" value="Explore">
+            		</form>
+        		<form class='navbar-button' action="profilePage.php" method="post">
+        		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+        		<input type="submit" class="nav-but" value="Settings">
+        		</form>
+        		<a href="logout.php">Logout</a>
+        		
+			</div>
+		</div>
+
+<!-- Body of codes -->
+	<div class='profilebody'>
+	<div class='profilehead'><h1 id='header'>Profile</h1></div>
+		<form class='prof-form'>
+			<div class='userdata'>
+				<div class='fields'>
+				<label>Username:</label>
+				<input type='text' value=''></input><br></div>
+				<div class='fields'>
+				<label>Email:</label>
+				<input type='text'></input><br></div>
+				<div class='fields'>
+				<label>Name:</label>	
+				<input type='text'></input><br></div>
+				<!-- Button input division -->
+				<div class='buttons-div'>
+    				<div class='fields'><label>Configure 2FA:</label>
+    				<button id='conf-but'>Configure 2FA</button><br></div>
+    				<div class='last-buttons'>
+    				<button id='edit-but'>Edit data</button>
+    				<button id='reset-but'>Reset password</button></div>
+				</div>
+				
+				
+				
+			
+    		</div>
+    	</form>
+	</div>
+
+</body>
+
+
+</html>

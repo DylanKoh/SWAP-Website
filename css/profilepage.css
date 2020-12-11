@@ -1,0 +1,79 @@
+body {
+background:	#F0F8FF;
+height: 800px;
+}
+
+h1, h2, h3, h4, p{
+padding: 0px;
+margin: 0px;
+}
+
+/*form css */
+.profilebody {
+width:50%;
+height:80%;
+background-color:white;
+margin: 50px auto;
+}
+
+.profilehead {
+padding: 40px 0px;
+text-align: center;
+font-size: 32px;
+border-bottom: 1px solid black;
+}
+
+.prof-form {
+width:70%;
+margin:50px auto;
+height: 350px;
+}
+
+.userdata .fields {
+width:100%;
+height:50px;
+margin-top:10px;
+}
+
+.userdata label{
+font-size: 24px;
+padding: 5px;
+}
+
+.userdata .fields input{
+font-size: 24px;
+float:right;
+}
+
+/*Button fields css*/
+.buttons-div button {
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+}
+.buttons-div #conf-but{
+border: 1px solid black;
+background-color:white;
+color: black;
+float: right;
+}
+
+.last-buttons{
+width:100%;
+height:50px;
+margin-top:15%;
+}
+
+.buttons-div #edit-but{
+border: 1px solid black;
+color: black;
+float:left;
+}
+.buttons-div #reset-but{
+border: 1px solid black;
+background-color: #ff0000;
+float:right;
+}
