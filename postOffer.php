@@ -4,9 +4,13 @@ include 'connection.php';
 
 session_set_cookie_params(0,'/','localhost', TRUE, TRUE);
 session_start();
-$_SESSION['usersId']='1';
+$_SESSION['usersID'] ='1';
+$userID = $_SESSION['usersID'];
+//retrieve the service that the user chose
+$serviceID = $_POST['serviceIDS'];
 
-
+//     echo $userID;
+//     echo $serviceID;
 ?>
 
 <html>
@@ -118,14 +122,11 @@ $_SESSION['usersId']='1';
 <!--For insert, -->
 <!--userId as customerFkid -->
                       <tr><h2>Post an Offer</h2><td>
-<!--user to choose the service they require --> 
-                      <label for='sService'><b>Service chosen:(*required)</b></label> <br> 
-                      <input id='service' type='text' placeholder='Enter service number' name='servicesid' required> <br> <br>
 <!--user to input comments if they want to -->
                       <label for='sComment'><b>Comments:</b></label> <br> 
                       <input id='comment' type='text' placeholder='Enter your comment' name='orderComments'> <br><br>
                       <b>Click here to confirm your order(*required)</b>
-                      <!--         			status of isCompleted to be false -->
+                      <!--status of isCompleted to be false -->
                       <input id='completedStatus' type='radio' name='completedStatus' value='False' required> <br><br>;
                       <button class='post' type="submit" >Post</button>
 		</form>
