@@ -2,7 +2,6 @@
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php'; //Initialise Session
-echo isset($_POST['authToken']);
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
     destroySession();
     header('Location:login.php?error=notloggedin');
@@ -22,6 +21,7 @@ else{
                 exit();
             }
         }
+        $authToken=$_POST['authToken'];
     }
     else{
         destroySession();
@@ -86,18 +86,23 @@ else{
 				<input type='text'></input><br></div>
 				<!-- Button input division -->
 				<div class='buttons-div'>
-    				<div class='fields'><label>Configure 2FA:</label>
-    				<button id='conf-but'>Configure 2FA</button><br></div>
     				<div class='last-buttons'>
-    				<button id='edit-but'>Edit data</button>
-    				<button id='reset-but'>Reset password</button></div>
+    				<input type="submit" value="Edit data" name="btnEdit" >
 				</div>
-				
-				
-				
-			
+    		</div>
     		</div>
     	</form>
+	<div class='fields'><label>Configure 2FA:</label>
+	<form action="config2FA.php" method="post">
+	<input hidden name='authToken' value="<?php echo $authToken; ?>">
+	<button id='conf-but'>Configure 2FA</button><br>
+	</form>
+	<form action="resetPassword.php" method="post">
+	<input hidden name='authToken' value="<?php echo $authToken; ?>">	
+	<button id='reset-but'>Reset password</button>
+	</form>
+	</div>
+		
 	</div>
 
 </body>
