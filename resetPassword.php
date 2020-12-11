@@ -22,7 +22,9 @@ else{ //If an ID of sorts is assigned in the session variables
     }
     else{
         $authToken=$_POST['authToken'];
-        
+        $resetPasswordToken=hash('sha256', uniqid(rand(),TRUE));
+        initialiseSessionVar('resetPasswordToken', $resetPasswordToken);
+        initialiseSessionVar('resetPasswordTokenTime', time());
     }
             
     
@@ -53,7 +55,7 @@ else{ //If an ID of sorts is assigned in the session variables
                 		<input type="submit" class="nav-but" value="Explore">
             		</form>
         		<form class='navbar-button' action="profilePage.php" method="post">
-        		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+        		<input hidden name='authToken' value="<?php echo $authToken?>">
         		<input type="submit" class="nav-but" value="Settings">
         		</form>
         		<a href="logout.php">Logout</a>
@@ -76,6 +78,7 @@ else{ //If an ID of sorts is assigned in the session variables
 				<label>Full Name:</label>	
 				<input type="password" name='reNewPassword' ></input><br></div>
 				<input hidden name='authToken' value="<?php echo $authToken; ?>">
+				<input hidden name='resetPasswordToken' value="<?php echo $resetPasswordToken; ?>">
 				<!-- Button input division -->
 				<div class='buttons-div'>
     				<div class='last-buttons'>
@@ -93,17 +96,19 @@ require_once 'alertMessageFunc.php';
 if (isset($_GET['error']) && $_GET['error'] == 'emptyfields'){
     promptMessage('Please fill in all of the fields!');
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'notEmail'){
-    promptMessage('Please enter a valid email!');
+elseif (isset($_GET['error']) && $_GET['error'] == 'errToken'){
+    promptMessage('Token is unvalid or has timed out! Please retry resetting your password again!');
+}elseif (isset($_GET['error']) && $_GET['error'] == 'passwordWeak'){
+    promptMessage('Password must contain 1 upper, lower case, numeric and special character! No. of characters must be at least 8!');
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'illegalCharacters'){
-    promptMessage('Please ensure fullname has only alphabetical characters! Username allows only alphabets, numbers and "_?!" characters!');
+elseif (isset($_GET['error']) && $_GET['error'] == 'passwordNoMatch'){
+    promptMessage('Please ensure that password matches!');
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'emailTaken'){
-    promptMessage('Email has already been taken! Please try using another email!');
+elseif (isset($_GET['error']) && $_GET['error'] == 'passwordIncorrect'){
+    promptMessage('Old password keyed in is incorrect!');
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'usernameTaken'){
-    promptMessage('Username has already been taken! Please try using another Username!');
+elseif (isset($_GET['error']) && $_GET['error'] == 'databaseErr'){
+    promptMessage('There was a database issue! Please try again later!');
 }
 ?>
 </body>

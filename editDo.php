@@ -3,27 +3,35 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php'; //Initialise Session
 require 'connection.php';
+require_once 'validateToken.php';
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ //If user does not have any ID in their session
     destroySession();
     header('Location:login.php?error=notloggedin');
     exit();
 }
 else{ //If an ID of sorts is assigned in the session variables
-    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){ //If token is valid
-        $sessionAge=time()-$_SESSION['authTokenTime'];
-        if ($sessionAge > 1200){ //If token age is over lifetime of 20mins
-            destroySession();
-            if (isset($_SESSION['providersID'])){ //If initial user is a Provider
-                header('Location:providerLogin.php?error=sessionExpired');
-                exit();
-            }
-            else{ //If initial user is a Customer
-                header('Location:login.php?error=sessionExpired');
-                exit();
-            }
+    if (!verifyToken('authToken', 1200)){ //If token is not valid
+        destroySession();
+        if (isset($_SESSION['providersID'])){ //If initial user is a Provider
+            header('Location:providerLogin.php?error=errToken');
+            exit();
+        }
+        else{ //If initial user is a Customer
+            header('Location:login.php?error=errToken');
+            exit();
+        }
+    }
+    else{
+        $authToken=$_POST['authToken'];
+        if (!verifyToken('editProfileToken', 300)){
+            unsetVariable('editProfileToken');
+            unsetVariable('editProfileTokenTime');
+            echo "<form action='profilePage.php?error=errToken' id='returnForm' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo "</form";
+            echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
         }
         else{
-            $authToken=$_POST['authToken'];
             $fullName=$_POST['fullname'];
             $username=$_POST['username'];
             $email=$_POST['email'];
@@ -71,7 +79,7 @@ else{ //If an ID of sorts is assigned in the session variables
                                 echo "Successfully updated user data!";
                             }
                             else{ //If update user data is not successful
-                                echo "There was an error updated user data!";
+                                echo "There was an error updating user data!";
                             }
                             $stmt->close();
                         }
@@ -105,13 +113,15 @@ else{ //If an ID of sorts is assigned in the session variables
                                 echo "Successfully updated user data!";
                             }
                             else{ //If update user data is not successful
-                                echo "There was an error updated user data!";
+                                echo "There was an error updating user data!";
                             }
                             $stmt->close();
                         }
                     }
-            
+                    
                 }
+                unsetVariable('editProfileToken');
+                unsetVariable('editProfileTokenTime');
                 echo "<br><br><form action ='profilePage.php' method='post'>";
                 echo "<input hidden value='$authToken' name='authToken'>";
                 echo "<input type='submit' value='Return to Profile'>";
@@ -119,19 +129,6 @@ else{ //If an ID of sorts is assigned in the session variables
                 exit();
             }
         }
-        
-    }
-    else{
-        destroySession();
-        if (isset($_SESSION['providersID'])){
-            header('Location:providerLogin.php?error=invalidToken');
-            exit();
-        }
-        else{
-            header('Location:login.php?error=invalidToken');
-            exit();
-        }
-        
-    }
+    }  
 }
 ?>

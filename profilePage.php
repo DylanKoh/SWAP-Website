@@ -3,69 +3,59 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php'; //Initialise Session
 require 'connection.php';
+require_once 'validateToken.php';
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ //If user does not have any ID in their session
     destroySession();
     header('Location:login.php?error=notloggedin');
     exit();
 }
 else{ //If an ID of sorts is assigned in the session variables
-    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){ //If token is valid
-        $sessionAge=time()-$_SESSION['authTokenTime'];
-        if ($sessionAge > 1200){ //If token age is over lifetime of 20mins
-            destroySession();
-            if (isset($_SESSION['providersID'])){ //If initial user is a Provider
-                header('Location:providerLogin.php?error=sessionExpired');
-                exit();
-            }
-            else{ //If initial user is a Customer
-                header('Location:login.php?error=sessionExpired');
-                exit();
-            }
+    if (!verifyToken('authToken', 1200)){ //If token is not valid
+        destroySession();
+        if (isset($_SESSION['providersID'])){ //If initial user is a Provider
+            header('Location:providerLogin.php?error=errToken');
+            exit();
         }
-        else{
-            $authToken=$_POST['authToken'];
-            $editProfileToken=hash('sha256', uniqid(rand(), TRUE));
-            if (isset($_SESSION['providersID'])){ //If user is a Provider;
-                $stmt=$conn->prepare('SELECT username,email,name FROM providers where providersID=?');
-                $stmt->bind_param('i', $_SESSION['providersID']);
-                $stmt->execute();
-                $stmt->bind_result($username,$email,$name);
-                if ($stmt->fetch()){
-                    echo "Successfully retrieved user data!";
-                }
-                else{
-                    echo "There was an error retrieving user data!";
-                }
-            }
-            elseif (isset($_SESSION['usersID'])){ //If user is a Customer
-                $stmt=$conn->prepare('SELECT username,email,name FROM users where usersID=?');
-                $stmt->bind_param('i', $_SESSION['usersID']);
-                $stmt->execute();
-                $stmt->bind_result($username,$email,$name);
-                if ($stmt->fetch()){
-                    echo "Successfully retrieved user data!";
-                }
-                else{
-                    echo "There was an error retrieving user data!";
-                }
-            }
-            
+        else{ //If initial user is a Customer
+            header('Location:login.php?error=errToken');
+            exit();
         }
-        
     }
     else{
-        destroySession();
-        if (isset($_SESSION['providersID'])){
-            header('Location:providerLogin.php?error=invalidToken');
-            exit();
+        $authToken=$_POST['authToken'];
+        $editProfileToken=hash('sha256', uniqid(rand(), TRUE));
+        initialiseSessionVar('editProfileToken',$editProfileToken);
+        initialiseSessionVar('editProfileTokenTime',time());
+        if (isset($_SESSION['providersID'])){ //If user is a Provider;
+            $stmt=$conn->prepare('SELECT username,email,name FROM providers where providersID=?');
+            $stmt->bind_param('i', $_SESSION['providersID']);
+            $stmt->execute();
+            $stmt->bind_result($username,$email,$name);
+            if ($stmt->fetch()){
+                echo "Successfully retrieved user data!";
+            }
+            else{
+                echo "There was an error retrieving user data!";
+            }
         }
-        else{
-            header('Location:login.php?error=invalidToken');
-            exit();
+        elseif (isset($_SESSION['usersID'])){ //If user is a Customer
+            $stmt=$conn->prepare('SELECT username,email,name FROM users where usersID=?');
+            $stmt->bind_param('i', $_SESSION['usersID']);
+            $stmt->execute();
+            $stmt->bind_result($username,$email,$name);
+            if ($stmt->fetch()){
+                echo "Successfully retrieved user data!";
+            }
+            else{
+                echo "There was an error retrieving user data!";
+            }
         }
         
     }
+    
 }
+    
+
 ?>
 
 
@@ -82,17 +72,17 @@ else{ //If an ID of sorts is assigned in the session variables
     			<div class='searchfield'>
         			<form class='searchform' method='post' action='storeSearch.php'> 
             			<input type="text" id="nav-search" name='search' placeholder="Search for Services">
-            			<input hidden name="authToken" value="<?php echo $_POST['authToken']?>">
+            			<input hidden name="authToken" value="<?php echo $authToken?>">
             			<button id="nav-sea-but" type="submit">Search</button>
             		</form>
             	</div>	
     		<div class="webhead-right">
     			<form class='navbar-button' action="storePage.php" method="post">
-                		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+                		<input hidden name='authToken' value="<?php echo $authToken?>">
                 		<input type="submit" class="nav-but" value="Explore">
             		</form>
         		<form class='navbar-button' action="profilePage.php" method="post">
-        		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+        		<input hidden name='authToken' value="<?php echo $authToken?>">
         		<input type="submit" class="nav-but" value="Settings">
         		</form>
         		<a href="logout.php">Logout</a>
@@ -115,6 +105,7 @@ else{ //If an ID of sorts is assigned in the session variables
 				<label>Full Name:</label>	
 				<input type='text' name='fullname' value="<?php echo htmlspecialchars(strip_tags($name))?>"></input><br></div>
 				<input hidden name='authToken' value="<?php echo $authToken; ?>">
+        		<input hidden name='editProfileToken' value="<?php echo $editProfileToken; ?>">
 				<!-- Button input division -->
 				<div class='buttons-div'>
     				<div class='last-buttons'>
@@ -152,6 +143,9 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'emailTaken'){
 }
 elseif (isset($_GET['error']) && $_GET['error'] == 'usernameTaken'){
     promptMessage('Username has already been taken! Please try using another Username!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'errToken'){
+    promptMessage('Token is unvalid or has timed out! Please retry editing your account!');
 }
 ?>
 </body>
