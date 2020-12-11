@@ -11,24 +11,26 @@ else{
     if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){
         $sessionAge=time()-$_SESSION['authTokenTime'];
         if ($sessionAge > 1200){
-            destroySession();
             if (isset($_SESSION['providersID'])){
+                destroySession();
                 header('Location:providerLogin.php?error=sessionExpired');
                 exit();
             }
             else{
+                destroySession();
                 header('Location:login.php?error=sessionExpired');
                 exit();
             }
         }
     }
     else{
-        destroySession();
         if (isset($_SESSION['providersID'])){
+            destroySession();
             header('Location:providerLogin.php?error=invalidToken');
             exit();
         }
         else{
+            destroySession();
             header('Location:login.php?error=invalidToken');
             exit();
         }
@@ -65,13 +67,14 @@ else{
             		</form>
             	</div>	
     		<div class="webhead-right">
-        		<a href="">Explore</a>
+    			<a href="">Explore</a>
         		<a href="about.php">About</a>
-        		<a href="logout.php">Logout</a>
-        		<form action="profiePage.php" method="post">
+        		<form action="profilePage.php" method="post">
         		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
         		<input type="submit" class="nav-but" value="Settings">
         		</form>
+        		<a href="logout.php">Logout</a>
+        		
 			</div>
 		</div>
 		

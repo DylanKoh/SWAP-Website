@@ -38,7 +38,10 @@ else{
             		<a href="storePage.php">Explore</a>
             		<a href="about.php">About</a>
             		<a href="logout.php">Logout</a>
-            		<a class="nav-but" href="profilePage.php">Settings</a>
+            		<form action="profilePage.php" method="post">
+            		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+            		<input type="submit" class="nav-but" value="Settings">
+            		</form>
     			</div>
     		</div>
     		
