@@ -1,12 +1,11 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+require_once 'PHPGangsta/GoogleAuthenticator.php';
+$ga=new PHPGangsta_GoogleAuthenticator();
 
 //start session
-session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-session_start();
+require_once 'sessionInitialise.php';
 $_SESSION['userID'] ='3';
-$_SESSION['isUser'] ='yes';
-$isUser = $_SESSION['isUser'];
 
 //connect to db
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -36,30 +35,15 @@ $pin = $_POST["paymentPin"];
 $userFkid = $_SESSION['userID'];
 $textToHash = $creditCard . $expiryDate;
 
-$key = 'qkwjdiw239&&jdafweihbrhnan&^%$ggdnawhd4njshjwuuO';
+$key = $pin;
+$salt1 = $ga->createSecret();
+$salt2 = $ga->createSecret();
 
-function encryptText($data, $key) {
-    $encryption_key = base64_decode($key);
-    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
-    $encrypted = openssl_encrypt($data, 'aes-256-cbc', $encryption_key, 0, $iv);
-    return base64_encode($encrypted . '::' . $iv);
-}
-
-// test decryption
-// function decryptText($data, $key) {
-//     $encryption_key = base64_decode($key);
-//     list(encrypted_data, $iv) = array_pad(explode('::', base64_decode($data), 2), 2, null);
-//     return openssl_decrypt($encrypted_data, 'aes-256-cbc', $encryption_key, 0, $iv);
-// }
-
-$secret = encryptText($textToHash, $key);
-// $decSecret = decryptText($secret, $key);
-
-$salt_1 = $pin . $secret;
-
-$hash_1 = encryptText($salt_1, $key);
-
-$hash_2 = password_hash($secret, PASSWORD_BCRYPT);
+$secret = base64_encode(hash('sha256', $pin));
+$password1 = $salt1.$pin;
+$hash_1 = hash('sha256', $password1);
+$password2 = $hash_1.$salt2;
+$hash_2 = hash('sha256', $password2);
 
 if($noAdd) {
     

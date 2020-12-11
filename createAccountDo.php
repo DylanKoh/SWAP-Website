@@ -1,11 +1,11 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; img-src https://api.qrserver.com/v1/create-qr-code/; style-src 'self' 'unsafe-inline' ");
-header("X-Frame-Options: DENY");
-require 'connection.php';
+header("Content-Security-Policy: default-src 'self'; img-src https://api.qrserver.com/v1/create-qr-code/; style-src 'self' 'unsafe-inline' "); //Allow script from self and google api to run for QR code
+header("X-Frame-Options: DENY"); //Helps prevent clickjacking and certain XSS
+require 'connection.php'; //Connection to dB
 require_once 'PHPGangsta/GoogleAuthenticator.php';
 require_once 'sessionInitialise.php';
 $ga=new PHPGangsta_GoogleAuthenticator();
-if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SESSION['createAccountToken']){
+if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SESSION['createAccountToken']){ //Check if token for creating account is valid
     $tokenCreateAccountAge=time()-$_SESSION['createAccountTokenTime'];
     if ($tokenCreateAccountAge <= 300 ){ //If token is still below to 5mins old, allow code logic to run
         if (isset($_POST["btnCreate"])){
@@ -14,9 +14,9 @@ if (isset($_POST['createAccountToken']) && $_POST['createAccountToken'] == $_SES
             $email=$_POST['email'];
             $password=$_POST['password'];
             $rePassword=$_POST['rePassword'];
-            $fullnamePattern='/^^[a-zA-Z\s]+$/';
+            $fullnamePattern='/^^[a-zA-Z\s]+$/'; //Allow only alphabet characters
             $usernamePattern='/^([a-zA-Z0-9]+[_?!]*)+$/';
-            if (empty($fullName) || empty($username) || empty($email) || empty($password) || empty($rePassword) || !isset($_POST['rbType'])){
+            if (empty($fullName) || empty($username) || empty($email) || empty($password) || empty($rePassword) || !isset($_POST['rbType'])){ //If any required fields are empty
                 header("Location:createAccount.php?error=emptyfields&fullname=$fullName&username=$username&email=$email");
                 exit();
             }

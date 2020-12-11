@@ -1,6 +1,6 @@
 <?php 
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
-header("X-Frame-Options: DENY");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'"); //Allows only script from this page to run, preventing XSS and clickjacking
+header("X-Frame-Options: DENY"); //Denys the use of <frame>, <iframe>, <embed> and <object> to protect clients from clickjacking
 ?>
 <html>
 <body>
@@ -19,9 +19,9 @@ if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
 </body>
 </html>
 <?php
-require_once 'PHPGangsta/GoogleAuthenticator.php';
-require_once 'sessionInitialise.php';
-require_once 'alertMessageFunc.php';
+require_once 'PHPGangsta/GoogleAuthenticator.php'; //Require 2FA code
+require_once 'sessionInitialise.php'; //Initialise Session
+include_once 'alertMessageFunc.php'; //Include the need for prompt messages
 if (isset($_SESSION['usersID'])){ //Checks if session value 'usersID' is set before running page
     if (isset($_POST['2FAToken']) && $_POST['2FAToken'] == $_SESSION['2FAToken'])  //Check if token valid
     {
