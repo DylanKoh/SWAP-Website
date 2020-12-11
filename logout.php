@@ -26,5 +26,5 @@ destroySession();
     <strong>Success!</strong> Please clear your cache after exiting this page
   </div>
 </div>
-
+<a href='index.php'>Return to Main Page</a>
 </body>
