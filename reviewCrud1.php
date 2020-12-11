@@ -16,8 +16,7 @@ else{
     $rateUpdate = htmlentities($_POST['ratingUpdate']);
     $comUpdate = htmlentities($_POST['commentUpdate']);
     $revId = htmlentities($_POST['reviewId']);
-    $usId = $_SESSION['userId'];
-    echo $_SESSION['usersID'];
+    $usId = $_SESSION['usersID'];
     
     $specChar= htmlspecialchars($comUpdate, ENT_QUOTES);
     $specChar1 = htmlentities($specChar, ENT_QUOTES);

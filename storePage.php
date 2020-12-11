@@ -50,8 +50,6 @@ else{
         
         //Sessions
         
-        $_SESSION['provId'] ='1';
-        $_SESSION['userId']='3';
         $_SESSION['orderId']='1';
         
         

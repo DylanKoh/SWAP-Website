@@ -15,8 +15,7 @@ else{
     $comments= htmlentities($_POST['revComments']);
     $rating = htmlentities($_POST['revRating']);
     $orderId = $_SESSION['orderId'];
-    $userId = $_SESSION['userId'];
-    echo $_SESSION['usersID'];
+    $userId = $_SESSION['usersID'];
     
     //Regular expression patterns:
     $rateVal = '/^[1-5]$/'; //Rating only accepts values between 1 and 5

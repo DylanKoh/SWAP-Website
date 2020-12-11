@@ -16,7 +16,7 @@ else{
     $servId = $_POST['servId'];
     $nameUpdate= $_POST['serName'];
     $descUpdate = $_POST['serDesc'];
-    $provId = $_SESSION['provId'];
+    $provId = $_SESSION['providersID'];
     $priceUpdate = $_POST['serPrice'];
 
     

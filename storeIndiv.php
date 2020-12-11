@@ -23,10 +23,8 @@ else{
         $servId= $_GET['id'];
         
         //Session info
-        $provId = $_SESSION['provId'];
-        $isProv = $_SESSION['isProvider'];
-        $userId= $_SESSION['userId'];
-        echo $_SESSION['usersID'];
+        $provId = $_SESSION['providersID'];
+        $userId= $_SESSION['usersID'];
 		?>
     	
     </head>
@@ -55,7 +53,7 @@ else{
     		$stmt->store_result();
     		$stmt->bind_result($providerId);
     		while($stmt->fetch()){
-        		if (($isProv == 'yes') && ($provId == $providerId)) {
+    		    if ((isset($_SESSION['providersID'])) && ($provId == $providerId)) {
         		    echo "<div class='sec-head'>";
         			echo "<div class='edit-but'>";
         			echo "<button class='serv-edit' id='edit-serv-but'>Edit/Delete</button>";
