@@ -2,43 +2,30 @@
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php'; //Initialise Session
+require_once 'validateToken.php';
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ //If user does not have any ID in their session
     destroySession();
     header('Location:login.php?error=notloggedin');
     exit();
 }
 else{ //If an ID of sorts is assigned in the session variables
-    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){ //If token is valid
-        $sessionAge=time()-$_SESSION['authTokenTime'];
-        if ($sessionAge > 1200){ //If token age is over lifetime of 20mins
-            destroySession();
-            if (isset($_SESSION['providersID'])){ //If initial user is a Provider
-                header('Location:providerLogin.php?error=sessionExpired');
-                exit();
-            }
-            else{ //If initial user is a Customer
-                header('Location:login.php?error=sessionExpired');
-                exit();
-            }
-        }
-        else{
-            $authToken=$_POST['authToken'];
-            
-        }
-        
-    }
-    else{
+    if (!verifyToken('authToken', 1200)){ //If token is not valid
         destroySession();
         if (isset($_SESSION['providersID'])){
-            header('Location:providerLogin.php?error=invalidToken');
+            header('Location:providerLogin.php?error=errToken');
             exit();
         }
         else{
-            header('Location:login.php?error=invalidToken');
+            header('Location:login.php?error=errToken');
             exit();
         }
+    }
+    else{
+        $authToken=$_POST['authToken'];
         
     }
+            
+    
 }
 ?>
 
