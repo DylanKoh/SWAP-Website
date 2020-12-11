@@ -2,26 +2,56 @@
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php'; //Initialise Session
-if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+require 'connection.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ //If user does not have any ID in their session
     destroySession();
     header('Location:login.php?error=notloggedin');
     exit();
 }
-else{
-    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){
+else{ //If an ID of sorts is assigned in the session variables
+    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){ //If token is valid
         $sessionAge=time()-$_SESSION['authTokenTime'];
-        if ($sessionAge > 1200){
+        if ($sessionAge > 1200){ //If token age is over lifetime of 20mins
             destroySession();
-            if (isset($_SESSION['providersID'])){
+            if (isset($_SESSION['providersID'])){ //If initial user is a Provider
                 header('Location:providerLogin.php?error=sessionExpired');
                 exit();
             }
-            else{
+            else{ //If initial user is a Customer
                 header('Location:login.php?error=sessionExpired');
                 exit();
             }
         }
-        $authToken=$_POST['authToken'];
+        else{
+            $authToken=$_POST['authToken'];
+            if (isset($_SESSION['providersID'])){ //If user is a Provider;
+                $stmt=$conn->prepare('SELECT username,email,name FROM providers where providersID=?');
+                $stmt->bind_param('i', $_SESSION['providersID']);
+                $stmt->execute();
+                $stmt->bind_result($username,$email,$name);
+                if ($stmt->fetch()){
+                    echo "Successfully retrieved user data!";
+                }
+                else{
+                    echo "There was an error retrieving user data!";
+                }
+            }
+            else{ //If user is a Customer
+                $stmt=$conn->prepare('SELECT username,email,name FROM users where usersID=?');
+                echo intval($_SESSION['usersID']);
+                $stmt->bind_param('i', $_SESSION['usersID']);
+                $stmt->execute();
+                $stmt->bind_result($username,$email,$name);
+                if ($stmt->fetch()){
+                    echo "Successfully retrieved user data!";
+                }
+                else{
+                    echo "There was an error retrieving user data!";
+                }
+            }
+            
+        }
+        
     }
     else{
         destroySession();
@@ -73,17 +103,18 @@ else{
 <!-- Body of codes -->
 	<div class='profilebody'>
 	<div class='profilehead'><h1 id='header'>Profile</h1></div>
-		<form class='prof-form'>
+		<form class='prof-form' action='editDo.php' method="post">
 			<div class='userdata'>
 				<div class='fields'>
 				<label>Username:</label>
-				<input type='text' value=''></input><br></div>
+				<input type='text' name='username' value="<?php echo htmlspecialchars(strip_tags($username))?>"></input><br></div>
 				<div class='fields'>
 				<label>Email:</label>
-				<input type='text'></input><br></div>
+				<input type='text' name='email' value="<?php echo htmlspecialchars(strip_tags($email))?>"></input><br></div>
 				<div class='fields'>
-				<label>Name:</label>	
-				<input type='text'></input><br></div>
+				<label>Full Name:</label>	
+				<input type='text' name='fullname' value="<?php echo htmlspecialchars(strip_tags($name))?>"></input><br></div>
+				<input hidden name='authToken' value="<?php echo $authToken; ?>">
 				<!-- Button input division -->
 				<div class='buttons-div'>
     				<div class='last-buttons'>
