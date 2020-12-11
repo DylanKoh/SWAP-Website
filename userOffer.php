@@ -44,8 +44,7 @@ $servID = '1';
             		<a href="logout.php">Logout</a>
     			</div>
     		</div>
-	
-	
+
 		<div class='orderbody'>
 			<div class='orderhead'><h1>Post an offer</h1></div>
     			<div class='cover-contain'>
