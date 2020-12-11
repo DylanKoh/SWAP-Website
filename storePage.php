@@ -68,8 +68,10 @@ else{
             		</form>
             	</div>	
     		<div class="webhead-right">
-    			<a href="">Explore</a>
-        		<a href="about.php">About</a>
+    			<form action="storePage.php" method="post">
+                		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+                		<input type="submit" class="nav-but" value="Explore">
+            		</form>
         		<form action="profilePage.php" method="post">
         		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
         		<input type="submit" class="nav-but" value="Settings">

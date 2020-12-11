@@ -35,13 +35,16 @@ else{
                 		</form>
                 	</div>	
         		<div class="webhead-right">
-            		<a href="storePage.php">Explore</a>
-            		<a href="about.php">About</a>
-            		<a href="logout.php">Logout</a>
-            		<form action="profilePage.php" method="post">
-            		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
-            		<input type="submit" class="nav-but" value="Settings">
+            		<form action="storePage.php" method="post">
+                		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+                		<input type="submit" class="nav-but" value="Explore">
             		</form>
+            		<form action="profilePage.php" method="post">
+                		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+                		<input type="submit" class="nav-but" value="Settings">
+            		</form>
+        		<a href="logout.php">Logout</a>
+        		
     			</div>
     		</div>
     		
