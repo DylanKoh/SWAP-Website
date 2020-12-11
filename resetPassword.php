@@ -2,7 +2,6 @@
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php'; //Initialise Session
-require 'connection.php';
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ //If user does not have any ID in their session
     destroySession();
     header('Location:login.php?error=notloggedin');
@@ -24,31 +23,6 @@ else{ //If an ID of sorts is assigned in the session variables
         }
         else{
             $authToken=$_POST['authToken'];
-            $editProfileToken=hash('sha256', uniqid(rand(), TRUE));
-            if (isset($_SESSION['providersID'])){ //If user is a Provider;
-                $stmt=$conn->prepare('SELECT username,email,name FROM providers where providersID=?');
-                $stmt->bind_param('i', $_SESSION['providersID']);
-                $stmt->execute();
-                $stmt->bind_result($username,$email,$name);
-                if ($stmt->fetch()){
-                    echo "Successfully retrieved user data!";
-                }
-                else{
-                    echo "There was an error retrieving user data!";
-                }
-            }
-            elseif (isset($_SESSION['usersID'])){ //If user is a Customer
-                $stmt=$conn->prepare('SELECT username,email,name FROM users where usersID=?');
-                $stmt->bind_param('i', $_SESSION['usersID']);
-                $stmt->execute();
-                $stmt->bind_result($username,$email,$name);
-                if ($stmt->fetch()){
-                    echo "Successfully retrieved user data!";
-                }
-                else{
-                    echo "There was an error retrieving user data!";
-                }
-            }
             
         }
         
@@ -102,39 +76,30 @@ else{ //If an ID of sorts is assigned in the session variables
 
 <!-- Body of codes -->
 	<div class='profilebody'>
-	<div class='profilehead'><h1 id='header'>Profile</h1></div>
-		<form class='prof-form' action='editDo.php' method="post">
+	<div class='profilehead'><h1 id='header'>Reset Password</h1></div>
+		<form class='prof-form' action='resetPasswordDo.php' method="post">
 			<div class='userdata'>
 				<div class='fields'>
-				<label>Username:</label>
-				<input type='text' name='username' value="<?php echo htmlspecialchars(strip_tags($username))?>"></input><br></div>
+				<label>Old Password:</label>
+				<input type="password" name='oldPassword'><br></div>
 				<div class='fields'>
 				<label>Email:</label>
-				<input type='text' name='email' value="<?php echo htmlspecialchars(strip_tags($email))?>"></input><br></div>
+				<input type="password" name='newPassword'><br></div>
 				<div class='fields'>
 				<label>Full Name:</label>	
-				<input type='text' name='fullname' value="<?php echo htmlspecialchars(strip_tags($name))?>"></input><br></div>
+				<input type="password" name='reNewPassword' ></input><br></div>
 				<input hidden name='authToken' value="<?php echo $authToken; ?>">
 				<!-- Button input division -->
 				<div class='buttons-div'>
     				<div class='last-buttons'>
-    				<input type="submit" value="Edit data" name="btnEdit" >
+    				<input type="submit" value="Reset Password" name="btnReset" >
 				</div>
     		</div>
     		</div>
     	</form>
-	<div class='fields'><label>Configure 2FA:</label>
-	<form action="config2FA.php" method="post">
-	<input hidden name='authToken' value="<?php echo $authToken; ?>">
-	<button id='conf-but'>Configure 2FA</button><br>
-	</form>
-	<form action="resetPassword.php" method="post">
-	<input hidden name='authToken' value="<?php echo $authToken; ?>">	
-	<button id='reset-but'>Reset password</button>
-	</form>
+	
 	</div>
 		
-	</div>
 <?php 
 //Runs relevant prompt message to show user error
 require_once 'alertMessageFunc.php';
