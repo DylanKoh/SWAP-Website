@@ -63,6 +63,7 @@ else{
     			<div class='searchfield'>
         			<form class='searchform' method='post' action='storeSearch.php'> 
             			<input type="text" id="nav-search" name='search' placeholder="Search for Services">
+            			<input hidden name="authToken" value="<?php echo $_POST['authToken']?>">
             			<button id="nav-sea-but" type="submit">Search</button>
             		</form>
             	</div>	
