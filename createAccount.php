@@ -170,7 +170,10 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'illegalCharacters'){
     promptMessage('Please ensure fullname has only alphabetical characters! Username allows only alphabets, numbers and "_?!" characters!');
 }
 elseif (isset($_GET['error']) && $_GET['error'] == 'sessionExpired'){
-    promptMessage('Your session has expired! Please redo account creation!');
+    promptMessage('Your session has expired! Please redo account creation or continue with 2FA verification!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'invalidToken'){
+    promptMessage('Your token is invalid! Please redo account creation!');
 }
 ?>
 
