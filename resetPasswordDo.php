@@ -58,8 +58,8 @@ else{ //If an ID of sorts is assigned in the session variables
                     $passwordCheck->execute();
                     $passwordCheck->bind_result($salt_1,$salt_2,$correctPassword);
                     if ($passwordCheck->fetch()){ //If password retrieval was successful
-                        $hash1Password=hash('sah256', $salt_1.$oldPassword);
-                        $encodedPassword=base64_encode(hash('sah256', $hash1Password.$salt_2));
+                        $hash1Password=hash('sha256', $salt_1.$oldPassword);
+                        $encodedPassword=base64_encode(hash('sha256', $hash1Password.$salt_2));
                         if ($encodedPassword!=$correctPassword){ //If old password is not correct
                             unsetVariable('resetPasswordToken');
                             unsetVariable('resetPasswordTokenTime');
@@ -72,8 +72,8 @@ else{ //If an ID of sorts is assigned in the session variables
                             $passwordCheck->close();
                             $newSalt_1=$ga->createSecret();
                             $newSalt_2=$ga->createSecret();
-                            $hashNewPassword=hash('sah256', $newSalt_1.$newPassword);
-                            $encodedNewPassword=base64_encode(hash('sah256', $hashNewPassword.$newSalt_2));
+                            $hashNewPassword=hash('sha256', $newSalt_1.$newPassword);
+                            $encodedNewPassword=base64_encode(hash('sha256', $hashNewPassword.$newSalt_2));
                             $newPasswordDate=date_format(date_create(), 'Y-m-d');
                             $stmt=$conn->prepare('UPDATE providers SET salt_1=?,salt_2=?,password=?,passwordDate=? where providersID=?');
                             $stmt->bind_param('sssss', $newSalt_1, $newSalt_2, $encodedNewPassword, $newPasswordDate, $providersID);
@@ -101,8 +101,8 @@ else{ //If an ID of sorts is assigned in the session variables
                     $passwordCheck->execute();
                     $passwordCheck->bind_result($salt_1,$salt_2,$correctPassword);
                     if ($passwordCheck->fetch()){ //If password retrieval was successful
-                        $hash1Password=hash('sah256', $salt_1.$oldPassword);
-                        $encodedPassword=base64_encode(hash('sah256', $hash1Password.$salt_2));
+                        $hash1Password=hash('sha256', $salt_1.$oldPassword);
+                        $encodedPassword=base64_encode(hash('sha256', $hash1Password.$salt_2));
                         if ($encodedPassword!=$correctPassword){ //If old password is not correct
                             unsetVariable('resetPasswordToken');
                             unsetVariable('resetPasswordTokenTime');
@@ -115,8 +115,8 @@ else{ //If an ID of sorts is assigned in the session variables
                             $passwordCheck->close();
                             $newSalt_1=$ga->createSecret();
                             $newSalt_2=$ga->createSecret();
-                            $hashNewPassword=hash('sah256', $newSalt_1.$newPassword);
-                            $encodedNewPassword=base64_encode(hash('sah256', $hashNewPassword.$newSalt_2));
+                            $hashNewPassword=hash('sha256', $newSalt_1.$newPassword);
+                            $encodedNewPassword=base64_encode(hash('sha256', $hashNewPassword.$newSalt_2));
                             $newPasswordDate=date_format(date_create(), 'Y-m-d');
                             $stmt=$conn->prepare('UPDATE providers SET salt_1=?,salt_2=?,password=?,passwordDate=? where usersID=?');
                             $stmt->bind_param('sssss', $newSalt_1, $newSalt_2, $encodedNewPassword, $newPasswordDate, $usersID);
