@@ -29,6 +29,7 @@ else{
         
         
         //echo $_SESSION['usersID'];
+        //echo $_SESSION['providersID'];
         
         ?>
         
@@ -52,16 +53,17 @@ else{
 		<!-- Store body codes -->
 		<div class="store-body">
 		
-		<div class="store-header1">
-		<h1>Pentesting Services</h1>
-    		<?php 
-        		if (isset($_SESSION['providersID'])) {
-        		   echo"<button class='post-but' id='mod-button'>Post A Service</button>";
-        		}
-        	?>
-		</div>
-		
-		<?php 
+    		<!-- Store body Header -->
+    		<div class="store-header1">
+    		<h1>Pentesting Services</h1>
+        		<?php //Checks is provider is logged in, if he is logged in the Post a service button will appear.
+            		if (isset($_SESSION['providersID'])) {
+            		   echo"<button class='post-but' id='mod-button'>Post A Service</button>";
+            		}
+            	?>
+    		</div>
+    		
+    	<?php 
 		
 		//Retrieving Service data from database:
 		$stmt= $conn->prepare("SELECT services.servicesId, services.serviceName, services.serviceDesc, services.providersFkid, services.price, providers.username FROM services 
