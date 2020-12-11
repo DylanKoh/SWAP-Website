@@ -1,4 +1,5 @@
 <?php
-session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
-session_start(); //Starts session
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
 ?>
