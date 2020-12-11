@@ -1,6 +1,6 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
-header("X-Frame-Options: DENY");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'"); //Allows only script from this page to run, preventing XSS and clickjacking
+header("X-Frame-Options: DENY"); //Denys the use of <frame>, <iframe>, <embed> and <object> to protect clients from clickjacking
 include 'connection.php'; //Include login connection to database
 include_once 'sessionInitialise.php';
 if (isset($_POST["btnLogin"])){

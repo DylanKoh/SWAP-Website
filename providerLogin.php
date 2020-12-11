@@ -1,6 +1,6 @@
 <?php 
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
-header("X-Frame-Options: DENY");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'"); //Allows only script from this page to run, preventing XSS and clickjacking
+header("X-Frame-Options: DENY"); //Denys the use of <frame>, <iframe>, <embed> and <object> to protect clients from clickjacking
 ?>
 <html>
 <head>
@@ -109,19 +109,19 @@ header("X-Frame-Options: DENY");
 </form>
 <?php 
 include_once 'alertMessageFunc.php';
-if (isset($_GET['error']) && $_GET['error'] == 'invalid'){
+if (isset($_GET['error']) && $_GET['error'] == 'invalid'){ //If return URL has an error that = 'invalid', prompt user with message
     promptMessage('Username or password is incorrect or does not exist!');
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'empty'){
+elseif (isset($_GET['error']) && $_GET['error'] == 'empty'){ //If return URL has an error that = 'empty', prompt user with message
     promptMessage('Please fill in fields of Username and Password!');
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'notloggedin'){
+elseif (isset($_GET['error']) && $_GET['error'] == 'notloggedin'){ //If return URL has an error that = 'notloggedin', prompt user with message
     promptMessage('You have been redirected back as you were not logged in!');
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'sessionExpired'){
-    promptMessage('Your session has expired! Please re-login!');
+elseif (isset($_GET['error']) && $_GET['error'] == 'sessionExpired'){ //If return URL has an error that = 'sessionExpired', prompt user with message
+    promptMessage('Your session has expired! Please re-login!'); 
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'invalidToken'){
+elseif (isset($_GET['error']) && $_GET['error'] == 'invalidToken'){ //If return URL has an error that = 'invalidToken', prompt user with message
     promptMessage('Your token used is not valid! Please re-login!');
 }
 ?>
