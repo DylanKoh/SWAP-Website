@@ -36,6 +36,7 @@ else{
         }
         
     }
+    $authToken = $_POST['authToken'];
 }
 ?>
 <html>
@@ -107,13 +108,16 @@ else{
 		//Creation of tables with data:
 		echo "<div class='sell-column'>";
 		while($stmt->fetch()){
-    		echo"<a href='storeIndiv.php?id=$servicesId'><div class='container'>";
+		    echo"<form id='$servicesId' action='storeIndiv.php?id=$servicesId' method='post'>"; 
+    		echo"<div class='container'><button class='invis-but'>";
+    		echo"<input hidden name='authToken' value='$authToken'>";
             echo"<div class='box-view'><div class='sell-info'>";      
     		echo"<p id='title'><b>". $serviceName . "</b></p>";
     		echo"<p id='provName'> Provider: ".$username."</p>";
     		echo "<p id='sell-price'>Price: $". $price. "</p>";
     		echo"<p id='rating'>5 <img src='SwapImage/star-icon-16.png'> <a>(No. of Reviews)</a></p>";
-    		echo"</div> </div> </div></a>";
+    		echo"</div> </div> </button></div></form> ";
+    		
     		
 		}
 		echo "</div>";
