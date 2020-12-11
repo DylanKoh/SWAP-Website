@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 ?>
 <html>
@@ -83,7 +83,7 @@ header("X-Frame-Options: DENY");
       <header>
          <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
             <div class="container-fluid">
-               <a href="index.php"><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
+               <a href="index.php"><img src="SwapImage/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                <span class="navbar-toggler-icon"></span>
                </button>
