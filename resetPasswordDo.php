@@ -118,7 +118,7 @@ else{ //If an ID of sorts is assigned in the session variables
                             $hashNewPassword=hash('sha256', $newSalt_1.$newPassword);
                             $encodedNewPassword=base64_encode(hash('sha256', $hashNewPassword.$newSalt_2));
                             $newPasswordDate=date_format(date_create(), 'Y-m-d');
-                            $stmt=$conn->prepare('UPDATE providers SET salt_1=?,salt_2=?,password=?,passwordDate=? where usersID=?');
+                            $stmt=$conn->prepare('UPDATE users SET salt_1=?,salt_2=?,password=?,passwordDate=? where usersID=?');
                             $stmt->bind_param('sssss', $newSalt_1, $newSalt_2, $encodedNewPassword, $newPasswordDate, $usersID);
                             if ($stmt->execute()){ //If update user password is successful
                                 echo "Successfully resetted user password!";
