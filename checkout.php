@@ -119,12 +119,7 @@ header("X-Frame-Options: DENY");
       <?php 
          //connect to db
          include 'connection.php';
-         
-         //start session
-         session_start();
-         $_SESSION['userID'] ='1';
-         $_SESSION['isUser'] ='yes';
-         $isUser = $_SESSION['isUser'];
+         require_once 'sessionInitialise.php';
          ?>
       <!-- Header start -->
       <header>

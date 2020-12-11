@@ -4,11 +4,8 @@ require_once 'PHPGangsta/GoogleAuthenticator.php';
 $ga=new PHPGangsta_GoogleAuthenticator();
 
 //start session
-session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-session_start();
+require_once 'sessionInitialise.php';
 $_SESSION['userID'] ='3';
-$_SESSION['isUser'] ='yes';
-$isUser = $_SESSION['isUser'];
 
 //connect to db
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
