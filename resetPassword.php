@@ -72,10 +72,10 @@ else{ //If an ID of sorts is assigned in the session variables
 				<label>Old Password:</label>
 				<input type="password" name='oldPassword'><br></div>
 				<div class='fields'>
-				<label>Email:</label>
+				<label>New Password:</label>
 				<input type="password" name='newPassword'><br></div>
 				<div class='fields'>
-				<label>Full Name:</label>	
+				<label>Re-Enter New Password:</label>	
 				<input type="password" name='reNewPassword' ></input><br></div>
 				<input hidden name='authToken' value="<?php echo $authToken; ?>">
 				<input hidden name='resetPasswordToken' value="<?php echo $resetPasswordToken; ?>">
