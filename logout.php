@@ -1,7 +1,11 @@
 <?php 
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
+sessionDestroy();
 ?>
 <head>
-  <title>SuccessfulLogoutPage</title>
+  <title>Successful Logout Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrapcdn452.css">
