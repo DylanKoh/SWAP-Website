@@ -1,10 +1,46 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+    destroySession();
+    header('Location:login.php?error=notloggedin');
+    exit();
+}
+else{
+    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){
+        $sessionAge=time()-$_SESSION['authTokenTime'];
+        if ($sessionAge > 1200){
+            if (isset($_SESSION['providersID'])){
+                destroySession();
+                header('Location:providerLogin.php?error=sessionExpired');
+                exit();
+            }
+            else{
+                destroySession();
+                header('Location:login.php?error=sessionExpired');
+                exit();
+            }
+        }
+    }
+    else{
+        if (isset($_SESSION['providersID'])){
+            destroySession();
+            header('Location:providerLogin.php?error=invalidToken');
+            exit();
+        }
+        else{
+            destroySession();
+            header('Location:login.php?error=invalidToken');
+            exit();
+        }
+        
+    }
+    $authToken = $_POST['authToken'];
+}
 ?>
 <html>
     <head>
-    	<script src="css/kitfontawesome9d4359df6d.js"></script>
     	<link rel="stylesheet" type="text/css" href="css/header.css">
     	<link rel="stylesheet" type="text/css" href="css/storepage.css">
     	<title>Pentesters for Hire</title>
@@ -16,14 +52,10 @@ header("X-Frame-Options: DENY");
         include 'connection.php'; 
         
         //Sessions
+        $_SESSION['orderId']='4';
         
-        session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-        session_start();
-        $_SESSION['provId'] ='1';
-        $_SESSION['isProvider'] ='yes';
-        $_SESSION['orderId']='1';
-        $_SESSION['userId']='3';
-        $isProv = $_SESSION['isProvider'];
+        //echo $_SESSION['usersID'];
+        //echo $_SESSION['providersID'];
         
         ?>
         
@@ -32,14 +64,21 @@ header("X-Frame-Options: DENY");
     			<div class='searchfield'>
         			<form class='searchform' method='post' action='storeSearch.php'> 
             			<input type="text" id="nav-search" name='search' placeholder="Search for Services">
+            			<input hidden name="authToken" value="<?php echo $_POST['authToken']?>">
             			<button id="nav-sea-but" type="submit">Search</button>
             		</form>
             	</div>	
     		<div class="webhead-right">
-        		<a href="index.php">Home</a>
-        		<a href="">Explore</a>
-        		<a href="about.php">About</a>
-        		<a class="nav-but" href="profilePage.php">Settings</a>
+    			<form class='navbar-button' action="storePage.php" method="post">
+                		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+                		<input type="submit" class="nav-but" value="Explore">
+            		</form>
+        		<form class='navbar-button' action="profilePage.php" method="post">
+        		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+        		<input type="submit" class="nav-but" value="Settings">
+        		</form>
+        		<a href="logout.php">Logout</a>
+        		
 			</div>
 		</div>
 		
@@ -47,16 +86,17 @@ header("X-Frame-Options: DENY");
 		<!-- Store body codes -->
 		<div class="store-body">
 		
-		<div class="store-header1">
-		<h1>Pentesting Services</h1>
-    		<?php 
-        		if ($isProv == 'yes') {
-        		   echo"<button class='post-but' id='mod-button'>Post A Service</button>";
-        		}
-        	?>
-		</div>
-		
-		<?php 
+    		<!-- Store body Header -->
+    		<div class="store-header1">
+    		<h1>Pentesting Services</h1>
+        		<?php //Checks is provider is logged in, if he is logged in the Post a service button will appear.
+            		if (isset($_SESSION['providersID'])) {
+            		   echo"<button class='post-but' id='mod-button'>Post A Service</button>";
+            		}
+            	?>
+    		</div>
+    		
+    	<?php 
 		
 		//Retrieving Service data from database:
 		$stmt= $conn->prepare("SELECT services.servicesId, services.serviceName, services.serviceDesc, services.providersFkid, services.price, providers.username FROM services 
@@ -68,13 +108,16 @@ header("X-Frame-Options: DENY");
 		//Creation of tables with data:
 		echo "<div class='sell-column'>";
 		while($stmt->fetch()){
-    		echo"<a href='storeIndiv.php?id=$servicesId'><div class='container'>";
+		    echo"<form id='$servicesId' action='storeIndiv.php?id=$servicesId' method='post'>"; 
+    		echo"<div class='container'><button class='invis-but'>";
+    		echo"<input hidden name='authToken' value='$authToken'>";
             echo"<div class='box-view'><div class='sell-info'>";      
-    		echo"<p id='title' style='font-size:22px;'><b>". $serviceName . "</b></p>";
-    		echo"<p style='font-size:14px;'> Provider: ".$username."</p>";
+    		echo"<p id='title'><b>". $serviceName . "</b></p>";
+    		echo"<p id='provName'> Provider: ".$username."</p>";
     		echo "<p id='sell-price'>Price: $". $price. "</p>";
-    		echo"<p id='rating'>5 <i class='fas fa-star fa-sm'></i> <a>(No. of Reviews)</a></p>";
-    		echo"</div> </div> </div></a>";
+    		echo"<p id='rating'>5 <img src='SwapImage/star-icon-16.png'> <a>(No. of Reviews)</a></p>";
+    		echo"</div> </div> </button></div></form> ";
+    		
     		
 		}
 		echo "</div>";
@@ -112,14 +155,7 @@ header("X-Frame-Options: DENY");
 	</div>
 	
     </body>
-    <style>
-	.searchfield {
-	   margin-left: 10%;
-	   width: 400px;
-	   height: 100%;
-	   display: inline-block;
-	}
-	</style>
+    
 	<script type="text/javascript">
 	
 		//Obtain the modal

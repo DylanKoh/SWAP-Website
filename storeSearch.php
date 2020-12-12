@@ -1,10 +1,47 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+    destroySession();
+    header('Location:login.php?error=notloggedin');
+    exit();
+}
+else{
+    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){
+        $sessionAge=time()-$_SESSION['authTokenTime'];
+        if ($sessionAge > 1200){
+            if (isset($_SESSION['providersID'])){
+                destroySession();
+                header('Location:providerLogin.php?error=sessionExpired');
+                exit();
+            }
+            else{
+                destroySession();
+                header('Location:login.php?error=sessionExpired');
+                exit();
+            }
+        }
+    }
+    else{
+        if (isset($_SESSION['providersID'])){
+            destroySession();
+            header('Location:providerLogin.php?error=invalidToken');
+            exit();
+        }
+        else{
+            destroySession();
+            header('Location:login.php?error=invalidToken');
+            exit();
+        }
+        
+    }
+    $authToken = $_POST['authToken'];
+}
 ?>
 <html>
     <head>
-    	<script src="css/kitfontawesome9d4359df6d.js"></script>
+    	<link rel="stylesheet" type="text/css" href="css/storeSearch.css">
     	<link rel="stylesheet" type="text/css" href="css/header.css">
     	<title>Pentesters for Hire</title>
         <?php
@@ -12,10 +49,7 @@ header("X-Frame-Options: DENY");
             include 'connection.php'; 
             
             
-            //Sessions
-            session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-            session_start();
-            
+            //Data variables
             $searchResult = $_POST['search'];
             $procResults = htmlentities($searchResult);
         ?>
@@ -26,15 +60,22 @@ header("X-Frame-Options: DENY");
     			<a id="left">Hire a Pentester</a>	
         			<div class='searchfield'>
             			<form class='searchform' method='post' action='storeSearch.php'>
+            				<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
                 			<input type="text" id="nav-search" name='search' placeholder="Search for Pentester">
                 			<button id="nav-sea-but" type="submit">Search</button>
                 		</form>
                 	</div>	
         		<div class="webhead-right">
-            		<a href="index.php">Home</a>
-            		<a href="storePage.php">Explore</a>
-            		<a href="about.php">About</a>
-            		<a class="nav-but" href="profilePage.php">Settings</a>
+            		<form class='navbar-button' action="storePage.php" method="post">
+                		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+                		<input type="submit" class="nav-but" value="Explore">
+            		</form>
+            		<form class='navbar-button' action="profilePage.php" method="post">
+                		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+                		<input type="submit" class="nav-but" value="Settings">
+            		</form>
+        		<a href="logout.php">Logout</a>
+        		
     			</div>
     		</div>
     		
@@ -54,13 +95,15 @@ header("X-Frame-Options: DENY");
     		//Creation of tables with data:
     		echo "<div class='sell-column'>";
     		while($stmt->fetch()){
-        		echo"<a href='storeIndiv.php?id=$servicesId'><div class='container'>";
-                echo"<div class='box-view'><div class='sell-info'>";      
-        		echo"<p id='title' style='font-size:22px;'><b>". $serviceName . "</b></p>";
-        		echo"<p style='font-size:14px;'> Provider: ".$username."</p>";
-        		echo "<p id='sell-price'>Price: $". $price. "</p>";
-        		echo"<p id='rating'>5 <i class='fas fa-star fa-sm'></i> <a>(No. of Reviews)</a></p>";
-        		echo"</div> </div> </div></a>";
+    		    echo"<form id='$servicesId' action='storeIndiv.php?id=$servicesId' method='post'>";
+    		    echo"<div class='container'><button class='invis-but'>";
+    		    echo"<input hidden name='authToken' value='$authToken'>";
+    		    echo"<div class='box-view'><div class='sell-info'>";
+    		    echo"<p id='title'><b>". $serviceName . "</b></p>";
+    		    echo"<p id='provName'> Provider: ".$username."</p>";
+    		    echo "<p id='sell-price'>Price: $". $price. "</p>";
+    		    echo"<p id='rating'>5 <img src='SwapImage/star-icon-16.png'> <a>(No. of Reviews)</a></p>";
+    		    echo"</div> </div> </button></div></form> ";
         		
     		}
     		echo "</div>";
@@ -69,79 +112,4 @@ header("X-Frame-Options: DENY");
     		</div>
     
     </body>
-    <style>
-.searchfield {
-margin-left: 10%;
-display: inline-block;
-height: 100%;
-width: 400px;
-}
-    
-h1, h2, h3, h4, p{
-margin:0;
-padding:0;
-}
-    
-/*store-card */
-.store-card {
-padding-top:3%;
-width: 80%;
-margin: auto;
-height: 1200px;
-}
-
-/* Section 1 content */
-.sell-column{
-padding-top:20px;
-display: flex;
-max-width: 100%;
-justify-content: center;
-flex-wrap:wrap;
-height: 60%;
-float: left;
-}
-
-.sell-column a {
-text-decoration: none;
-color:black;
-}
-
-.box-view {
-position: relative;
-width: 260px;
-height: 320px;
-background-color:#fdfdf8;
-overflow: hidden;
-box-shadow: 0 2px 4px 0 rgba(0,0,0,0.4);
-border: 1px solid black;
-margin-left: 20px;
-}
-.box-view .sell-info {
-position: absolute;
-width: 100%;
-height: 35%;
-background-color:lightgray;
-bottom: 0;
-}
-.box-view .sell-info h3 {
-padding: 1% 6%;
-}
-.box-view .sell-info p {
-padding: 0 6%;
-}
-.box-view #rating{
-font-size:16px;
-}
-.box-view i {
-color:#FFD700;
-}
-.box-view a{
-font-size:16px;
-}
-.box-view .sell-info #title {
-font-size:18px;
-padding-top: 5px;
-padding-bottom: 5px;
-}
-</style>
 </html>

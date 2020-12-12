@@ -1,15 +1,51 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+    destroySession();
+    header('Location:login.php?error=notloggedin');
+    exit();
+}
+else{
+    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){
+        $sessionAge=time()-$_SESSION['authTokenTime'];
+        if ($sessionAge > 1200){
+            if (isset($_SESSION['providersID'])){
+                destroySession();
+                header('Location:providerLogin.php?error=sessionExpired');
+                exit();
+            }
+            else{
+                destroySession();
+                header('Location:login.php?error=sessionExpired');
+                exit();
+            }
+        }
+    }
+    else{
+        if (isset($_SESSION['providersID'])){
+            destroySession();
+            header('Location:providerLogin.php?error=invalidToken');
+            exit();
+        }
+        else{
+            destroySession();
+            header('Location:login.php?error=invalidToken');
+            exit();
+        }
+        
+    }
+}
 ?>
 <html>
 	<head>
 	<!-- linking all relevant css  --> 
-		<script src="css/kitfontawesome9d4359df6d.js"></script>
     	<link rel="stylesheet" type="text/css" href="css/header.css">
     	<link rel="stylesheet" type="text/css" href="css/storeIndiv.css">
     	<link rel="stylesheet" type="text/css" href="css/storeIndiv1.css">
-    	<title></title>
+    	<!-- <script type="text/javascript" src="storeIndiv.js"></script> -->
+    	<title>Search</title>
 		<?php
         //Connecting to Mysql Database:
         include 'connection.php'; 
@@ -17,11 +53,13 @@ header("X-Frame-Options: DENY");
         $servId= $_GET['id'];
         
         //Session info
-        session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-        session_start();
-        $provId = $_SESSION['provId'];
-        $isProv = $_SESSION['isProvider'];
-        $userId= $_SESSION['userId'];
+        if(isset($_SESSION['providersID'])){
+            $provId = $_SESSION['providersID'];
+        }
+        else if(isset($_SESSION['usersID'])){
+            $userId= $_SESSION['usersID']; 
+        }
+        
 		?>
     	
     </head>
@@ -31,15 +69,21 @@ header("X-Frame-Options: DENY");
     			<a id="left">Hire a Pentester</a>	
     			<div class='searchfield'>
         			<form class='searchform' method='post' action='storeSearch.php'> 
+        				<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
             			<input type="text" id="nav-search" name='search' placeholder="Search for Services">
             			<button id="nav-sea-but" type="submit">Search</button>
             		</form>
             	</div>
         		<div class="webhead-right">
-            		<a href="index.php">Home</a>
-            		<a href="storePage.php">Explore</a>
-            		<a href="about.php">About</a>
-            		<a class="nav-but" href="profilePage.php">Settings</a>
+        			<form class='navbar-button' action="storePage.php" method="post">
+                		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+                		<input type="submit" class="nav-but" value="Explore">
+            		</form>
+            		<form class='navbar-button' action="profilePage.php" method="post">
+            		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+            		<input type="submit" class="nav-but" value="Settings">
+            		</form>
+            		<a href="logout.php">Logout</a>
     			</div>
     		</div>
     		<?php 
@@ -50,15 +94,15 @@ header("X-Frame-Options: DENY");
     		$stmt->store_result();
     		$stmt->bind_result($providerId);
     		while($stmt->fetch()){
-        		if (($isProv == 'yes') && ($provId == $providerId)) {
+    		    if ((isset($_SESSION['providersID'])) && ($provId == $providerId)) {
         		    echo "<div class='sec-head'>";
         			echo "<div class='edit-but'>";
         			echo "<button class='serv-edit' id='edit-serv-but'>Edit/Delete</button>";
         			echo "</div></div>";
         		}
     		}
-    		
     		?>
+    		
     		
     	<!-- Modal of website -->
     	<div id="servModal" class="modal">
@@ -94,6 +138,9 @@ header("X-Frame-Options: DENY");
     			
 		<!-- Body of website -->
     		<div class='store-body'>
+    		
+    		<!-- Service information sql -->
+    		
     			<div class='container'>
     				<div class='left-contain'>
     				<?php 
@@ -116,17 +163,22 @@ header("X-Frame-Options: DENY");
     				<!-- Post a review section! -->
     				<div class='rev-contain'>
     				<h4>Leave a review</h4>
-    				<form action='reviewCrud.php' method='post'>
-    				<textarea class='rev-text' name='revComments'></textarea>
-    				<input name='revRating' type='number' placeholder='Rate' min='1' max='5'><br>
-    				<button class='post-review' name='reviewbtn' type='submit'>Post</button></form>
+    				<?php 
+    				echo"<form action='reviewCrud.php' method='post'>";
+    				$reviewToken=hash('sha256', uniqid(rand(), TRUE));     
+    				initialiseSessionVar('reviewToken', $reviewToken);     
+    				initialiseSessionVar('reviewTokenTime', time());    
+    				echo "<input hidden name='reviewToken' value='$reviewToken'>";
+    				echo"<textarea class='rev-text' name='revComments'></textarea>";
+    				echo"<input name='revRating' type='number' placeholder='Rate' min='1' max='5'><br>";
+    				echo"<button class='post-review' name='reviewbtn' type='submit'>Post</button>";
+    				echo"</form>";
+    				?>
+    				</div>
     				</div>
     				
     				
-    				</div>
     				<div class='right-contain'>
-    				
-    				
     				<?php 
     				$stmt= $conn->prepare("SELECT COUNT(reviews.rating), providers.username, AVG(reviews.rating) FROM services
                                         INNER JOIN providers ON services.providersFkid = providers.providersId
@@ -139,24 +191,33 @@ header("X-Frame-Options: DENY");
         				while($stmt->fetch()){
         					echo"<div class='prov-info'>";
         					echo"<h3>Provider: <a>$username</a></h3>";
-            				echo"<p>Rating: <i class='fas fa-star fa-sm'></i>";
-            				echo"<i class='fas fa-star fa-sm'></i>";
-            				echo"<i class='fas fa-star fa-sm'></i>";
-            				echo"<i class='fas fa-star fa-sm'></i>";
-            				echo"<i class='fas fa-star fa-sm'></i> ($count)</p>";
+            				echo"<p>Rating: <img src='SwapImage/star-icon-16.png'>
+                            <img src='SwapImage/star-icon-16.png'>
+                            <img src='SwapImage/star-icon-16.png'>
+                            <img src='SwapImage/star-icon-16.png'>
+                            <img src='SwapImage/star-icon-16.png'> ($count)</p>";
             				echo"<div class='buttons'>";
                     		echo"<button class='chat'>Chat</button>";
+                    		echo"<form class='makeoffer' method='post' action='userOffer.php'>";
+                    		$offerToken=hash('sha256', uniqid(rand(), TRUE));     
+                    		initialiseSessionVar('offerToken', $offerToken);     
+                    		initialiseSessionVar('offerTokenTime', time());     
+                    		echo "<input hidden name='offerToken' value='$offerToken'>";
+                    		echo"<input type='hidden' name='serviceIDS' value='$servId'></input>";
                     		echo"<button class='offer'>Make an offer</button>";
+                    		echo"</form>";
                 			echo"</div></div>";
         				}
         				?>
+        				
+        				<!-- Review cards -->
         				
         				<?php 
         				$stmt= $conn->prepare("SELECT users.username, reviews.rating, reviews.comments, reviews.ratingDate, reviews.ordersFkid, reviews.usersFkid, reviews.reviewsId FROM services
                                             INNER JOIN providers ON services.providersFkid = providers.providersId
                                             INNER JOIN orders ON services.servicesId = orders.servicesFkid
                                             INNER JOIN reviews ON orders.ordersId = reviews.ordersFkid
-                                            INNER JOIN users ON orders.customerFkid = users.usersId
+                                            INNER JOIN users ON reviews.usersFkid = users.usersId
                                             WHERE services.servicesId=$servId");
         				$res = $stmt->execute();
         				$stmt->store_result();
@@ -165,14 +226,14 @@ header("X-Frame-Options: DENY");
         				echo"<div class='reviews'>";
         				while($stmt->fetch()){
         				    echo"<div id='revcard$revId' class='review-card'>";
-        				    if(($userId==$usId)){
-        				        echo"<button class='myRevBtn' id='myRevBtn' style='float:right' onclick=saveRevIds($revId)>Edit</button>";
+        				    if(isset($_SESSION['usersID']) && ($userId==$usId)){
+        				        echo"<button class='myRevBtn' id='myRevBtn' onclick=saveRevIds($revId)>Edit</button>";
         				    }
     						echo"<p class='rev-head'><b>$revName</b></p>";
-    						echo"<p>$revRate <i class='fas fa-star fa-sm'></i></p>";
+    						echo"<p>$revRate <img src='SwapImage/star-icon-16.png'></p>";
     						echo"<p class='desc'>$revComment</p>";
     						echo"<p class='daterev'>Date posted: $revDate</p>";
-    						echo"<p class='revHideId' value=$revId style='visibility: hidden;'>$revId</p>";
+    						echo"<p hidden class='revHideId' value=$revId>$revId</p>";
     						echo"</div>";
         				}
         				echo"</div>";
@@ -180,6 +241,7 @@ header("X-Frame-Options: DENY");
     				</div>
     				
     			</div>
+    			
     			<!-- Review modal contents-->
     			<div id="reviewModal" class="revModal">
 			
@@ -204,72 +266,54 @@ header("X-Frame-Options: DENY");
                             echo"</div></div></form>";  
                 		?>
                 </div></div>
-                
-                
     		</div>
-    		
-    		
     </body>
-<style>
-.searchfield {
-margin-left: 10%;
-width: 400px;
-height: 100%;
-display: inline-block;
+
+<?php 
+$stmt= $conn->prepare("SELECT providers.providersId FROM services 
+                    INNER JOIN providers ON services.providersFkid = providers.providersId
+                    WHERE services.servicesId= $servId;");
+    		$res = $stmt->execute();
+    		$stmt->store_result();
+    		$stmt->bind_result($providerId);
+    		while($stmt->fetch()){
+    if(isset($_SESSION['providersID']) && $provId==$providerId){
+            echo"<script type='text/javascript'>";
+            echo"var modal = document.getElementById('servModal')
+            ";
+            echo"var btn = document.getElementById('edit-serv-but')
+            ";
+            echo"var span = document.getElementsByClassName('close')[0]
+            ";
+            echo"btn.onclick = function() {
+            ";
+            echo"modal.style.display = 'block';}
+            ";
+            echo"span.onclick = function() {
+            ";
+            echo"modal.style.display = 'none';}
+            ";
+            echo"window.onclick = function(event) {
+            ";
+            echo"if (event.target == modal) {
+            ";
+            echo"modal.style.display = 'none';} }</script>";
+    }
 }
-</style>
-
-
-<script type="text/javascript">
-		
-		//Obtain the modal
-		var modal = document.getElementById("servModal");
-
-        // Get the button that opens the modal
-        var btn = document.getElementById("edit-serv-but");
-        
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-        
-        // When the user clicks the button, open the modal 
-        btn.onclick = function() {
-          modal.style.display = "block";
-        }
-        
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
-        
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-              }
-        }
-        
-        
-        //Obtain the modal
+?>     
+ 
+ <script type="text/javascript">
+ 
+ 		//Obtain the modal
 		var revmodal = document.getElementById("reviewModal");
 
         // Get the button that opens the modal
-        //var btnrev = document.getElementsByClassName("myRevBtn");
         var btnrev = document.getElementById("myRevBtn");
         
         
         // Get the <span> element that closes the modal
         var spanrev = document.getElementsByClassName("closerev")[0];
-        
-        // When the user clicks the button, open the modal 
-//         btnrev.onclick = function() {
-//           revmodal.style.display = "block";
-//         }
-        
-//         for(var i=0; i < btnrev.length;i++){
-//         	btnrev[i].onclick = function() {
-//         		revmodal.style.display = "block";
-//         	}
-//         }
+       
         
         // When the user clicks on <span> (x), close the modal
         spanrev.onclick = function() {
@@ -284,7 +328,9 @@ display: inline-block;
         }
         
         function saveRevIds(revId) {
+        alert(revId);
         var carddiv = document.getElementById("revcard"+revId);
+        alert(carddiv.innerHTML);
         var modalComments = document.getElementById("comments");
       	modalComments.innerHTML = carddiv.childNodes[3].innerHTML;
       	
@@ -298,8 +344,6 @@ display: inline-block;
         revmodal.style.display = "block";
         
         }
-        
-    </script>
-    
-    
+</script>
+
 </html>

@@ -1,17 +1,22 @@
 <?php
-header("Content-Security-Policy: default-src 'self'");
-
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+    
+}
+else{
+    
+}
     //Connecting to Mysql Database
     include 'connection.php';
 
     //Sessions
-    session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-    session_start();
     
     $servId = $_POST['servId'];
     $nameUpdate= $_POST['serName'];
     $descUpdate = $_POST['serDesc'];
-    $provId = $_SESSION['provId'];
+    $provId = $_SESSION['providersID'];
     $priceUpdate = $_POST['serPrice'];
 
     
@@ -27,7 +32,6 @@ header("Content-Security-Policy: default-src 'self'");
             $query= $conn->prepare("UPDATE services SET serviceName = ?, serviceDesc = ?, price = ? WHERE servicesId=? AND providersFkid = ?");
             $query->bind_param('ssiii',$nameUpdate, $descUpdate, $priceUpdate, $servId, $provId); //bind the parameters
             if ($query->execute()){ //execute query
-                echo "Successfully editted";
                 echo "<script language='javascript'>;alert('Successfully editted!'); window.location.href = document.referrer;</script>";
                 //header('Location: ' . $_SERVER['HTTP_REFERER']);
                 exit();
@@ -41,7 +45,6 @@ header("Content-Security-Policy: default-src 'self'");
         else if (isset($_POST['deletebtn'])){
             $query = $conn->prepare("DELETE FROM services WHERE services.servicesId=$servId AND providersFkid=$provId");
             if ($query->execute()){ //execute query
-                echo "Successfully deleted";
                 echo "<script language='javascript'>;alert('Successfully deleted!'); window.location.href = 'storePage.php';</script>";
                 
             }

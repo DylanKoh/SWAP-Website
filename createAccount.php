@@ -1,8 +1,8 @@
 <?php 
-require_once 'sessionInitialise.php';
+require_once 'sessionInitialise.php'; //Initialises session
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
-$createAccountToken=hash('sha256', uniqid(rand(), TRUE));
+$createAccountToken=hash('sha256', uniqid(rand(), TRUE)); //Creates token upon load page
 initialiseSessionVar('createAccountToken',$createAccountToken);
 initialiseSessionVar('createAccountTokenTime',time());
 
@@ -107,7 +107,10 @@ initialiseSessionVar('createAccountTokenTime',time());
 <?php 
    echo "<form action='createAccountDo.php' id='resubmitForm' method='post'>";
    echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
-   if (isset($_SESSION['googleSecret'])){
+   
+   //If previously stored session variable 'googleSecret' exist, user created account but needs to verify
+   //So user will be immediately redirected to re-verify 2FA code in createAccountDo.php
+   if (isset($_SESSION['googleSecret'])){ 
        echo "<input type='submit' value='Redo 2FA verification' name='btnReSubmit'>";       
        echo "</form>";
        echo "<script type='text/javascript'>
@@ -143,6 +146,7 @@ if (isset($_GET['email']))
 <a href="providerLogin.php">Already have a Service Provider Account? Click here to Login!</a>
 </form>
 <?php 
+//This code is to alert user based on error messages sent in GET header
 require_once 'alertMessageFunc.php';
 if (isset($_GET['error']) && $_GET['error'] == 'emptyfields'){
     promptMessage('Please fill in all of the fields!');
@@ -159,6 +163,9 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'passwordNoMatch'){
 elseif (isset($_GET['error']) && $_GET['error'] == 'emailTaken'){
     promptMessage('Email has already been taken! Please try using another email!');
 }
+elseif (isset($_GET['error']) && $_GET['error'] == 'usernameTaken'){
+    promptMessage('Username has already been taken! Please try using another Username!');
+}
 elseif (isset($_GET['error']) && $_GET['error'] == 'createErr'){
     promptMessage('There was an error creating an account, please try again later!');
 }
@@ -166,7 +173,10 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'illegalCharacters'){
     promptMessage('Please ensure fullname has only alphabetical characters! Username allows only alphabets, numbers and "_?!" characters!');
 }
 elseif (isset($_GET['error']) && $_GET['error'] == 'sessionExpired'){
-    promptMessage('Your session has expired! Please redo account creation!');
+    promptMessage('Your session has expired! Please redo account creation or continue with 2FA verification!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'invalidToken'){
+    promptMessage('Your token is invalid! Please redo account creation!');
 }
 ?>
 

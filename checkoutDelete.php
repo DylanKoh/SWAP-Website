@@ -2,11 +2,7 @@
 header("Content-Security-Policy: default-src 'self'");
 
 include 'connection.php';
-session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
-session_start();
-$_SESSION['userID'] =3;
-$_SESSION['isUser'] ='yes';
-$isUser = $_SESSION['isUser'];
+require_once 'sessionInitialise.php';
 $userFkid = $_SESSION['userID'];
 
 $stmt=$conn->prepare("DELETE FROM sales WHERE usersFkid=?");

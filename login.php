@@ -118,11 +118,8 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'empty'){ //If return URL has
 elseif (isset($_GET['error']) && $_GET['error'] == 'notloggedin'){ //If return URL has an error that = 'notloggedin', prompt user with message
     promptMessage('You have been redirected back as you were not logged in!');
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'sessionExpired'){ //If return URL has an error that = 'sessionExpired', prompt user with message
-    promptMessage('Your session has expired! Please re-login!');
-}
-elseif (isset($_GET['error']) && $_GET['error'] == 'invalidToken'){ //If return URL has an error that = 'invalidToken', prompt user with message
-    promptMessage('Your token used is not valid! Please re-login!');
+elseif (isset($_GET['error']) && $_GET['error'] == 'errToken'){ //If return URL has an error that = 'errToken', prompt user with message
+    promptMessage('Your session has expired or is not valid! Please re-login!');
 }
 ?>
 
