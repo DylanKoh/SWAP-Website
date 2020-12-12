@@ -22,10 +22,17 @@ else{ //If an ID of sorts is assigned in the session variables
         }
     }
     else{
+        if (isset($_SESSION['editProfileToken'])){
+            unsetVariable('editProfileToken');
+            unsetVariable('editProfileTokenTime');
+        }
         $authToken=$_POST['authToken'];
         $configure2FAToken=hash('sha256', uniqid(rand(),TRUE));
         initialiseSessionVar('configure2FAToken', $configure2FAToken);
         initialiseSessionVar('configure2FATokenTime', time());
+        if (isset($_SESSION['googleSecret'])){
+            unsetVariable('googleSecret');
+        }
     }
 }
 ?>
@@ -106,7 +113,7 @@ else{ //If an ID of sorts is assigned in the session variables
 				}
 				?>
 				<input hidden name='authToken' value="<?php echo $authToken; ?>">
-				<input hidden name='resetPasswordToken' value="<?php echo $configure2FAToken; ?>">
+				<input hidden name='configure2FAToken' value="<?php echo $configure2FAToken; ?>">
     		</div>
     		</form>
     		</div>
