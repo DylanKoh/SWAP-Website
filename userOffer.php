@@ -1,12 +1,50 @@
 <?php
-
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+    destroySession();
+    header('Location:login.php?error=notloggedin');
+    exit();
+}
+else{
+    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){
+        $sessionAge=time()-$_SESSION['authTokenTime'];
+        if ($sessionAge > 1200){
+            if (isset($_SESSION['providersID'])){
+                destroySession();
+                header('Location:providerLogin.php?error=sessionExpired');
+                exit();
+            }
+            else{
+                destroySession();
+                header('Location:login.php?error=sessionExpired');
+                exit();
+            }
+        }
+    }
+    else{
+        if (isset($_SESSION['providersID'])){
+            destroySession();
+            header('Location:providerLogin.php?error=invalidToken');
+            exit();
+        }
+        else{
+            destroySession();
+            header('Location:login.php?error=invalidToken');
+            exit();
+        }
+        
+    }
+    $authToken = $_POST['authToken'];
+}
+
 //check connection to MySql database
 include 'connection.php';
 
 //Session variables
 $userID = $_SESSION['usersID'];
-$servID = $_POST['serviceIDS'];
+$servID = htmlentities($_POST['serviceIDS']);
 
 
 ?>
@@ -74,6 +112,7 @@ $servID = $_POST['serviceIDS'];
         				echo"<form class='submitOrder' action='userOfferCrud.php' method='post'>";
         				echo"<textarea class='com-box' name='orderCom' placeholder='Input any information you want to inform the service provider'></textarea>";
         				echo"<input type='hidden' name='servId' value='$servID'><br>";
+        				echo"<input hidden name='authToken' value='$authToken'>";
         				echo"<div class='check-field'>";
             				echo"<label>Are you sure you want to post order?</label>";
             				echo"<input type='checkbox' name='checkbox'>";

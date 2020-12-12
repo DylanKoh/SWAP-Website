@@ -208,6 +208,7 @@ else{
                     		initialiseSessionVar('offerToken', $offerToken);     
                     		initialiseSessionVar('offerTokenTime', time());     
                     		echo "<input hidden name='offerToken' value='$offerToken'>";
+                    		echo"<input hidden name='authToken' value='$authToken'>";
                     		echo"<input type='hidden' name='serviceIDS' value='$servId'></input>";
                     		echo"<button class='offer'>Make an offer</button>";
                     		echo"</form>";
