@@ -5,11 +5,11 @@ require 'connection.php'; //Connection to dB
 require_once 'PHPGangsta/GoogleAuthenticator.php';
 require_once 'sessionInitialise.php';
 $ga=new PHPGangsta_GoogleAuthenticator();
-if (!verifyToken('createAccountToken',300)){ //Check if token for creating account is valid
+if (!verifyToken('createAccountToken',300)){ //Check if token for creating account is not valid
     header('HTTP/1.0 403 Forbidden');
     exit();
 }
-else{ //If token does not exist
+else{ //If token exist and is valid
     if (isset($_POST["btnCreate"])){
         $fullName=$_POST['fullname'];
         $username=$_POST['username'];
