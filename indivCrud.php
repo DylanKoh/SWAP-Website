@@ -79,6 +79,7 @@ else{
             }
         }
        
+        
         //Delete function:
         else if (isset($_POST['deletebtn'])){
             $query = $conn->prepare("DELETE FROM services WHERE services.servicesId=$servId AND providersFkid=$provId");
