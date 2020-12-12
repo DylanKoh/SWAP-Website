@@ -8,113 +8,12 @@ header("X-Frame-Options: DENY");
       <!--bootstrap-->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="css/bootstrapcdn441.css">
+      <link rel="stylesheet" href="css/bootstrapcdn452.css">
       <script src="css/ajaxgoogleapisajaxlibs351.js"></script>
       <script src="css/cdnjscloudflareajaxpopper1160.js"></script>
       <script src="css/bootstrapcdn452.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/checkout.css">
    </head>
-   <style>
-      /* Header start */
-      .navbar {
-      padding: .8rem;
-      }
-      .navbar-nav li {
-      padding-right: 20px;
-      }
-      .nav-link {
-      font-size: 1.1em !important;
-      }
-      .form-inline input {
-      height: 34px;
-      width: 100px;
-      }
-      /* Header end */
-      @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i&display=swap");
-      .checkout * {
-      box-sizing: border-box;
-      line-height: 1.5;
-      }
-      .checkout_title {
-      font-size: 2em;
-      font-weight: 600;
-      padding: 10px;
-      }
-      .checkout_item {
-      display: flex;
-      flex-direction: column;
-      padding:10px;
-      }
-      .checkout_item > * {
-      align-self: flex-start;
-      }
-      .checkout_label {
-      font-weight: 600;
-      padding: 10px 0;
-      }
-      .checkout_input {
-      -webkit-appearance: none;
-      width: 100%;
-      max-width: 425px;
-      }
-      .checkout_input:focus {
-      background: #ffffff;
-      }
-      .checkout_input::placeholder {
-      color: #bbbbbb;
-      }
-      textarea.checkout_input {
-      resize: none;
-      min-height: 200px;
-      }
-      .checkout_btn {
-      font-family: "Source Sans Pro", sans-serif;
-      font-weight: 600;
-      font-size: 1.1em;
-      padding: 10px 16px;
-      margin: 10px 0;
-      color: #ffffff;
-      background: #14b64a;
-      border: 2px solid #0fa942;
-      border-radius: 5px;
-      cursor: pointer;
-      outline: none;
-      }
-      .checkout_btn:active {
-      background: #0fa942;
-      }
-      /* footer start */
-      .col-md-4 a {
-      font-size: 2.5em;
-      padding: 1em;
-      }
-      .fa-facebook {
-      color: #3b5998
-      }
-      .fa-twitter {
-      color: #00aced;
-      }
-      .fa-instagram {
-      color: #517fa4;
-      }
-      .fa-facebook:hover,
-      .fa-twitter:hover,
-      .fa-instagram:hover {
-      color: #d5d5d5;
-      text-decoration: none;
-      }
-      footer {
-      background-color: #3f3f3f;
-      color: #d5d5d5;
-      }
-      hr.light {
-      border-top: 1px solid #d5d5d5;
-      width: 75%;
-      }
-      p {
-      padding-left: 10px;
-      }
-      /* footer end */
-   </style>
    <body>
       <?php 
          //connect to db
@@ -177,53 +76,18 @@ header("X-Frame-Options: DENY");
             <input type="radio" name="action" id="yes" value="yes">Save Payment Information<br>
             <input type="radio" name="action" id="no" value="no">Don't Save Payment Information<br>
             <input type="radio" name="action" id="update" value="update">Update Payment Information<br>
-            <input type="radio" name="action" id="delete" value="delete">Delete Payment Information<br>   
+            <input type="radio" name="action" id="delete" value="delete">Delete Payment Information<br>
+            <input type="radio" name="action" id="existing" value="existing">Already have an existing card?<br>   
+            <br>
+            <button name='checkout_btn' class='checkout_btn' type='submit'>Checkout</button> 
          <?php 
-        		if ($isUser == 'yes') {
-        		   echo"<button name='checkout_btn' class='checkout_btn' type='submit'>Checkout</button>";
-        		} else {
-        		    echo "<br> Unable to checkout as you are not logged in!";
-        		}
-        	?>
+//         		if ($isUser == 'yes') {
+//         		   echo"<button name='checkout_btn' class='checkout_btn' type='submit'>Checkout</button>";
+//         		} else {
+//         		    echo "<br> Unable to checkout as you are not logged in!";
+//         		}
+//         	?>
       </form>
-      <!-- Footer start -->
-      <footer>
-         <div class="container-fluid padding">
-            <div class="row text-center">
-               <div class="col-md-4">
-                  <img src="images/websitelogo.png" alt="Website Logo" style="width: auto; height: 201px;">
-                  <hr class="light">
-                  <p>Temasek Polytechnic</p>
-                  <p>School of IIT</p>
-                  <p>21 Tampines Avenue 1, Singapore 529757</p>
-                  <p>Tampines, Singapore</p>
-               </div>
-               <div class="col-md-4">
-                  <br><br><br><br><br><br>
-                  <hr class="light">
-                  <h5>Contact Us</h5>
-                  <hr class="light">
-                  <p>+65 8123 4567</p>
-                  <p>1907446g@student.tp.edu.sg</p>
-                  <a href="#" class="fab fa-facebook"></a>
-                  <a href="#" class="fab fa-twitter"></a>
-                  <a href="#" class="fab fa-instagram"></a>
-               </div>
-               <div class="col-md-4">
-                  <br><br><br><br><br><br>
-                  <hr class="light">
-                  <h5>About</h5>
-                  <hr class="light">
-                  <p>Privacy Policy</p>
-                  <p>Terms and Conditions</p>
-               </div>
-               <div class="col-12">
-                  <hr class="light">
-                  <h5>&copy; Website Name</h5>
-               </div>
-            </div>
-         </div>
-      </footer>
-      <!-- Footer end -->
+      
    </body>
 </html>
