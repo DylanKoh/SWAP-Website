@@ -1,8 +1,12 @@
+<?php
+header("Content-Security-Policy: default-src 'self'");
+header("X-Frame-Options: DENY");
+?>
 <html>
     <head>
-    	<script src="https://kit.fontawesome.com/9d4359df6d.js"></script>
-    	<link rel="stylesheet" type="text/css" href="header.css">
-    	<link rel="stylesheet" type="text/css" href="storepage.css">
+    	<script src="css/kitfontawesome9d4359df6d.js"></script>
+    	<link rel="stylesheet" type="text/css" href="css/header.css">
+    	<link rel="stylesheet" type="text/css" href="css/storepage.css">
     	<title>Pentesters for Hire</title>
     </head>
 
@@ -13,24 +17,29 @@
         
         //Sessions
         
+        session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
         session_start();
         $_SESSION['provId'] ='1';
         $_SESSION['isProvider'] ='yes';
         $_SESSION['orderId']='1';
-        $_SESSION['userId']='1';
+        $_SESSION['userId']='3';
         $isProv = $_SESSION['isProvider'];
         
         ?>
         
 		<div class="webhead">
 			<a id="left">Hire a Pentester</a>	
-    			<input type="text" id="nav-search" placeholder="Search for Pentester">
-    			<button id="nav-sea-but" type="submit">Search</button>
+    			<div class='searchfield'>
+        			<form class='searchform' method='post' action='storeSearch.php'> 
+            			<input type="text" id="nav-search" name='search' placeholder="Search for Services">
+            			<button id="nav-sea-but" type="submit">Search</button>
+            		</form>
+            	</div>	
     		<div class="webhead-right">
         		<a href="index.php">Home</a>
         		<a href="">Explore</a>
         		<a href="about.php">About</a>
-        		<a class="nav-but" href="login.php">Login</a>
+        		<a class="nav-but" href="profilePage.php">Settings</a>
 			</div>
 		</div>
 		
@@ -82,7 +91,7 @@
                       <h2>Post A Service</h2>
                     </div>
                     
-                    <form action='StorePost.php' method='post' onsubmit='setTimeout(function(){window.location.reload();},10);'>
+                    <form action='StorePost.php' method='post'>
                         <div class="modal-body">
                         <a>
                               <label for='sName'><b>Service Name:</b></label> <br>
@@ -101,10 +110,16 @@
                            	<button class='post-ser' type="submit" >Post</button>
         </div></form></div></div>
 	</div>
+	
     </body>
     <style>
-    
-    </style>
+	.searchfield {
+	   margin-left: 10%;
+	   width: 400px;
+	   height: 100%;
+	   display: inline-block;
+	}
+	</style>
 	<script type="text/javascript">
 	
 		//Obtain the modal

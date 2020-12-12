@@ -1,8 +1,11 @@
 <?php
+header("Content-Security-Policy: default-src 'self'");
+
     //Connecting to Mysql Database
     include 'connection.php';
 
     //Sessions
+    session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
     session_start();
     
     $servId = $_POST['servId'];
@@ -25,7 +28,8 @@
             $query->bind_param('ssiii',$nameUpdate, $descUpdate, $priceUpdate, $servId, $provId); //bind the parameters
             if ($query->execute()){ //execute query
                 echo "Successfully editted";
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                echo "<script language='javascript'>;alert('Successfully editted!'); window.location.href = document.referrer;</script>";
+                //header('Location: ' . $_SERVER['HTTP_REFERER']);
                 exit();
             }
             else{
@@ -38,8 +42,8 @@
             $query = $conn->prepare("DELETE FROM services WHERE services.servicesId=$servId AND providersFkid=$provId");
             if ($query->execute()){ //execute query
                 echo "Successfully deleted";
-                // header!!
-                header('Location:localhost/Swapcasestudy/storePage.php');
+                echo "<script language='javascript'>;alert('Successfully deleted!'); window.location.href = 'storePage.php';</script>";
+                
             }
             else{
                 echo "Delete unsuccessful";

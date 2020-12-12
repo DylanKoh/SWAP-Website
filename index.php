@@ -1,15 +1,17 @@
 <?php
+header("Content-Security-Policy: default-src 'self'");
+header("X-Frame-Options: DENY");
 ?>
 <html>
    <head>
-      <script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
+      <script src="css/kitfontawesome9d4359df6d.js"></script>
       <!--bootstrap-->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js%22%3E"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="css/bootstrapcdn452.css">
+      <script src="css/ajaxgoogleapisajaxlibs351.js"></script>
+      <script src="css/cdnjscloudflareajaxpopper1160.js"></script>
+      <script src="css/bootstrapcdn452.js"></script>
    </head>
    <style>
       /* Header start */
@@ -81,7 +83,7 @@
       <header>
          <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
             <div class="container-fluid">
-               <a href="index.html" href="index.html"><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
+               <a href="index.php"><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                <span class="navbar-toggler-icon"></span>
                </button>
@@ -89,12 +91,6 @@
                   <ul class="navbar-nav ml-auto">
                      <li class="nav-item active">
                         <a class="nav-link">Home</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link">Post an Offer</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="storePage.php">Explore</a>
                      </li>
                      <li class="nav-item">
                         <a class="nav-link" href="createAccount.php">Sign Up</a>

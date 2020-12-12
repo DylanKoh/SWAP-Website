@@ -1,10 +1,14 @@
+<?php 
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("X-Frame-Options: DENY");
+?>
 <html>
 <head>
-      <script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
+      <script src="css/kitfontawesome9d4359df6d.js"></script>
       <!--bootstrap-->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/bootstrapcdn452.css">
    </head>
    <style>
       /* Header start */
@@ -69,7 +73,7 @@
       <header>
          <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
             <div class="container-fluid">
-               <a href="index.php" href="index.html"><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
+               <a href="index.php" ><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                <span class="navbar-toggler-icon"></span>
                </button>
@@ -113,6 +117,12 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'empty'){
 }
 elseif (isset($_GET['error']) && $_GET['error'] == 'notloggedin'){
     promptMessage('You have been redirected back as you were not logged in!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'sessionExpired'){
+    promptMessage('Your session has expired! Please re-login!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'invalidToken'){
+    promptMessage('Your token used is not valid! Please re-login!');
 }
 ?>
 

@@ -1,10 +1,14 @@
+<?php
+header("Content-Security-Policy: default-src 'self'");
+header("X-Frame-Options: DENY");
+?>
 <html>
 	<head>
 	<!-- linking all relevant css  --> 
-		<script src="https://kit.fontawesome.com/9d4359df6d.js"></script>
-    	<link rel="stylesheet" type="text/css" href="header.css">
-    	<link rel="stylesheet" type="text/css" href="storeIndiv.css">
-    	<link rel="stylesheet" type="text/css" href="storeIndiv1.css">
+		<script src="css/kitfontawesome9d4359df6d.js"></script>
+    	<link rel="stylesheet" type="text/css" href="css/header.css">
+    	<link rel="stylesheet" type="text/css" href="css/storeIndiv.css">
+    	<link rel="stylesheet" type="text/css" href="css/storeIndiv1.css">
     	<title></title>
 		<?php
         //Connecting to Mysql Database:
@@ -13,6 +17,7 @@
         $servId= $_GET['id'];
         
         //Session info
+        session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
         session_start();
         $provId = $_SESSION['provId'];
         $isProv = $_SESSION['isProvider'];
@@ -24,13 +29,17 @@
     	<!-- Web header for the website -->
         	<div class="webhead">
     			<a id="left">Hire a Pentester</a>	
-        			<input type="text" id="nav-search" placeholder="Search for Pentester">
-        			<button id="nav-sea-but" type="submit">Search</button>
+    			<div class='searchfield'>
+        			<form class='searchform' method='post' action='storeSearch.php'> 
+            			<input type="text" id="nav-search" name='search' placeholder="Search for Services">
+            			<button id="nav-sea-but" type="submit">Search</button>
+            		</form>
+            	</div>
         		<div class="webhead-right">
             		<a href="index.php">Home</a>
-            		<a href="http://localhost/Swapcasestudy/storePage.php">Explore</a>
+            		<a href="storePage.php">Explore</a>
             		<a href="about.php">About</a>
-            		<a class="nav-but" href="login.php">Login</a>
+            		<a class="nav-but" href="profilePage.php">Settings</a>
     			</div>
     		</div>
     		<?php 
@@ -66,7 +75,7 @@
             		$stmt->store_result();
             		$stmt->bind_result($serName, $serDesc, $serPrice);
             		while($stmt->fetch()){
-            		    echo"<form action='indivCrud.php' method='post' onsubmit='setTimeout(function(){window.location.reload();},10);'>";
+            		    echo"<form action='indivCrud.php' method='post'>";
                         echo"<div class='modal-body'>";
                         echo"<a><label for='sName'><b>Service Name:</b></label> <br>";
                         echo"<input id='name' type='text' placeholder='Enter service name' name='serName' value='$serName' required> <br></a>";
@@ -201,7 +210,14 @@
     		
     		
     </body>
-
+<style>
+.searchfield {
+margin-left: 10%;
+width: 400px;
+height: 100%;
+display: inline-block;
+}
+</style>
 
 
 <script type="text/javascript">

@@ -1,10 +1,14 @@
+<?php 
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'"); //Allows only script from this page to run, preventing XSS and clickjacking
+header("X-Frame-Options: DENY"); //Denys the use of <frame>, <iframe>, <embed> and <object> to protect clients from clickjacking
+?>
 <html>
 <head>
-      <script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
+      <script src="css/kitfontawesome9d4359df6d.js"></script>
       <!--bootstrap-->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/bootstrapcdn452.css">
    </head>
    <style>
       /* Header start */
@@ -69,7 +73,7 @@
       <header>
          <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
             <div class="container-fluid">
-               <a href="index.html" href="index.html"><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
+               <a href="index.php"><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                <span class="navbar-toggler-icon"></span>
                </button>
@@ -105,14 +109,20 @@
 </form>
 <?php 
 include_once 'alertMessageFunc.php';
-if (isset($_GET['error']) && $_GET['error'] == 'invalid'){
+if (isset($_GET['error']) && $_GET['error'] == 'invalid'){ //If return URL has an error that = 'invalid', prompt user with message
     promptMessage('Username or password is incorrect or does not exist!');
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'empty'){
+elseif (isset($_GET['error']) && $_GET['error'] == 'empty'){ //If return URL has an error that = 'empty', prompt user with message
     promptMessage('Please fill in fields of Username and Password!');
 }
-elseif (isset($_GET['error']) && $_GET['error'] == 'notloggedin'){
+elseif (isset($_GET['error']) && $_GET['error'] == 'notloggedin'){ //If return URL has an error that = 'notloggedin', prompt user with message
     promptMessage('You have been redirected back as you were not logged in!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'sessionExpired'){ //If return URL has an error that = 'sessionExpired', prompt user with message
+    promptMessage('Your session has expired! Please re-login!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'invalidToken'){ //If return URL has an error that = 'invalidToken', prompt user with message
+    promptMessage('Your token used is not valid! Please re-login!');
 }
 ?>
 

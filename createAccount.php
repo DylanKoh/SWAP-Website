@@ -1,10 +1,19 @@
+<?php 
+require_once 'sessionInitialise.php';
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("X-Frame-Options: DENY");
+$createAccountToken=hash('sha256', uniqid(rand(), TRUE));
+initialiseSessionVar('createAccountToken',$createAccountToken);
+initialiseSessionVar('createAccountTokenTime',time());
+
+?>
 <html>
 <head>
-      <script src="https://kit.fontawesome.com/9d4359df6d.js" crossorigin="anonymous"></script>
+      <script src="css/kitfontawesome9d4359df6d.js"></script>
       <!--bootstrap-->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/bootstrapcdn452.css">
    </head>
    <style>
       /* Header start */
@@ -65,6 +74,7 @@
       /* footer end */
    </style>
    <body>
+   
       <!-- Header start -->
       <header>
          <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
@@ -94,7 +104,20 @@
       </header>
 <body>
 <h1 align="center">Create a new Account</h1>
+<?php 
+   echo "<form action='createAccountDo.php' id='resubmitForm' method='post'>";
+   echo "<input hidden name='createAccountToken' value='$createAccountToken'>";
+   if (isset($_SESSION['googleSecret'])){
+       echo "<input type='submit' value='Redo 2FA verification' name='btnReSubmit'>";       
+       echo "</form>";
+       echo "<script type='text/javascript'>
+  document.getElementById('resubmitForm').submit();
+</script>";
+   }
+   
+?>
 <form action="createAccountDo.php" method="post">
+<input hidden name='createAccountToken' value="<?php echo $createAccountToken; ?>">
 <table>
 <tr><td>Full Name: </td><td><input inputmode="text" placeholder="Full Name" name="fullname" value="<?php 
 if (isset($_GET['fullname']))
@@ -136,13 +159,15 @@ elseif (isset($_GET['error']) && $_GET['error'] == 'passwordNoMatch'){
 elseif (isset($_GET['error']) && $_GET['error'] == 'emailTaken'){
     promptMessage('Email has already been taken! Please try using another email!');
 }
-elseif (isset($_GET['createAcc']) && $_GET['createAcc'] == 'success'){
-    promptMessage('Successfully created account!');
-}
 elseif (isset($_GET['error']) && $_GET['error'] == 'createErr'){
     promptMessage('There was an error creating an account, please try again later!');
 }
-    
+elseif (isset($_GET['error']) && $_GET['error'] == 'illegalCharacters'){
+    promptMessage('Please ensure fullname has only alphabetical characters! Username allows only alphabets, numbers and "_?!" characters!');
+}
+elseif (isset($_GET['error']) && $_GET['error'] == 'sessionExpired'){
+    promptMessage('Your session has expired! Please redo account creation!');
+}
 ?>
 
 

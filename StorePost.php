@@ -1,8 +1,12 @@
 <?php
+
+header("Content-Security-Policy: default-src 'self'");
+
     //Connecting to Mysql Database
     include 'connection.php';
     
     //Sessions
+    session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
     session_start();
     
     $name= $_POST['serName'];
@@ -19,16 +23,14 @@
         $query= $conn->prepare("INSERT INTO `services` (`serviceName`, `serviceDesc`, `providersFkid`, `price`) VALUES (?,?,?,?)");
         $query->bind_param('ssid', $name, $desc, $provId, $price); //bind the parameters
         if ($query->execute()){ //execute query
-            echo "<br>Successfully added!";
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit();
+            echo "<script language='javascript'>;alert('Posting of service is Successful!'); window.location.href = document.referrer;</script>";
         }else{
             echo "<br>Adding unsuccessful";
         }
     }
     
     else {
-        echo "<script language='javascript'>;alert('Please only add correct characters!');</script>";
+        echo "<script language='javascript'>;alert('Please only add correct characters!'); window.location.href = 'storePage.php';</script>";
     }
 
 ?>

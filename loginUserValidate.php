@@ -1,9 +1,14 @@
+<?php 
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("X-Frame-Options: DENY");
+?>
 <html>
 <body>
 <p>Please enter your 2FA code from the Google Authenticator Application</p>
 
 <form action="" method="post">
 Code: <input name="code" type="text"><br>
+<input hidden name='2FAToken' value="<?php echo $_POST["2FAToken"]?>">
 <?php
 if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
     echo "<p style='color: red;'>Incorrect code!</p>";
@@ -15,28 +20,59 @@ if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){
 </html>
 <?php
 require_once 'PHPGangsta/GoogleAuthenticator.php';
-session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE); //Sets session only visible in HTTPS
-session_start(); //Starts session
-require_once 'connection.php';
-if (isset($_SESSION['usersID'])){
-    if (isset($_POST['btnSubmit'])){
-        if (!empty($_POST['code'])){
-            $ga=new PHPGangsta_GoogleAuthenticator();
-            $userGSecret=$_SESSION['googleSecret'];
-            $keyedCode=$_POST['code'];
-            $isVerified=$ga->verifyCode($userGSecret, $keyedCode);
-            if ($isVerified){
-                header('Location:storePage.php');
-                exit();
+require_once 'sessionInitialise.php';
+require_once 'alertMessageFunc.php';
+if (isset($_SESSION['usersID'])){ //Checks if session value 'usersID' is set before running page
+    if (isset($_POST['2FAToken']) && $_POST['2FAToken'] == $_SESSION['2FAToken'])  //Check if token valid
+    {
+        $token2FAAge=time()-$_SESSION['2FATokenTime']; //Cacluate token age
+        if ($token2FAAge <= 180 ){ //If token age is still below to 3mins old, allow code logic to run
+            if (isset($_POST['btnSubmit'])){
+                if (!empty($_POST['code']) && preg_match('/^[0-9]{6}$/', $_POST['code'])){ //Check if code only have  6 numeric characters, if so, run
+                    $ga=new PHPGangsta_GoogleAuthenticator(); //Initialise the Google Authenticator class
+                    $userGSecret=$_SESSION['googleSecret'];
+                    $keyedCode=$_POST['code'];
+                    $isVerified=$ga->verifyCode($userGSecret, $keyedCode); //Create if user's googleSecret and inputted code corresponds with Google's generated code
+                    if ($isVerified){ //If user's code is verified, run code
+                        unsetVariable('2FAToken'); 
+                        unsetVariable('2FATokenTime');
+                        unsetVariable('googleSecret');
+                        $authToken=hash('sha256', uniqid(rand(), TRUE));
+                        initialiseSessionVar('authToken', $authToken);
+                        initialiseSessionVar('authTokenTime', time());
+                        echo "<form action='storePage.php' id='submitForm' method='post'>";
+                        echo "<input hidden name='authToken' value='$authToken'>";
+                        echo "</form>";
+                        echo "<script type='text/javascript'>document.getElementById('submitForm').submit();</script>";
+                        exit();
+                    }
+                    else{ //If user's code is incorrect, redirect user to same page with GET error message
+                        header('Location:loginUserValidate.php?error=incorrectcode');
+                        exit();
+                    }
+                    
+                }
+                else{ //If code contains illegal characters, prompt user with message and do not run verification
+                    promptMessage('Allowed code is only 6 numeric characters!');
+                }
             }
-            else{
-                header('Location:loginUserValidate.php?error=incorrectcode');
-                exit();
-            }
-        }    
+            
+        }
+        else{ //If session has expired, user is redirect back to login page with GET message. Session will be destroyed and a re-login is a must
+            destroySession();
+            header('Location:login.php?error=sessionExpired');
+            exit();
+        }
+        
+    }
+    else{ //If session is not valid, user is redirect back to login page with GET message. Session will be destroyed and a re-login is a must
+        destroySession();
+        header('Location:login.php?error=invalidToken');
+        exit();
     }
 }
-else{
+else{ //If user access page without a session with usersID value, user is redirect back to login page with GET message. Session will be destroyed and a re-login is a must
+    destroySession();
     header('Location:login.php?error=notloggedin');
     exit();
 }
