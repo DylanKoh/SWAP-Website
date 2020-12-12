@@ -1,6 +1,7 @@
 <?php
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
+include 'connection.php';
 require_once 'sessionInitialise.php';
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
     destroySession();
@@ -52,11 +53,6 @@ else{
       <link rel="stylesheet" type="text/css" href="css/header.css">
    </head>
    <body>
-      <?php 
-         //connect to db
-         include 'connection.php';
-         require_once 'sessionInitialise.php';
-         ?>
       <!-- Header start -->
         	<div class="webhead">
     			<a id="left">Hire a Pentester</a>	
