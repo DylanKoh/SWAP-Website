@@ -41,7 +41,7 @@ $hash_1 = $ga->createSecret(); //salt 1
 $hash_2 = $ga->createSecret(); //salt 2
 
 $hashedSecret = hash('sha256', $hash_1 . $pin);
-$secret = base64_encode(hash('sha256', $hash_2 . $hashedSecret));
+$secret = base64_encode(hash('sha256', $hashedSecret . $hash_2));
 
 
 if($noAdd) { //if the option to not save information to database is selected
@@ -110,15 +110,33 @@ if($noAdd) { //if the option to not save information to database is selected
     } else if(!preg_match('/^[0-9]{6}$/', $pin)) { //only allow 6 numbers in pin field
         ?><script>alert('invalid pin format'); window.location.href='checkout.php'</script> <?php
     } else {
+        //Prepare a query statement to update the user's credit card credentials
     $stmt=$conn->prepare("UPDATE sales SET creditCard=?, expiryDate=?, fourDigits=?, secret=?, hash_1=?, hash_2=? WHERE UsersFkid=?");
     $stmt->bind_param("isisssi", $creditCard, $expiryDate, $fourDigits, $secret, $hash_1, $hash_2, $userFkid); //updates these variables in the db
-    $res=$stmt->execute();
-    if($res) {
-        echo "Updated successfully!";
-    } else {
-        echo "Unable to update!";
+    
+    
+    $stmt1=$conn->prepare("SELECT * FROM sales WHERE usersFkid=?");
+    $stmt1->bind_param("i", $userFkid);
+    $stmt1->execute();
+    $stmt1->store_result();
+    $stmt1->bind_result($salesIda, $creditCarda, $expiryDatea, $fourDigitsa, $userFkida, $secreta, $hash_1a, $hash_2a);
+    while($stmt1->fetch()) {
+     $pin1 = $hash_1a . $pin;
+     $salt_1 = hash('sha256', $pin1);
+     $pin2 = $salt_1 . $hash_2a;
+     $salt_2 = hash('sha256', $pin2);
+     $confirmPin = base64_encode($salt_2);
+     if($confirmPin!=$secreta) {
+         ?><script>alert('pin does not match'); window.location.href='checkout.php'</script> <?php
+     } 
+     else if($stmt->execute()) {
+         echo "Updated successfully!";
+     } 
+     else {
+         echo "Unable to update!";
+     }
     }
-   }
+    }
 } else if($isDelete) {
     echo "<form action='checkoutDelete.php' method='post'><br>"; //form to ask the user to confirm the delete
     echo "Are you sure you want to delete your payment information, user " . $userFkid . "? <br><br>";
@@ -136,8 +154,4 @@ if($noAdd) { //if the option to not save information to database is selected
     echo "Card Number: **** " . $rfourDigits;
     }
 }
-
-
-
-
 ?>
