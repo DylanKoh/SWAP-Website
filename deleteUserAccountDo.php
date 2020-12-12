@@ -23,7 +23,7 @@ else{ //If an ID of sorts is assigned in the session variables
     }
     else{
         $authToken=$_POST['authToken'];
-        if (!verifyToken('deleteAccountToken', 300)){
+        if (!verifyToken('deleteAccountToken', 300)){ //If token is not valid
             unsetVariable('deleteAccountToken');
             unsetVariable('deleteAccountToken');
             echo "<form action='profilePage.php?error=errToken' id='returnForm' method='post'>";
@@ -32,8 +32,8 @@ else{ //If an ID of sorts is assigned in the session variables
             echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
             exit();
         }
-        else{
-            if (isset($_POST['btnYes'])){
+        else{ //If token is still valid
+            if (isset($_POST['btnYes'])){ //Check if user confirms to delete account
                 $deleteAccountToken=$_POST['deleteAccountToken'];
                 echo "<form action='deleteUserAccountDo.php' method='post'>";
                 echo "<input hidden name='authToken' value='$authToken'>";
@@ -42,11 +42,16 @@ else{ //If an ID of sorts is assigned in the session variables
                 echo "<input name='password' type='password'>";
                 echo "<input type='submit' name='btnVerifyPassword' value='Verify Password'>";
                 echo "</form>";
+                
+                echo "<form action='profile.php' method='post'>"; //Redirect to Profile Page if "Back" is clicked
+                echo "<input hidden name='authToken' value='$authToken'>";
+                echo "<input value='Back' type='submit'>";
+                echo "</form>";
                 exit();
             }
-            elseif (isset($_POST['btnVerifyPassword'])){
+            elseif (isset($_POST['btnVerifyPassword'])){ //Check when user click on verify password button when attempt to delete account
                 $password=$_POST['password'];
-                if (empty($password)){
+                if (empty($password)){ //If password field is empty
                     echo "<form action='deleteUserAccountDo.php?error=emptyfield' method='post'>";
                     echo "<input hidden name='authToken' value='$authToken'>";
                     echo "<input hidden name='deleteAccountToken' value='$deleteAccountToken'>";
@@ -54,17 +59,13 @@ else{ //If an ID of sorts is assigned in the session variables
                     echo "<script type='text/javascript'>document.getElementById('btnReturnForm').click();</script>";
                     echo "</form>";
                     exit();
-                    echo "<form action='profile.php' method='post'>"; //Redirect to Profile Page if "No" is clicked
-                    echo "<input hidden name='authToken' value='$authToken'>";
-                    echo "<input value='Back' type='submit'>";
-                    echo "</form>";
                 }
-                else{
+                else{ //If password field is not empty
                     $passwordCheck=$conn->prepare('SELECT password,salt_1,salt_2 FROM users WHERE usersId=?');
                     $passwordCheck->bind_param('s', $_SESSION['usersID']);
                     $passwordCheck->execute();
                     $passwordCheck->bind_result($correctPassword,$salt_1,$salt_2);
-                    if ($passwordCheck->fetch()){
+                    if ($passwordCheck->fetch()){ //If fetching of user's password is successful
                         $hash1=hash('sha256', $salt_1.$password);
                         $encodedFinalPassword=base64_encode(hash('sha256', $hash1.$salt_2));
                         if ($correctPassword!=$encodedFinalPassword){
