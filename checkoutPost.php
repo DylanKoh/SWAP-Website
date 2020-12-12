@@ -123,7 +123,7 @@ if($noAdd) {
     } else {
         echo "Unable to update!";
     }
-    }
+   }
 } else if($isDelete) {
     echo "<form action='checkoutDelete.php' method='post'><br>";
     echo "Are you sure you want to delete your payment information, user " . $userFkid . "? <br><br>";
@@ -131,7 +131,13 @@ if($noAdd) {
     echo "<input type='submit' value='Delete'>";
     echo "</form>";
 } else if($isExisting) {
-    
+    $stmt=$conn->prepare("SELECT usersFkid,fourDigits FROM sales WHERE usersFkid=?");
+    $stmt->bind_param("i", $userFkid);
+    $res=$stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($rUserFkid, $fourDigits);
+    echo "User ID: " . $userFkid . "<br>";
+    echo "Card Number: **** " . $fourDigits;
 }
 
 
