@@ -28,8 +28,7 @@ if (isset($_SESSION['providersID'])){ //Check if session variable 'providersID' 
         header('Location:providerLogin.php?error=errToken');
         exit();
     }
-    else{
-        
+    else{ //If token is valid
             if (isset($_POST['btnSubmit'])){
                 if (!empty($_POST['code']) && preg_match('/^[0-9]{6}$/', $_POST['code'])){
                     $ga=new PHPGangsta_GoogleAuthenticator();
