@@ -1,12 +1,14 @@
 <?php
 header("Content-Security-Policy: default-src 'self'");
 
-include 'connection.php';
-require_once 'sessionInitialise.php';
-$userFkid = $_SESSION['userID'];
+include 'connection.php'; //connect to db
+require_once 'sessionInitialise.php'; //start session
+if(isset($_SESSION['usersID'])){
+    $userFkid= $_SESSION['usersID'];
+}
 
-$stmt=$conn->prepare("DELETE FROM sales WHERE usersFkid=?");
-$stmt->bind_param("i", $_SESSION['userID']);
+$stmt=$conn->prepare("DELETE FROM sales WHERE usersFkid=?"); //deletes using userFkid
+$stmt->bind_param("i", $userFkid);
 $res=$stmt->execute();
 if($res) {
     echo "Deleted successfully!";
