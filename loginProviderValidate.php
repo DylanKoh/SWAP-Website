@@ -23,7 +23,7 @@ require_once 'PHPGangsta/GoogleAuthenticator.php'; //Require Google 2FA code
 require_once 'sessionInitialise.php'; //Require session initialisation
 require_once 'alertMessageFunc.php'; //Require alert function
 if (isset($_SESSION['providersID'])){ //Check if session variable 'providersID' is set. If so, user is validated and logged in and run code
-    if (!verfiyToken('2FAToken', 180)){ //Check if token not valid
+    if (!verifyToken('2FAToken', 180)){ //Check if token not valid
         destroySession();
         header('Location:providerLogin.php?error=errToken');
         exit();
