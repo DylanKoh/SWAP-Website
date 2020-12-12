@@ -103,12 +103,8 @@ require_once 'sessionInitialise.php'; //start session
             <br>
             <button name='checkout_btn' class='checkout_btn' type='submit'>Checkout</button> 
          <?php 
-//         		if ($isUser == 'yes') {
-//         		   echo"<button name='checkout_btn' class='checkout_btn' type='submit'>Checkout</button>";
-//         		} else {
-//         		    echo "<br> Unable to checkout as you are not logged in!";
-//         		}
-//         	?>
+  
+        	?>
       </form>
       
    </body>
