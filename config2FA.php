@@ -108,31 +108,13 @@ else{ //If an ID of sorts is assigned in the session variables
 				<input hidden name='authToken' value="<?php echo $authToken; ?>">
 				<input hidden name='resetPasswordToken' value="<?php echo $configure2FAToken; ?>">
     		</div>
+    		</form>
     		</div>
-    	</form>
-	
-	</div>
 		
 <?php 
 //Runs relevant prompt message to show user error
 require_once 'alertMessageFunc.php';
-if (isset($_GET['error']) && $_GET['error'] == 'emptyfields'){
-    promptMessage('Please fill in all of the fields!');
-}
-elseif (isset($_GET['error']) && $_GET['error'] == 'errToken'){
-    promptMessage('Token is unvalid or has timed out! Please retry resetting your password again!');
-}elseif (isset($_GET['error']) && $_GET['error'] == 'passwordWeak'){
-    promptMessage('Password must contain 1 upper, lower case, numeric and special character! No. of characters must be at least 8!');
-}
-elseif (isset($_GET['error']) && $_GET['error'] == 'passwordNoMatch'){
-    promptMessage('Please ensure that password matches!');
-}
-elseif (isset($_GET['error']) && $_GET['error'] == 'passwordIncorrect'){
-    promptMessage('Old password keyed in is incorrect!');
-}
-elseif (isset($_GET['error']) && $_GET['error'] == 'databaseErr'){
-    promptMessage('There was a database issue! Please try again later!');
-}
+
 ?>
 </body>
 
