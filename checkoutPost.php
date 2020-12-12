@@ -36,14 +36,12 @@ $expiryDate = htmlentities($_POST["expiryDate"]);
 $fourDigits = htmlentities($_POST["fourDigits"]);
 $fourDigitsCheck = substr($creditCard, -4);
 $pin = $_POST["paymentPin"];
-$textToHash = $creditCard . $expiryDate;
 
-$key = $pin;
-$hash_1 = $ga->createSecret();
-$hash_2 = $ga->createSecret();
+$hash_1 = $ga->createSecret(); //salt 1
+$hash_2 = $ga->createSecret(); //salt 2
 
-$hashedSecret = hash('sha256', $hash_1.$textToHash);
-$secret = base64_encode(hash('sha256', $hashedSecret.$hash_2));
+$hashedSecret = hash('sha256', $hash_1 . $pin);
+$secret = base64_encode(hash('sha256', $hash_2 . $hashedSecret));
 
 
 if($noAdd) { //if the option to not save information to database is selected
