@@ -9,7 +9,7 @@ if (!preg_match("/^[a-zA-Z0-9\s.,?!]*$/", $comments)) {
     $trueOrFalse= true;
 }
 
-//Requirements
+//Requirements:
 //include 'postOfferRegex';
 //      if($trueOrFalse == true) {
 //          return;
