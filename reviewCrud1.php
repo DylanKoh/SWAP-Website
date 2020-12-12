@@ -13,12 +13,12 @@ else{
         if ($sessionAge > 1200){
             if (isset($_SESSION['providersID'])){
                 destroySession();
-                header('Location:providerLogin.php?error=sessionExpired');
+                header('Location:providerLogin.php?error=errToken');
                 exit();
             }
             else{
                 destroySession();
-                header('Location:login.php?error=sessionExpired');
+                header('Location:login.php?error=errToken');
                 exit();
             }
         }
@@ -26,12 +26,12 @@ else{
     else{
         if (isset($_SESSION['providersID'])){
             destroySession();
-            header('Location:providerLogin.php?error=invalidToken');
+            header('Location:providerLogin.php?error=errToken');
             exit();
         }
         else{
             destroySession();
-            header('Location:login.php?error=invalidToken');
+            header('Location:login.php?error=errToken');
             exit();
         }
         

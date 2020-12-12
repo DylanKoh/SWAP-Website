@@ -67,7 +67,7 @@ if (isset($_SESSION['usersID'])){ //Checks if session value 'usersID' is set bef
     }
     else{ //If session is not valid, user is redirect back to login page with GET message. Session will be destroyed and a re-login is a must
         destroySession();
-        header('Location:login.php?error=invalidToken');
+        header('Location:login.php?error=errToken');
         exit();
     }
 }

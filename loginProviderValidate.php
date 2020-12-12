@@ -68,7 +68,7 @@ if (isset($_SESSION['providersID'])){ //Check if session variable 'providersID' 
     }
     else{ //If token is not valid, destroy session and a re-login is a must
         destroySession();
-        header('Location:providerLogin.php?error=invalidToken');
+        header('Location:providerLogin.php?error=errToken');
         exit();
     }
 }
