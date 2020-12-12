@@ -135,9 +135,11 @@ if($noAdd) {
     $stmt->bind_param("i", $userFkid);
     $res=$stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($rUserFkid, $fourDigits);
-    echo "User ID: " . $userFkid . "<br>";
-    echo "Card Number: **** " . $fourDigits;
+    $stmt->bind_result($rUserFkid, $rfourDigits);
+    while($stmt->fetch()) {
+    echo "User ID: " . $rUserFkid . "<br>";
+    echo "Card Number: **** " . $rfourDigits;
+    }
 }
 
 
