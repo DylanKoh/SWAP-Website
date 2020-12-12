@@ -84,14 +84,14 @@ else{
             $query = $conn->prepare("DELETE FROM services WHERE services.servicesId=$servId AND providersFkid=$provId");
             if ($query->execute()){ //execute query
                 promptMessage('Service has been successfully deleted!');
-                echo "<form action='storeIndiv.php?id=$servId' id='returnForm' method='post'>";
+                echo "<form action='storePage.php' id='returnForm' method='post'>";
                 echo "<input hidden name='authToken' value='$authToken'>";
                 echo "</form>";
                 echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
             }
             else{
                 promptMessage('Service has been unsuccessfully deleted!');
-                echo "<form action='storeIndiv.php?id=$servId' id='returnForm' method='post'>";
+                echo "<form action='storePage.php' id='returnForm' method='post'>";
                 echo "<input hidden name='authToken' value='$authToken'>";
                 echo "</form>";
                 echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
