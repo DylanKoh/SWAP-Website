@@ -21,7 +21,7 @@ else{ //If an ID of sorts is assigned in the session variables
             exit();
         }
     }
-    else{
+    else{ //If token is valid
         $authToken=$_POST['authToken'];
         $editProfileToken=hash('sha256', uniqid(rand(), TRUE));
         initialiseSessionVar('editProfileToken',$editProfileToken);
@@ -31,10 +31,10 @@ else{ //If an ID of sorts is assigned in the session variables
             $stmt->bind_param('i', $_SESSION['providersID']);
             $stmt->execute();
             $stmt->bind_result($username,$email,$name);
-            if ($stmt->fetch()){
+            if ($stmt->fetch()){ //If user data retrieval was successful
                 echo "Successfully retrieved user data!";
             }
-            else{
+            else{ //If user data retrieval was not successful
                 echo "There was an error retrieving user data!";
             }
         }
@@ -43,12 +43,16 @@ else{ //If an ID of sorts is assigned in the session variables
             $stmt->bind_param('i', $_SESSION['usersID']);
             $stmt->execute();
             $stmt->bind_result($username,$email,$name);
-            if ($stmt->fetch()){
+            if ($stmt->fetch()){ //If user data retrieval was successful
                 echo "Successfully retrieved user data!";
             }
-            else{
+            else{ //If user data retrieval was not successful
                 echo "There was an error retrieving user data!";
             }
+        }
+        if (isset($_SESSION['deleteAccountToken'])){ //Checks if unnecessary token for deleting account exist
+            unsetVariable('deleteAccountToken');
+            unsetVariable('deleteAccountTokenTime');
         }
         
     }
@@ -119,6 +123,16 @@ else{ //If an ID of sorts is assigned in the session variables
 	<input hidden name='authToken' value="<?php echo $authToken; ?>">
 	<button id='conf-but'>Configure 2FA</button><br>
 	</form>
+	<?php 
+	if (isset($_SESSION['usersID'])){
+	    echo "<form action='deleteUserAccount.php' method='post'>";
+	    echo "<input hidden name='authToken' value='$authToken'>";
+	    echo "<button id='conf-but'>Delete User Account</button><br>";
+	    echo "</form>";
+	}
+	
+	?>
+	
 	<form action="resetPassword.php" method="post">
 	<input hidden name='authToken' value="<?php echo $authToken; ?>">	
 	<button id='reset-but'>Reset password</button>

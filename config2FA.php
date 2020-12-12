@@ -121,7 +121,9 @@ else{ //If an ID of sorts is assigned in the session variables
 <?php 
 //Runs relevant prompt message to show user error
 require_once 'alertMessageFunc.php';
-
+if (isset($_GET['error']) && $_GET['error'] == 'errToken'){
+    promptMessage('Token is not valid or has expired! Please redo configuration of 2FA!');
+}
 ?>
 </body>
 
