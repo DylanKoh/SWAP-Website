@@ -3,8 +3,8 @@ include 'connection.php';
 
 session_start();
 print_r($_SESSION);
-$_SESSION['userid'] = 1;
-$_SESSION['providerid'] = 1; 
+$_SESSION['usersFkid'] = 1;
+$_SESSION['providersFkid'] = 1; 
 ?>
 
 <html>
@@ -43,22 +43,31 @@ $_SESSION['providerid'] = 1;
 <input type="submit" name="submit" value="submit">
 
 <?php
-if (isset($_POST['submit'])) {
-    $query=$conn->prepare("INSERT INTO `message`(`messageId`, `messageContent`, `usersFkid`, `providersFkid`, `isSending`, `isReceiving`) VALUES (?,?,?,?,?,?)");
-    $query->bind_param("isiiii",$messageId,$_POST["messageContent"],$_SESSION['userid'],$_SESSION['providerid'],$isSending,$isReceiving);
-    if ($query->execute()){
-        $print=$conn->prepare("SELECT messageContent FROM `message` where `messageContent`=?");
-        $print->bind_param("s",$_POST["messageContent"]);
-        $print->execute();
-        $print->bind_result($messageContent);
-        $print->fetch();
-        echo "<br>". htmlspecialchars($messageContent); //prevents script from running by just echoing script/XSS
-        //echo  "Insert successfully!";
-        echo $query->error;
-    }else {
-        echo "Unable to insert!";
+if (isset($_SESSION)){
+    if (isset($_POST['submit'])) {
+        if(!empty(htmlspecialchars($_POST['messageContent'])))
+    {
+            $query=$conn->prepare("INSERT INTO `message`(`messageId`, `messageContent`, `usersFkid`, `providersFkid`, `isSending`, `isReceiving`) VALUES (?,?,?,?,?,?)");
+            $query->bind_param("isiiii",$messageId,$_POST["messageContent"],$_SESSION['usersFkid'],$_SESSION['providersFkid'],$isSending,$isReceiving);
+            if ($query->execute()){
+                $print=$conn->prepare("SELECT messageContent FROM `message` where `usersFkid`=? AND `providersFkid`=? Order By `messageId` DESC");
+                $print->bind_param("ii",$_SESSION["usersFkid"],$_SESSION["providersFkid"]);
+                $print->execute();
+                $print->bind_result($messageContent);
+     
+                while($print->fetch()){
+                echo "<br>". htmlspecialchars($messageContent); //prevents script from running by just echoing script/XSS
+                }
+                echo $query->error;
+            }else {
+                echo "Unable to insert!";
+            }
+        }
     }
-  }
+    else
+    {
+        echo "Message cannot be empty<br>";
+    }
 ?>
 </form>
 <form action="CommunicationPage.php" method="post">
@@ -72,6 +81,9 @@ if (isset($_POST['delete'])){
     $delete->bind_result($messageContent);
     $delete->fetch();
     echo $delete->error;
+}
+}else{
+    die("Access Forbidden");
 }
 ?>
 </form>
