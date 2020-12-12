@@ -86,7 +86,7 @@ else{ //If an ID of sorts is assigned in the session variables
                 }
                 
             }
-            elseif (isset($_POST['btnResetYes'])){
+            elseif (isset($_POST['btnResetYes'])){ //If user agrees to reset 2FA config
                 $username=$_SESSION['username'];
                 $newGoogleQRUrl=$ga->getQRCodeGoogleUrl("SWAPWebsite ($username)", $_SESSION['googleSecret']);
                 //Redirect User to verify code
