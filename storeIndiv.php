@@ -198,7 +198,7 @@ else{
                             <img src='SwapImage/star-icon-16.png'> ($count)</p>";
             				echo"<div class='buttons'>";
                     		echo"<button class='chat'>Chat</button>";
-                    		echo"<form class='makeoffer' method='post' action='postOffer.php'>";
+                    		echo"<form class='makeoffer' method='post' action='userOffer.php'>";
                     		$offerToken=hash('sha256', uniqid(rand(), TRUE));     
                     		initialiseSessionVar('offerToken', $offerToken);     
                     		initialiseSessionVar('offerTokenTime', time());     

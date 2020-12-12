@@ -4,13 +4,9 @@ require_once 'sessionInitialise.php';
 //check connection to MySql database
 include 'connection.php';
 
-
-$_SESSION['usersID'] ='1';
+//Session variables
 $userID = $_SESSION['usersID'];
-
-
-//$servID = $_POST['serviceIDS'];
-$servID = '1';
+$servID = $_POST['serviceIDS'];
 
 
 ?>
