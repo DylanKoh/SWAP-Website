@@ -48,6 +48,7 @@ $servID = $_POST['serviceIDS'];
         			<h2>Available orders:</h2>
         			</div>
         			
+        			
     				<div class='completing-container'>
     				<h2>Pending orders to be completed:</h2>
 					</div>
@@ -60,7 +61,7 @@ $servID = $_POST['serviceIDS'];
 width:60%;
 height:80%;
 background-color:white;
-margin: 50px auto;
+margin:auto;
 }
 
 .providerbody .providerhead h1 {
@@ -70,25 +71,37 @@ font-size: 40px;
 border-bottom: 1px solid black;
 }
 
-.accept-container {
-display: inline-block;
-width: 50%;
-height: 60%;
-margin-top:2%;
-margin-left:2%;
-border:1px solid black;
-
-}
 .cover-contain{
 display:flex;
 height:100%;
 }
 
+.accept-container {
+display: inline-block;
+width: 50%;
+height: 100%;
+margin-top:2%;
+border:4px solid black;
+}
+
+.accept-container h2{
+border-bottom: 4px solid black;
+padding: 10px 0px;
+padding-left: 120px;
+}
+
+
 .completing-container{
 margin-top: 2%;
-margin-left:5%;
+margin-left: 0.5%;
 width:50%;
-height:400px;
-border:1px solid black;
+height:100%;
+border:4px solid black;
+}
+
+.completing-container h2{
+border-bottom: 4px solid black;
+padding: 10px 0px;
+padding-left: 50px;
 }
 </style>
