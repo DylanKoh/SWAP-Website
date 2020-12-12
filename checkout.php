@@ -1,6 +1,42 @@
-<?php 
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+<?php
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
+require_once 'sessionInitialise.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+    destroySession();
+    header('Location:login.php?error=notloggedin');
+    exit();
+}
+else{
+    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){
+        $sessionAge=time()-$_SESSION['authTokenTime'];
+        if ($sessionAge > 1200){
+            if (isset($_SESSION['providersID'])){
+                destroySession();
+                header('Location:providerLogin.php?error=sessionExpired');
+                exit();
+            }
+            else{
+                destroySession();
+                header('Location:login.php?error=sessionExpired');
+                exit();
+            }
+        }
+    }
+    else{
+        if (isset($_SESSION['providersID'])){
+            destroySession();
+            header('Location:providerLogin.php?error=invalidToken');
+            exit();
+        }
+        else{
+            destroySession();
+            header('Location:login.php?error=invalidToken');
+            exit();
+        }
+        
+    }
+}
 ?>
 <html>
    <head>
@@ -13,6 +49,7 @@ header("X-Frame-Options: DENY");
       <script src="css/cdnjscloudflareajaxpopper1160.js"></script>
       <script src="css/bootstrapcdn452.js"></script>
       <link rel="stylesheet" type="text/css" href="css/checkout.css">
+      <link rel="stylesheet" type="text/css" href="css/header.css">
    </head>
    <body>
       <?php 
@@ -21,38 +58,28 @@ header("X-Frame-Options: DENY");
          require_once 'sessionInitialise.php';
          ?>
       <!-- Header start -->
-      <header>
-         <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-            <div class="container-fluid">
-               <a href="index.html" href="index.html"><img src="images/websitelogo.png" alt="Website Logo" style="width: 80px; height: 80px;"></a>
-               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-               <span class="navbar-toggler-icon"></span>
-               </button>
-               <div class="collapse navbar-collapse" id="navbarResponsive">
-                  <ul class="navbar-nav ml-auto">
-                     <li class="nav-item active">
-                        <a class="nav-link">Home</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link">Post an Offer</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="storePage.php">Explore</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="createAccount.php">Sign Up</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                     </li>
-                  </ul>
-               </div>
-               <div class="dropdown" id="dropdown" style="visibility: hidden">
-                  <a class="dropbtn" id="loginAccess" style="color:#ddd;">Welcome User</a>
-               </div>
-            </div>
-         </nav>
-      </header>
+        	<div class="webhead">
+    			<a id="left">Hire a Pentester</a>	
+    			<div class='searchfield'>
+        			<form class='searchform' method='post' action='storeSearch.php'> 
+        				<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+            			<input type="text" id="nav-search" name='search' placeholder="Search for Services">
+            			<button id="nav-sea-but" type="submit">Search</button>
+            		</form>
+            	</div>
+        		<div class="webhead-right">
+        			<form class='navbar-button' action="storePage.php" method="post">
+                		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+                		<input type="submit" class="nav-but" value="Explore">
+            		</form>
+            		<form class='navbar-button' action="profilePage.php" method="post">
+            		<input hidden name='authToken' value="<?php echo $_POST['authToken']?>">
+            		<input type="submit" class="nav-but" value="Settings">
+            		</form>
+            		<a href="logout.php">Logout</a>
+    			</div>
+    		</div>
+
       <!-- Header end -->
       <form class="checkout" Action="checkoutPost.php" method="post">
          <div class="checkout_title">Checkout</div>
