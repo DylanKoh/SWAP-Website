@@ -22,6 +22,17 @@ else{
                 exit();
             }
         }
+        else{
+            if (isset($_POST['reviewToken']) && $_POST['reviewToken'] == $_SESSION['reviewToken']){
+                $reviewTokenAge=time()-$_SESSION['reviewTokenTime'];
+                if ($reviewTokenAge > 300){
+                    echo "<form action='storePage.php?err=timeout' id='returnForm' method='post'>";
+                    echo "<input hidden name='authToken' value='$authToken'>";
+                    echo "</form>";
+                    echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
+                }
+            }
+        }
     }
     else{
         if (isset($_SESSION['providersID'])){
@@ -36,6 +47,7 @@ else{
         }
         
     }
+    $authToken = $_POST['authToken'];
 }
     //Connecting to Mysql Database
     include 'connection.php';

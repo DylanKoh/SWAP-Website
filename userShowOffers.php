@@ -6,7 +6,6 @@ include 'connection.php';
 
 
 $orderId = $_SESSION['orderId'];
-echo $orderId
 
 ?>
 
@@ -85,7 +84,8 @@ echo $orderId
                 				echo"<label>Is it completed?</label>";
                 				echo"<input type='text' name='isComp' value=$isComplete readonly></div>";
                 				echo"<div class='cont-fields'>";
-                				echo"<button>Return to store page</button></div>";
+                				echo"<a href='/swapcasestudy/checkout.php'>";
+                				echo"<button checkout.php'>Checkout</button></a></div>";
             				echo"</div>";
                         }
                 			?>

@@ -36,6 +36,7 @@ else{
         }
         
     }
+    $authToken = $_POST['authToken'];
 }
 ?>
 <html>
@@ -128,6 +129,7 @@ else{
                         echo"<a><label for='sPrice'><b>Price of your service: </b></label> <br>";
                         echo"<input id='price' type='text' class='price' placeholder='Enter price of service' name='serPrice' value='$serPrice' required></a><br>";
                         echo"<input name='servId' value=$servId type='hidden'>";
+                        echo"<input hidden name='authToken' value='$authToken'>";
                         echo"<div class='but-serv'>";
                         echo"<button class='edit-ser' type='submit' name='updatebtn'>Edit</button>";
                         echo"<button class='dele-ser' type='submit' name='deletebtn'>Delete</button>";
@@ -165,6 +167,7 @@ else{
     				<h4>Leave a review</h4>
     				<?php 
     				echo"<form action='reviewCrud.php' method='post'>";
+    				echo"<input hidden name='authToken' value='$authToken'>";
     				$reviewToken=hash('sha256', uniqid(rand(), TRUE));     
     				initialiseSessionVar('reviewToken', $reviewToken);     
     				initialiseSessionVar('reviewTokenTime', time());    
@@ -197,7 +200,9 @@ else{
                             <img src='SwapImage/star-icon-16.png'>
                             <img src='SwapImage/star-icon-16.png'> ($count)</p>";
             				echo"<div class='buttons'>";
+            				echo"<form class='chat-form' method='post' action='communicationPage.php'>";
                     		echo"<button class='chat'>Chat</button>";
+                    		echo"</form>";
                     		echo"<form class='makeoffer' method='post' action='userOffer.php'>";
                     		$offerToken=hash('sha256', uniqid(rand(), TRUE));     
                     		initialiseSessionVar('offerToken', $offerToken);     
@@ -262,6 +267,8 @@ else{
                             echo"<button class='edit-rev' type='submit' name='revUpdateBtn'>Edit</button>";
                             echo"<button class='dele-rev' type='submit' name='revDeleteBtn'>Delete</button>";
                         	echo"<input id='revIds' name='reviewId' type='hidden'>";
+                        	echo"<input hidden name='authToken' value='$authToken'>";
+                        	echo"<input id='serv-revId' name='serv-revId' value=$servId type='hidden'>";
                         	echo"<a></a>";
                             echo"</div></div></form>";  
                 		?>

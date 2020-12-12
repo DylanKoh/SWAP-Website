@@ -142,6 +142,10 @@ border: 1px solid black;
 margin:5px 0px;
 font-size: 16px
 }
+.right-contain .prov-info .chat-form{
+	display: inline-block;
+}
+
 .right-contain .prov-info .makeoffer{
 	display: inline-block;
 }
