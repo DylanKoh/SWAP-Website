@@ -1,0 +1,100 @@
+ /* Header start */
+      .navbar {
+      padding: .8rem;
+      }
+      .navbar-nav li {
+      padding-right: 20px;
+      }
+      .nav-link {
+      font-size: 1.1em !important;
+      }
+      .form-inline input {
+      height: 34px;
+      width: 100px;
+      }
+      /* Header end */
+      @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i&display=swap");
+      .checkout * {
+      box-sizing: border-box;
+      line-height: 1.5;
+      }
+      .checkout_title {
+      font-size: 2em;
+      font-weight: 600;
+      padding: 10px;
+      }
+      .checkout_item {
+      display: flex;
+      flex-direction: column;
+      padding:10px;
+      }
+      .checkout_item > * {
+      align-self: flex-start;
+      }
+      .checkout_label {
+      font-weight: 600;
+      padding: 10px 0;
+      }
+      .checkout_input {
+      -webkit-appearance: none;
+      width: 100%;
+      max-width: 425px;
+      }
+      .checkout_input:focus {
+      background: #ffffff;
+      }
+      .checkout_input::placeholder {
+      color: #bbbbbb;
+      }
+      textarea.checkout_input {
+      resize: none;
+      min-height: 200px;
+      }
+      .checkout_btn {
+      font-family: "Source Sans Pro", sans-serif;
+      font-weight: 600;
+      font-size: 1.1em;
+      padding: 10px 16px;
+      margin: 10px 0;
+      color: #ffffff;
+      background: #14b64a;
+      border: 2px solid #0fa942;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      }
+      .checkout_btn:active {
+      background: #0fa942;
+      }
+      /* footer start */
+      .col-md-4 a {
+      font-size: 2.5em;
+      padding: 1em;
+      }
+      .fa-facebook {
+      color: #3b5998
+      }
+      .fa-twitter {
+      color: #00aced;
+      }
+      .fa-instagram {
+      color: #517fa4;
+      }
+      .fa-facebook:hover,
+      .fa-twitter:hover,
+      .fa-instagram:hover {
+      color: #d5d5d5;
+      text-decoration: none;
+      }
+      footer {
+      background-color: #3f3f3f;
+      color: #d5d5d5;
+      }
+      hr.light {
+      border-top: 1px solid #d5d5d5;
+      width: 75%;
+      }
+      p {
+      padding-left: 10px;
+      }
+      /* footer end */
