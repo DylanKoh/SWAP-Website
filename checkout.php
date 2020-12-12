@@ -1,9 +1,9 @@
 <?php
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
-include 'connection.php';
-require_once 'sessionInitialise.php';
-if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+include 'connection.php'; //connect to db
+require_once 'sessionInitialise.php'; //start session
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ 
     destroySession();
     header('Location:login.php?error=notloggedin');
     exit();
@@ -75,8 +75,7 @@ else{
             		<a href="logout.php">Logout</a>
     			</div>
     		</div>
-
-      <!-- Header end -->
+<!-- Header end -->
       <form class="checkout" Action="checkoutPost.php" method="post">
          <div class="checkout_title">Checkout</div>
          <div class="checkout_item">
