@@ -22,6 +22,7 @@ if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){ //If GET error 
 require_once 'PHPGangsta/GoogleAuthenticator.php'; //Require Google 2FA code
 require_once 'sessionInitialise.php'; //Require session initialisation
 require_once 'alertMessageFunc.php'; //Require alert function
+require_once 'validateToken.php';
 if (isset($_SESSION['providersID'])){ //Check if session variable 'providersID' is set. If so, user is validated and logged in and run code
     if (!verifyToken('2FAToken', 180)){ //Check if token not valid
         destroySession();
