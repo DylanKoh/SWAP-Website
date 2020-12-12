@@ -50,7 +50,7 @@ else{
     $descUpdate = $_POST['serDesc'];
     $provId = $_SESSION['providersID'];
     $priceUpdate = $_POST['serPrice'];
-
+    
     
     //Regular expression Patterns:
     $nameVal ='/^([0-9A-Za-z\s]+[!-]*)+$/';//To allow characters, numbers, spaces, exclamation marks and dashes.

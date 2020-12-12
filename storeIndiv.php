@@ -336,9 +336,7 @@ $stmt= $conn->prepare("SELECT providers.providersId FROM services
         }
         
         function saveRevIds(revId) {
-        alert(revId);
         var carddiv = document.getElementById("revcard"+revId);
-        alert(carddiv.innerHTML);
         var modalComments = document.getElementById("comments");
       	modalComments.innerHTML = carddiv.childNodes[3].innerHTML;
       	
