@@ -57,7 +57,6 @@ if($noAdd) {
     echo "Last 4 digits: " . $fourDigits . "<br>";
     echo "Your UserID: " . $userFkId . "<br>";
     echo "Hash: " . $secret . "<br>";
-    //echo "Decrypted Hash: " . $decSecret . "<br>";
     echo "Salt1: " . $hash_1 . "<br>";
     echo "Salt2: " . $hash_2 . "<br>";
     
