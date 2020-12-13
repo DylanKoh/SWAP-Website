@@ -37,6 +37,7 @@ else{
         }
         
     }
+    $authToken = $_POST['authToken'];
 }
 ?>
 <html>
