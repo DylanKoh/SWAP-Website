@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; img-src https://api.qrserver.com/v1/create-qr-code/; style-src 'self' 'unsafe-inline'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; img-src https://api.qrserver.com/v1/create-qr-code/; style-src 'self' 'unsafe-inline'"); 
 header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php'; //Initialise Session
 require 'connection.php';
@@ -74,7 +74,7 @@ else{ //If an ID of sorts is assigned in the session variables
                         }
                     }
                     
-                    else{
+                    else{ //If user 2FA is wrong
                         echo "<form action='commitConfig2FADo.php?error=invalidCode' method='post'>";
                         echo "<input hidden name='authToken' value='$authToken'>";
                         echo "<input hidden name='configure2FAToken' value='$configure2FAToken'>";
