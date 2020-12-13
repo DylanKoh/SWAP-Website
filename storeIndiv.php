@@ -214,6 +214,11 @@ else{
             				if(isset($_SESSION['usersID'])){
                 				echo"<div class='buttons'>";
                 				echo"<form class='chat-form' method='post' action='communicationPage.php'>";
+                				$commToken=hash('sha256', uniqid(rand(), TRUE));
+                				initialiseSessionVar('commToken', $commToken);
+                				initialiseSessionVar('commTokenTime', time());
+                				echo "<input hidden name='offerToken' value='$commToken'>";
+                				echo"<input hidden name='authToken' value='$authToken'>";
                         		echo"<button class='chat'>Chat</button>";
                         		echo"</form>";
                         		echo"<form class='makeoffer' method='post' action='userOffer.php'>";
