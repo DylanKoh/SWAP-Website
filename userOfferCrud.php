@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 
 require_once 'sessionInitialise.php';
@@ -72,19 +72,14 @@ else{
         $query= $conn->prepare("INSERT INTO `orders`(`customerFkid`, `isAccepted`, `comments`, `servicesFkid`, `isCompleted`) VALUES (?,?,?,?,?)");
         $query->bind_param('iisii', $userId, $isAcc, $comments, $servId, $isComp); //bind the parameters
         if ($query->execute()){ //execute query
-            promptMessage('Order creation successful');
-            echo "<form action='userOffer.php' id='returnForm' method='post'>";
-            echo "<input hidden name='authToken' value='$authToken'>";
-            echo"<input type='hidden' name='serviceIDS' value='$servID'>";
-            echo "</form>";
-            echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";;
+            echo "Order Successful";
         }else{
             promptMessage('Order creation unsuccessful');
-            echo "<form action='userOffer.php' id='returnForm' method='post'>";
+            echo "<form action='userOffer.php' id='returnForms' method='post'>";
             echo "<input hidden name='authToken' value='$authToken'>";
             echo"<input type='hidden' name='serviceIDS' value='$servID'>";
             echo "</form>";
-            echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";;
+            echo "<script type='text/javascript'>document.getElementById('returnForms').submit();</script>";
         }
     }
     
@@ -93,10 +88,13 @@ else{
         $stmt->store_result();
         $stmt->bind_result($orderId);
         while($stmt->fetch()){ //execute query
-            echo "$orderId";
             $_SESSION['orderId'] = $orderId;
-            header('Location: userShowOffers.php');
-            exit;
+            promptMessage('Order creation successful');
+            echo "<form action='userShowOffers.php' id='returnForms' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo"<input type='hidden' name='serviceIDS' value='$servID'>";
+            echo "</form>";
+            echo "<script type='text/javascript'>document.getElementById('returnForms').submit();</script>";
         }
 
         
