@@ -21,7 +21,7 @@ else{ //If an ID of sorts is assigned in the session variables
     }
     else{
         $authToken=$_POST['authToken'];
-        if (!verifyToken('commToken', 600)){
+        if (!verifyToken('commToken', 600)){ //Checks comms token
             unsetVariable('commToken');
             unsetVariable('commToken');
             echo "<form action='storePage.php?error=commTimeout' id='returnForm' method='post'>";
