@@ -37,7 +37,7 @@ else{
             if (!verifyToken('checkoutToken',300)){
                 unsetVariable('checkoutToken');
                 unsetVariable('checkoutTokenTime');
-                echo "<form action='storePage.php' method='post' id='returnForm'>";
+                echo "<form action='storePage.php?error=checkoutTimeout' method='post' id='returnForm'>";
                 echo "<input hidden name='authToken' value='$authToken'>";
                 echo "</form>";
                 echo "<script>document.getElementById('returnForm').submit();</script>";
