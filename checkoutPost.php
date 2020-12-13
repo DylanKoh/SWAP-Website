@@ -7,6 +7,10 @@ $ga = new PHPGangsta_GoogleAuthenticator();
 //start session
 require_once 'sessionInitialise.php';
 
+// if (isset($_SESSION['usersID'])) {
+//     $userFkid = $_SESSION['usersID'];
+// }
+
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
     destroySession();
     header('Location:login.php?error=notloggedin');
@@ -206,7 +210,9 @@ else if ($isExisting) { //if the existing card option is selected
         $salt_2     = hash('sha256', $pin2); //hash $pin2
         $confirmPin = base64_encode($salt_2); //encode hash of $pin2 using base64
         if ($confirmPin != $secreta) { //check if stored pin = user inputted pin
-?><script>alert('pin does not match'); window.location.href='checkout.php'</script> <?php
+
+echo "$confirmPin"."<br>";
+echo "$secreta";
         }
         else if ($stmt->execute()) { //executes sql query statement
 ?>
