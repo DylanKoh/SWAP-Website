@@ -47,7 +47,10 @@ else{
 
 //check connection to MySql database
 include 'connection.php';
-
+include 'postOfferRegex.php'; //link to regex for the comments
+if($trueOrFalse == true) {
+    return;
+}
 
 $comments= htmlentities($_POST['orderCom']);
 $servId = htmlentities($_POST['servId']);
