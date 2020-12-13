@@ -3,10 +3,16 @@ header("Content-Security-Policy:default-src 'self'");
 header("X-Frame-Options: DENY");
 
 include 'connection.php';
+require_once 'sessionInitialise.php'; //start session
 
-session_start();
-$_SESSION['usersFkid'] = 1;
-$_SESSION['providersFkid'] = 1; 
+if (isset($_SESSION['usersID'])) {
+    $userFkid = $_SESSION['usersID'];
+}
+
+if (isset($_SESSION['providersID'])) {
+    $providersFkid = $_SESSION['providersID'];
+}
+
 $_SESSION['isSending'] = 1;
 $_SESSION['isReceiving'] = 1;
 ?>
