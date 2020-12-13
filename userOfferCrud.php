@@ -68,7 +68,7 @@ else{
     echo "<input hidden name='authToken' value='$authToken'>";
     echo"<input type='hidden' name='serviceIDS' value='$servID'>";
     echo "</form>";
-    echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";;
+    echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
 }
 
     if(isset($confirmation)){

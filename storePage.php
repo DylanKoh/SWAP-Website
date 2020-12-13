@@ -193,5 +193,8 @@ if(isset($_GET['err']) && ($_GET['err'] == 'timeout')){
 elseif(isset($_GET['err']) && ($_GET['err'] == 'checkoutTimeout')){
     promptMessage('Checkout Timeout');
 }
+elseif(isset($_GET['err']) && ($_GET['err'] == 'commTimeout')){
+    promptMessage('Communication Timeout');
+}
 
 ?>

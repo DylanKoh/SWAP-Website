@@ -25,7 +25,7 @@ else{ //If an ID of sorts is assigned in the session variables
     }
     else{
         $authToken=$_POST['authToken'];
-        if (!verifyToken('configure2FAToken', 300)){
+        if (!verifyToken('configure2FAToken', 300)){ //Checks if 2FA token is not valid
             unsetVariable('configure2FAToken');
             unsetVariable('configure2FATokenTime');
             echo "<form action='config2FA.php?error=errToken' id='returnForm' method='post'>";
@@ -33,12 +33,12 @@ else{ //If an ID of sorts is assigned in the session variables
             echo "</form>";
             echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
         }
-        else{
-            $codePattern='/^[0-9]{6}$/';
+        else{ //If 2FA token is still valid
+            $codePattern='/^[0-9]{6}$/'; //RegEx pattern for 2FA code
             $configure2FAToken=$_POST['configure2FAToken'];
             if (isset($_POST['btnVerify'])){
                 $code=$_POST['code'];
-                if (!preg_match($codePattern, $code)){
+                if (!preg_match($codePattern, $code)){ //If keyed code do not match RegEx pattern
                     echo "<form action='commitConfig2FADo.php?error=invalidCharacters' method='post'>";
                     echo "<input hidden name='authToken' value='$authToken'>";
                     echo "<input hidden name='configure2FAToken' value='$configure2FAToken'>";
@@ -49,25 +49,25 @@ else{ //If an ID of sorts is assigned in the session variables
                 }
                 else{
                     $isVerified=$ga->verifyCode($_SESSION['googleSecret'], $code);
-                    if ($isVerified){
-                        if (isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+                    if ($isVerified){ //If user 2FA verifies
+                        if (isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ //If user is a Customer
                             $stmt=$conn->prepare('UPDATE users SET googleSecret=? where usersId=?');
                             $stmt->bind_param('ss', $_SESSION['googleSecret'],$_SESSION['usersID']);
-                            if ($stmt->execute()){
+                            if ($stmt->execute()){ //If setting 2FA config successful
                                 echo 'Successfully set 2FA configuration!<br>';
                             }
-                            else{
+                            else{ //If setting 2FA config not successful
                                 echo "There was an issue setting 2FA configuration!<br>";
                             }
                             $stmt->close();
                         }
-                        elseif (!isset($_SESSION['usersID']) && isset($_SESSION['providersID'])){
+                        elseif (!isset($_SESSION['usersID']) && isset($_SESSION['providersID'])){ //If user is a Provider
                             $stmt=$conn->prepare('UPDATE providers SET googleSecret=? where providersId=?');
                             $stmt->bind_param('ss', $_SESSION['googleSecret'],$_SESSION['providersID']);
-                            if ($stmt->execute()){
+                            if ($stmt->execute()){ //If setting 2FA config successful
                                 echo 'Successfully set 2FA configuration!<br>';
                             }
-                            else{
+                            else{ //If setting 2FA config not successful
                                 echo "There was an issue setting 2FA configuration!<br>";
                             }
                             $stmt->close();
@@ -98,10 +98,10 @@ else{ //If an ID of sorts is assigned in the session variables
                 echo "<input hidden name='configure2FAToken' value='$configure2FAToken'>";
                 echo "<input type='submit' name='btnVerify' value='Verify Code'>";
                 echo "</form>";
-                if (isset($_GET['error']) && $_GET['error'] == 'invalidCode'){
+                if (isset($_GET['error']) && $_GET['error'] == 'invalidCode'){ //If error message = 'invalidCode'
                     echo "<p style='color: red;'>Incorrect code!</p>";
                 }
-                elseif (isset($_GET['error']) && $_GET['error'] == 'invalidCharacters'){
+                elseif (isset($_GET['error']) && $_GET['error'] == 'invalidCharacters'){ //If error message = 'invalidCharacters'
                     echo "<p style='color: red;'>Code consist of only 6 numerical characters!</p>";
                 }
                 //Redirect User back to Config 2FA page
