@@ -1,9 +1,12 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
-header("X-Frame-Options: DENY");
+
 require_once 'sessionInitialise.php';
+if (!isset($_SESSION['usersID'])){ //Check if token for creating account is not valid
+    header('HTTP/1.0 403 Forbidden');
+    exit();
+}
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
     destroySession();
     header('Location:login.php?error=notloggedin');
@@ -43,6 +46,11 @@ else{
 
 //check connection to MySql database
 include 'connection.php';
+include 'postOfferRegex.php'; //link to regex for the comments
+if($trueOrFalse == true) {
+    return;
+}
+
 
 $comments= htmlentities($_POST['orderCom']);
 $servId = htmlentities($_POST['servId']);
@@ -55,7 +63,12 @@ if(isset($_POST['checkbox'])){
 $confirmation = $_POST['checkbox'];
 }
 else{
-    echo "<script language='javascript'>;alert('Please confirm your order.'); window.location.href = document.referrer;</script>";
+    promptMessage('Please confirm your order.');
+    echo "<form action='userOffer.php' id='returnForm' method='post'>";
+    echo "<input hidden name='authToken' value='$authToken'>";
+    echo"<input type='hidden' name='serviceIDS' value='$servID'>";
+    echo "</form>";
+    echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";;
 }
 
     if(isset($confirmation)){
@@ -63,9 +76,14 @@ else{
         $query= $conn->prepare("INSERT INTO `orders`(`customerFkid`, `isAccepted`, `comments`, `servicesFkid`, `isCompleted`) VALUES (?,?,?,?,?)");
         $query->bind_param('iisii', $userId, $isAcc, $comments, $servId, $isComp); //bind the parameters
         if ($query->execute()){ //execute query
-            echo "<br>Successfully added!<br>" ;
+            echo "Order Successful";
         }else{
-            echo "<br>Adding unsuccessful";
+            promptMessage('Order creation unsuccessful');
+            echo "<form action='userOffer.php' id='returnForms' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo"<input type='hidden' name='serviceIDS' value='$servID'>";
+            echo "</form>";
+            echo "<script type='text/javascript'>document.getElementById('returnForms').submit();</script>";
         }
     }
     
@@ -74,11 +92,13 @@ else{
         $stmt->store_result();
         $stmt->bind_result($orderId);
         while($stmt->fetch()){ //execute query
-            echo "$orderId";
             $_SESSION['orderId'] = $orderId;
-            echo $_SESSION['orderId'];
-            header('Location: userShowOffers.php');
-            exit;
+            promptMessage('Order creation successful');
+            echo "<form action='userShowOffers.php' id='returnForms' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo"<input type='hidden' name='serviceIDS' value='$servID'>";
+            echo "</form>";
+            echo "<script type='text/javascript'>document.getElementById('returnForms').submit();</script>";
         }
 
         

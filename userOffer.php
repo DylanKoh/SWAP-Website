@@ -1,7 +1,8 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php';
+
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
     destroySession();
     header('Location:login.php?error=notloggedin');
