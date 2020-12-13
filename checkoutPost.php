@@ -2,6 +2,7 @@
 
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
 require_once 'PHPGangsta/GoogleAuthenticator.php';
+require_once 'alertMessageFunc.php';
 $ga = new PHPGangsta_GoogleAuthenticator();
 
 //start session
@@ -42,7 +43,8 @@ else{
                 echo "</form>";
                 echo "<script>document.getElementById('returnForm').submit();</script>";
                 exit();
-            }
+            } 
+            $checkoutToken = $_POST['checkoutToken'];
         }
     }
     else{
@@ -110,56 +112,163 @@ if ($noAdd) { //if the option to not save information to database is selected
     $checkId = $conn->query("SELECT * FROM sales WHERE usersFkid='$userFkid'"); //check if that user already has a card saved in the database
     
     if ($checkId->num_rows > 0) { //check for existing card
-        ?><script>alert('Existing card already tied to this account'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=existingCard' method='post' id='existingCard'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('existingCard').submit();</script>";
+        exit();
     } else if (empty($creditCard)) { //check for empty credit card field
-?><script>alert('Credit card field is blank'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=emptyCard' method='post' id='emptyCard'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('emptyCard').submit();</script>";
+        exit();
     } else if (!preg_match('/^[0-9]{15,16}$/', $creditCard)) { //only allow numbers in credit card field
-?><script>alert('Invalid credit card format'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=wrongCard' method='post' id='wrongCard'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('wrongCard').submit();</script>";
+        exit();
     } else if (empty($expiryDate)) { //check for empty expiry date field
-?><script>alert('Expiry date field blank'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=emptyDate' method='post' id='emptyDate'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('emptyDate').submit();</script>";
+        exit();
     } else if (!preg_match('/^\d{2}\/\d{2}$/', $expiryDate)) { //only allow __/__ format in expiry date field
-?><script>alert('Invalid date format'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=wrongDate' method='post' id='wrongDate'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('wrongDate').submit();</script>";
+        exit();
     } else if (empty($fourDigits)) { //check for empty four digit field
-?><script>alert('Four digits field blank'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=blankFour' method='post' id='blankFour'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('blankFour').submit();</script>";
+        exit();
     } else if (!preg_match('/^[0-9]{4}$/', $fourDigits)) { //only allow 4 numbers in four digit field
-?><script>alert('Invalid four digits format'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=wrongFour' method='post' id='wrongFour'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('wrongFour').submit();</script>";
+        exit();
     } else if ($fourDigits != $fourDigitsCheck) { //check if four digit and credit card match
-?><script>alert('Last four digits do not match credit card number'); window.location.href='checkout.php'</script><?php
+        echo "<form action='checkout.php?error=matchFour' method='post' id='matchFour'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('matchFour').submit();</script>";
+        exit();
     } else if (empty($pin)) { //check for empty pin field
-?><script>alert('Pin field blank'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=blankPin' method='post' id='blankPin'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('blankPin').submit();</script>";
+        exit();
     } else if (!preg_match('/^[0-9]{6}$/', $pin)) { //only allow 6 numbers in pin field
-?><script>alert('invalid pin format'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=wrongPin' method='post' id='wrongPin'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('wrongPin').submit();</script>";
+        exit();
     } else {
         $stmt = $conn->prepare("INSERT INTO `sales` (`creditCard`, `expiryDate`, `fourDigits`, `usersFkid`, `secret`, `hash_1`, `hash_2`) VALUES (?,?,?,?,?,?,?)"); //sql query statement to add the users payment information 
         $stmt->bind_param("isiisss", $creditCard, $expiryDate, $fourDigits, $userFkid, $secret, $hash_1, $hash_2); //inserts these variables into the db
         $res = $stmt->execute(); //executes sql query statement
         if ($res) {
-?><script>alert('Payment information successfully saved. Payment successful'); window.location.href='checkout.php'</script> <?php
+            echo "<form id='checkout' class='checkout' Action='storePage.php' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo "<input hidden value='$checkoutToken' name='checkoutToken'>";
+            echo "Payment information has been saved.<br>";
+            echo "User ID: " . $userFkid ."<br>";
+            echo "Card Number: **** **** **** " . $fourDigits ."<br>";
+            echo "Expiry Date: " . $expiryDate ."<br>";
+            echo "<button value='submit'>Confirm Payment</button><br>";
+            echo "</form>";
         } else {
-?><script>alert('Unable to save payment information. Payment failed'); window.location.href='checkout.php'</script> <?php
+            echo "<form action='checkout.php?error=paymentFailed' method='post' id='paymentFailed'>";
+            echo"<input hidden value='$authToken' name='authToken'>";
+            echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+            echo"</form>";
+            echo "<script>document.getElementById('paymentFailed').submit();</script>";
+            exit();
         }
-    }
-    
-} else if ($isUpdate) {
+      }
+    } else if ($isUpdate) {
     /*Update Fuction*/
     if (empty($creditCard)) { //check for empty credit card field
-?><script>alert('Credit card field blank'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=emptyCard' method='post' id='emptyCard'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('emptyCard').submit();</script>";
+        exit();
     } else if (!preg_match('/^[0-9]{15,16}$/', $creditCard)) { //only allow numbers in credit card field
-?><script>alert('Invalid credit card format'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=wrongCard' method='post' id='wrongCard'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('wrongCard').submit();</script>";
+        exit();
     } else if (empty($expiryDate)) { //check for empty expiry date field
-?><script>alert('Expiry date field blank'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=emptyDate' method='post' id='emptyDate'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('emptyDate').submit();</script>";
+        exit();
     } else if (!preg_match('/^\d{2}\/\d{2}$/', $expiryDate)) { //only allow __/__ format in expiry date field
-?><script>alert('Invalid date format'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=wrongDate' method='post' id='wrongDate'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('wrongDate').submit();</script>";
+        exit();
     } else if (empty($fourDigits)) { //check for empty four digit field
-?><script>alert('Four digits field blank'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=blankFour' method='post' id='blankFour'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('blankFour').submit();</script>";
+        exit();
     } else if (!preg_match('/^[0-9]{4}$/', $fourDigits)) { //only allow 4 numbers in four digit field
-?><script>alert('Invalid four digits format'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=wrongFour' method='post' id='wrongFour'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('wrongFour').submit();</script>";
+        exit();
     } else if ($fourDigits != $fourDigitsCheck) { //check if four digit and credit card match
-?><script>alert('Last four digits do not match credit card number'); window.location.href='checkout.php'</script><?php
+        echo "<form action='checkout.php?error=matchFour' method='post' id='matchFour'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('matchFour').submit();</script>";
+        exit();
     } else if (empty($pin)) { //check for empty pin field
-?><script>alert('Pin field blank'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=blankPin' method='post' id='blankPin'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('blankPin').submit();</script>";
+        exit();
     } else if (!preg_match('/^[0-9]{6}$/', $pin)) { //only allow 6 numbers in pin field
-?><script>alert('Invalid pin format'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=wrongPin' method='post' id='wrongPin'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('wrongPin').submit();</script>";
+        exit();
     } else {
         
         $stmt = $conn->prepare("UPDATE sales SET creditCard=?, expiryDate=?, fourDigits=?, secret=?, hash_1=?, hash_2=? WHERE UsersFkid=?"); //sql query statement to update the user's payment information
@@ -178,11 +287,26 @@ if ($noAdd) { //if the option to not save information to database is selected
             $salt_2     = hash('sha256', $pin2); //hash $pin2
             $confirmPin = base64_encode($salt_2); //encode hash of $pin2 using base64
             if ($confirmPin != $secreta) { //check if stored pin = user inputted pin
-?><script>alert('pin does not match'); window.location.href='checkout.php'</script> <?php
+                echo "<form action='checkout.php?error=matchPin' method='post' id='matchPin'>";
+                echo"<input hidden value='$authToken' name='authToken'>";
+                echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+                echo"</form>";
+                echo "<script>document.getElementById('matchPin').submit();</script>";
+                exit();
             } else if ($stmt->execute()) { //executes sql query statement
-?><script>alert('Updated successfully'); window.location.href='checkout.php'</script> <?php
-            } else {
-?><script>alert('Unable to update'); window.location.href='checkout.php'</script> <?php
+                echo "<form id='checkout' class='checkout' Action='checkout.php' method='post'>";
+                echo "<input hidden value='$authToken' name='authToken'>";
+                echo "<input hidden value='$checkoutToken' name='checkoutToken'>";
+                echo "Payment information has been successfully updated.<br>";
+                echo "<button value='submit'>Back to Payment?</button><br>";
+                echo "</form>";
+            } else { //if update fails
+                echo "<form action='checkout.php?error=updateFailed' method='post' id='updateFailed'>";
+                echo"<input hidden value='$authToken' name='authToken'>";
+                echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+                echo"</form>";
+                echo "<script>document.getElementById('updateFailed').submit();</script>";
+                exit();
             }
         }
     }
@@ -199,16 +323,28 @@ if ($noAdd) { //if the option to not save information to database is selected
     $salt_2     = hash('sha256', $pin2); //hash $pin2
     $confirmPin = base64_encode($salt_2); //encode hash of $pin2 using base64
     if ($confirmPin != $secreta) { //check if stored pin = user inputted pin
-        ?><script>alert('pin does not match'); window.location.href='checkout.php'</script> <?php
+        echo "<form action='checkout.php?error=matchPin' method='post' id='matchPin'>";
+        echo"<input hidden value='$authToken' name='authToken'>";
+        echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+        echo"</form>";
+        echo "<script>document.getElementById('matchPin').submit();</script>";
+        exit();
         }
       else if ($stmt->execute()) { //executes sql query statement
     echo "<form action='checkoutDelete.php' method='post'><br>"; //form to ask the user to confirm the delete
+    echo"<input hidden value='$authToken' name='authToken'>";
+    echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
     echo "Are you sure you want to delete your payment information, user " . $userFkid . "? <br><br>";
     echo "<input type='hidden' name='userFkid' value='" . $creditCard . "'>";
     echo "<input type='submit' value='Delete'>";
     echo "</form>";
       } else {
-          ?><script>alert('Unable to delete payment information'); window.location.href='checkout.php'</script> <?php
+          echo "<form action='checkout.php?error=deleteFailed' method='post' id='deleteFailed'>";
+          echo"<input hidden value='$authToken' name='authToken'>";
+          echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+          echo"</form>";
+          echo "<script>document.getElementById('deleteFailed').submit();</script>";
+          exit();
       }
 }
 
@@ -225,20 +361,32 @@ else if ($isExisting) { //if the existing card option is selected
         $salt_2     = hash('sha256', $pin2); //hash $pin2
         $confirmPin = base64_encode($salt_2); //encode hash of $pin2 using base64
         if ($confirmPin != $secreta) { //check if stored pin = user inputted pin
+            echo "<form action='checkout.php?error=matchPin' method='post' id='matchPin'>";
+            echo"<input hidden value='$authToken' name='authToken'>";
+            echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+            echo"</form>";
+            echo "<script>document.getElementById('matchPin').submit();</script>";
+            exit();
         }
         else if ($confirmPin == $secreta) { //executes sql query statement
             
             echo "<form id='checkout' class='checkout' Action='storePage.php' method='post'>";
             echo "<input hidden name='authToken' value='$authToken'>";
-            echo "User ID: " . $userFkida;
-            echo "Card Number: **** **** **** " . $fourDigitsa;
-            echo "Expiry Date: " . $expiryDatea;
+            echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+            echo "User ID: " . $userFkida ."<br>";
+            echo "Card Number: **** **** **** " . $fourDigitsa ."<br>";
+            echo "Expiry Date: " . $expiryDatea ."<br>";
             echo "<button value='submit'>Confirm Payment</button>";
             echo "</form>";
         }
        
  } else {
-        ?><script>alert('Unable to retrieve payment information'); window.location.href='checkout.php'</script> <?php
+     echo "<form action='checkout.php?error=existingFailed' method='post' id='existingFailed'>";
+     echo"<input hidden value='$authToken' name='authToken'>";
+     echo"<input hidden value='$checkoutToken' name='checkoutToken'>";
+     echo"</form>";
+     echo "<script>document.getElementById('existingFailed').submit();</script>";
+     exit();
         }
 }
 ?>
