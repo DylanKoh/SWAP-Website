@@ -3,7 +3,6 @@ header("Content-Security-Policy:default-src 'self'");
 header("X-Frame-Options: DENY");
 
 include 'connection.php';
-require_once 'sessionInitialise.php'; //start session
 
 session_start();
 $_SESSION['usersFkid'] = 1;
