@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php';
 if (!isset($_SESSION['usersID'])){ //Check if token for creating account is not valid
@@ -55,7 +55,7 @@ $orderId = $_SESSION['orderId'];
     <head>
     	<!-- linking all relevant css  -->
         <link rel="stylesheet" type="text/css" href="css/header.css">
-        <link rel="stylesheet" type="text/css" href="css/userShowOffer.css">
+        <link rel="stylesheet" type="text/css" href="css/userShowOffers.css">
     	<title></title>
     </head>
     <body>

@@ -53,7 +53,6 @@ else{
         
         $servId= $_GET['id'];
         $comVar = '1';
-        echo $_SESSION['orderId'];
         
         //Session info
         if(isset($_SESSION['providersID'])){
