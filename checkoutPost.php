@@ -193,6 +193,7 @@ if ($noAdd) { //if the option to not save information to database is selected
             echo "User ID: " . $userFkid ."<br>";
             echo "Card Number: **** **** **** " . $fourDigits ."<br>";
             echo "Expiry Date: " . $expiryDate ."<br>";
+            echo "<input type='text' placeholder='CVV'>";
             echo "<button value='submit'>Confirm Payment</button><br>";
             echo "</form>";
         } else {
@@ -376,6 +377,7 @@ else if ($isExisting) { //if the existing card option is selected
             echo "User ID: " . $userFkida ."<br>";
             echo "Card Number: **** **** **** " . $fourDigitsa ."<br>";
             echo "Expiry Date: " . $expiryDatea ."<br>";
+            echo "<input type='text' placeholder='CVV'>";
             echo "<button value='submit'>Confirm Payment</button>";
             echo "</form>";
         }
