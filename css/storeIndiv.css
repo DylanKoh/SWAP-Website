@@ -10,15 +10,34 @@ margin: 0px;
 
 /* header */
 .sec-head {
-width: 100%;
+width: 70%;
 height: 60px;
+margin:auto;
 background:	#F8F8FF;
 }
 
+.sec-head .offers-page{
+display:inline-block;
+}
+.sec-head .offers-page .offer-but{
+float:left;
+background-color: white;
+border: 1.5px solid black;
+padding: 10px 20px;
+margin-top:8px;
+margin-right: 10px;
+text-align: center;
+text-decoration: none;
+font-size:18px;
+border-radius: 5px;
+transition-duration: 0.7s;
+}
+
+
+
 .sec-head .edit-but {
-width: 70%;
-height: 100%;
-margin:auto;
+display:inline-block;
+margin-left:60%;
 }
 
 .sec-head .edit-but .serv-edit {
@@ -46,7 +65,7 @@ display: inline-block;
 width:70%;
 height: 900px;
 background: white;
-margin: auto;
+margin: 2% auto;
 display:flex;
 }
 

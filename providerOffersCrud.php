@@ -45,8 +45,8 @@ else{
 include 'connection.php';
 
 $orderId = htmlentities($_POST['orderId']);
+$servID = htmlentities($_POST['servIDS']);
 $provId = $_SESSION['providersID'];
-$provId = '1';
 $updateVar = '1';
 
     if(isset($_POST["acc-offer"])){
@@ -54,11 +54,19 @@ $updateVar = '1';
                                 SET orders.isAccepted =? WHERE orders.ordersId =? AND services.providersFkid =?;");
         $query->bind_param('iii', $updateVar, $orderId, $provId); //bind the parameters
         if ($query->execute()){ //execute query
-            echo "<script language='javascript'>;alert('Update successful'); window.location.href = document.referrer;</script>";
-            exit();
+            promptMessage('Update successful');
+            echo "<form action='providerOffer.php' id='returnForm' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo"<input type='hidden' name='serviceIDS' value='$servID'>";
+            echo "</form>";
+            echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
         }else{
-            echo "<script language='javascript'>;alert('Update unsuccessful'); window.location.href = document.referrer;</script>";
-            exit();
+            promptMessage('Update unsuccessful');
+            echo "<form action='providerOffer.php' id='returnForm' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo"<input type='hidden' name='serviceIDS' value='$servID'>";
+            echo "</form>";
+            echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
         }
     }
     
@@ -67,11 +75,19 @@ $updateVar = '1';
                                 SET orders.isCompleted =? WHERE orders.ordersId =? AND services.providersFkid =?");
         $query->bind_param('iii', $updateVar, $orderId, $provId); //bind the parameters
         if ($query->execute()){ //execute query
-            echo "<script language='javascript'>;alert('Update successful'); window.location.href = document.referrer;</script>";
-            exit();
+            promptMessage('Complete order successful');
+            echo "<form action='providerOffer.php' id='returnForm' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo"<input type='hidden' name='serviceIDS' value='$servID'>";
+            echo "</form>";
+            echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
         }else{
-            echo "<script language='javascript'>;alert('Update unsuccessful'); window.location.href = document.referrer;</script>";
-            exit();
+            promptMessage('Complete order unsuccessful');
+            echo "<form action='providerOffer.php' id='returnForm' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo"<input type='hidden' name='serviceIDS' value='$servID'>";
+            echo "</form>";
+            echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";;
         }
     }
 ?>

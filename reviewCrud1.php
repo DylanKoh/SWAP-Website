@@ -49,16 +49,6 @@ else{
     $servId = htmlentities($_POST['serv-revId']);
     $usId = $_SESSION['usersID'];
     
-    $specChar= htmlspecialchars($comUpdate, ENT_QUOTES);
-    $specChar1 = htmlentities($specChar, ENT_QUOTES);
-    echo $specChar . "</br>";
-    echo $specChar1 . "</br>";
-   
-    $intSplit = strpos($specChar1, "&"); 
-    echo $intSplit;
-    $comValue = substr($specChar1, 0, $intSplit);
-    echo 'String: '.$comValue . "</br>";
-    
     
     //Regular expression patterns:
     $rateVal = '/^[1-5]$/'; //Rating only accepts values between 1 and 5

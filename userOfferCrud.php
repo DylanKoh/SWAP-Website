@@ -77,7 +77,7 @@ else{
             echo "$orderId";
             $_SESSION['orderId'] = $orderId;
             echo $_SESSION['orderId'];
-            header('Location: /swapcasestudy/userShowOffers.php');
+            header('Location: userShowOffers.php');
             exit;
         }
 
