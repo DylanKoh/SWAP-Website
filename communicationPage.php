@@ -4,11 +4,38 @@ header("X-Frame-Options: DENY");
 
 include 'connection.php';
 
-session_start();
-$_SESSION['usersFkid'] = 1;
-$_SESSION['providersFkid'] = 1;
-$_SESSION['isSending'] = 1;
-$_SESSION['isReceiving'] = 1;
+require_once 'sessionInitialise.php';
+require_once 'validateToken.php';
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ //If user does not have any ID in their session
+    destroySession();
+    header('Location:login.php?error=notloggedin');
+    exit();
+}
+else{ //If an ID of sorts is assigned in the session variables
+    if (!verifyToken('authToken', 1200)){ //If token is not valid
+        destroySession();
+        if (isset($_SESSION['providersID'])){ //If initial user is a Provider
+            header('Location:providerLogin.php?error=errToken');
+            exit();
+        }
+        else{ //If initial user is a Customer
+            header('Location:login.php?error=errToken');
+            exit();
+        }
+    }
+    else{
+        $authToken=$_POST['authToken'];
+        if (!verifyToken('commToken', 600)){
+            unsetVariable('commToken');
+            unsetVariable('commToken');
+            echo "<form action='storePage.php?error=commTimeout' id='returnForm' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo "</form>";
+            echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
+            exit();
+        }
+    }
+}
 ?>
 
 <html>
