@@ -4,6 +4,7 @@ header("X-Frame-Options: DENY");
 
 include 'connection.php';
 
+session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
 session_start();
 $_SESSION['usersFkid'] = 1;
 $_SESSION['providersFkid'] = 1; 
