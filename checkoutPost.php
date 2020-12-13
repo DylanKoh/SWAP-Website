@@ -32,7 +32,8 @@ if ($hasAction) { //check if a radio button was selected
     echo "No option was selected!";
 }
 
-$creditCard      = htmlentities($_POST["creditCard"]); //defining variables
+//defining variables
+$creditCard      = htmlentities($_POST["creditCard"]); //htmlentities to sanitise data
 $expiryDate      = htmlentities($_POST["expiryDate"]);
 $fourDigits      = htmlentities($_POST["fourDigits"]);
 $fourDigitsCheck = substr($creditCard, -4);
@@ -80,7 +81,7 @@ if ($noAdd) { //if the option to not save information to database is selected
     } else {
         $stmt = $conn->prepare("INSERT INTO `sales` (`creditCard`, `expiryDate`, `fourDigits`, `usersFkid`, `secret`, `hash_1`, `hash_2`) VALUES (?,?,?,?,?,?,?)"); //sql query statement to add the users payment information 
         $stmt->bind_param("isiisss", $creditCard, $expiryDate, $fourDigits, $userFkid, $secret, $hash_1, $hash_2); //inserts these variables into the db
-        $res = $stmt->execute();
+        $res = $stmt->execute(); //executes sql query statement
         if ($res) {
 ?><script>alert('Payment information successfully saved. Payment successful'); window.location.href='checkout.php'</script> <?php
         } else {
@@ -116,7 +117,7 @@ if ($noAdd) { //if the option to not save information to database is selected
         
         $stmt1 = $conn->prepare("SELECT * FROM sales WHERE usersFkid=?");
         $stmt1->bind_param("i", $userFkid);
-        $stmt1->execute();
+        $stmt1->execute(); //executes sql query statement
         $stmt1->store_result();
         $stmt1->bind_result($salesIda, $creditCarda, $expiryDatea, $fourDigitsa, $userFkida, $secreta, $hash_1a, $hash_2a);
         while ($stmt1->fetch()) { //run pin check
@@ -127,7 +128,7 @@ if ($noAdd) { //if the option to not save information to database is selected
             $confirmPin = base64_encode($salt_2); //encode hash of $pin2 using base64
             if ($confirmPin != $secreta) { //check if stored pin = user inputted pin
 ?><script>alert('pin does not match'); window.location.href='checkout.php'</script> <?php
-            } else if ($stmt->execute()) {
+            } else if ($stmt->execute()) { //executes sql query statement
 ?><script>alert('Updated successfully'); window.location.href='checkout.php'</script> <?php
             } else {
 ?><script>alert('Unable to update'); window.location.href='checkout.php'</script> <?php
@@ -137,7 +138,7 @@ if ($noAdd) { //if the option to not save information to database is selected
 } else if ($isDelete) {
     $stmt = $conn->prepare("SELECT * FROM sales WHERE usersFkid=?");
     $stmt->bind_param("i", $userFkid);
-    $stmt->execute();
+    $stmt->execute(); //executes sql query statement
     $stmt->store_result();
     $stmt->bind_result($salesIda, $creditCarda, $expiryDatea, $fourDigitsa, $userFkida, $secreta, $hash_1a, $hash_2a);
     $stmt->fetch(); //information to display
@@ -149,7 +150,7 @@ if ($noAdd) { //if the option to not save information to database is selected
     if ($confirmPin != $secreta) { //check if stored pin = user inputted pin
         ?><script>alert('pin does not match'); window.location.href='checkout.php'</script> <?php
         }
-      else if ($stmt->execute()) {
+      else if ($stmt->execute()) { //executes sql query statement
     echo "<form action='checkoutDelete.php' method='post'><br>"; //form to ask the user to confirm the delete
     echo "Are you sure you want to delete your payment information, user " . $userFkid . "? <br><br>";
     echo "<input type='hidden' name='userFkid' value='" . $creditCard . "'>";
@@ -163,7 +164,7 @@ if ($noAdd) { //if the option to not save information to database is selected
 else if ($isExisting) { //if the existing card option is selected
     $stmt = $conn->prepare("SELECT * FROM sales WHERE usersFkid=?");
     $stmt->bind_param("i", $userFkid);
-    $stmt->execute();
+    $stmt->execute(); //executes sql query statement
     $stmt->store_result();
     $stmt->bind_result($salesIda, $creditCarda, $expiryDatea, $fourDigitsa, $userFkida, $secreta, $hash_1a, $hash_2a);
     $stmt->fetch(); //information to display
@@ -175,10 +176,10 @@ else if ($isExisting) { //if the existing card option is selected
         if ($confirmPin != $secreta) { //check if stored pin = user inputted pin
 ?><script>alert('pin does not match'); window.location.href='checkout.php'</script> <?php
         }
-      else if ($stmt->execute()) {
+        else if ($stmt->execute()) { //executes sql query statement
 ?>
-       <script>
-        function existing(){
+       <script> 
+        function existing(){ 
             alert('Payment successful'); window.location.href="checkout.php"
         }
         </script>
