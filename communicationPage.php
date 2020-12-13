@@ -5,14 +5,9 @@ header("X-Frame-Options: DENY");
 include 'connection.php';
 require_once 'sessionInitialise.php'; //start session
 
-if (isset($_SESSION['usersID'])) {
-    $userFkid = $_SESSION['usersID'];
-}
-
-if (isset($_SESSION['providersID'])) {
-    $providersFkid = $_SESSION['providersID'];
-}
-
+session_start();
+$_SESSION['usersFkid'] = 1;
+$_SESSION['providerFkid'] = 1;
 $_SESSION['isSending'] = 1;
 $_SESSION['isReceiving'] = 1;
 ?>
@@ -94,7 +89,7 @@ if (isset($_POST['delete'])){
     $delete->execute();
     $delete->bind_result($messageContent);
     $delete->fetch();
-    echo $delete->error;
+
     }
 }else{
     die("Access Forbidden");
