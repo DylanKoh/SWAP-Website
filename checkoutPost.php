@@ -101,12 +101,17 @@ $secret       = base64_encode(hash('sha256', $hashedSecret . $hash_2));
 
 if ($noAdd) { //if the option to not save information to database is selected
     
-    
+    echo "<form id='checkout' class='checkout' Action='storePage.php' method='post'>";
+    echo "<input hidden name='authToken' value='$authToken'>";
+    echo "<input hidden value='$checkoutToken' name='checkoutToken'>";
+    echo "Payment information has not been saved.<br>";
     echo "Credit Card Number: " . $creditCard . "<br>";
     echo "Expiry Date: " . $expiryDate . "<br>";
     echo "Last 4 digits: " . $fourDigits . "<br>";
     echo "Your UserID: " . $userFkid . "<br><br>";
-    echo "Payment has been completed! Payment information has not been saved.";
+    echo "<input type='text' placeholder='CVV'>";
+    echo "<button value='submit'>Confirm Payment</button><br>";
+    echo "</form>";
     
 } else if ($isAdd) { //if the option to save to database is selected
     $checkId = $conn->query("SELECT * FROM sales WHERE usersFkid='$userFkid'"); //check if that user already has a card saved in the database
