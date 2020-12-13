@@ -6,6 +6,11 @@ $ga = new PHPGangsta_GoogleAuthenticator();
 
 //start session
 require_once 'sessionInitialise.php';
+require_once 'validateToken.php';
+
+if (isset($_SESSION['usersID'])) {
+    $userFkid = $_SESSION['usersID'];
+}
 
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
     destroySession();
@@ -27,6 +32,18 @@ else{
                 exit();
             }
         }
+        else{
+            $authToken = $_POST['authToken'];
+            if (!verifyToken('checkoutToken',300)){
+                unsetVariable('checkoutToken');
+                unsetVariable('checkoutTokenTime');
+                echo "<form action='storePage.php?error=checkoutTimeout' method='post' id='returnForm'>";
+                echo "<input hidden name='authToken' value='$authToken'>";
+                echo "</form>";
+                echo "<script>document.getElementById('returnForm').submit();</script>";
+                exit();
+            }
+        }
     }
     else{
         if (isset($_SESSION['providersID'])){
@@ -43,8 +60,10 @@ else{
     }
 }
 
+
 //connect to db
 include 'connection.php';
+
 
 $hasAction  = isset($_POST["action"]);
 $isAdd      = false;
@@ -199,28 +218,26 @@ else if ($isExisting) { //if the existing card option is selected
     $stmt->execute(); //executes sql query statement
     $stmt->store_result();
     $stmt->bind_result($salesIda, $creditCarda, $expiryDatea, $fourDigitsa, $userFkida, $secreta, $hash_1a, $hash_2a);
-    $stmt->fetch(); //information to display
+    if($stmt->fetch()) { //information to display
         $pin1       = $hash_1a . $pin; //append stored salt to user inputted pin
         $salt_1     = hash('sha256', $pin1); //hash $pin1
         $pin2       = $salt_1 . $hash_2a; //append stored salt to hash of $pin1
         $salt_2     = hash('sha256', $pin2); //hash $pin2
         $confirmPin = base64_encode($salt_2); //encode hash of $pin2 using base64
         if ($confirmPin != $secreta) { //check if stored pin = user inputted pin
-?><script>alert('pin does not match'); window.location.href='checkout.php'</script> <?php
         }
-        else if ($stmt->execute()) { //executes sql query statement
-?>
-       <script> 
-        function existing(){ 
-            alert('Payment successful'); window.location.href="checkout.php"
+        else if ($confirmPin == $secreta) { //executes sql query statement
+            
+            echo "<form id='checkout' class='checkout' Action='storePage.php' method='post'>";
+            echo "<input hidden name='authToken' value='$authToken'>";
+            echo "User ID: " . $userFkida;
+            echo "Card Number: **** **** **** " . $fourDigitsa;
+            echo "Expiry Date: " . $expiryDatea;
+            echo "<button value='submit'>Confirm Payment</button>";
+            echo "</form>";
         }
-        </script>
-        <div>User ID: <?php echo $userFkida; ?></div>
-        <div>Card Number: **** **** **** <?php echo $fourDigitsa; ?></div>
-        <div>Expiry Date: <?php echo $expiryDatea; ?></div>
-        <button onclick="existing()">Confirm Payment</button>
-        <?php
-        } else {
+       
+ } else {
         ?><script>alert('Unable to retrieve payment information'); window.location.href='checkout.php'</script> <?php
         }
 }

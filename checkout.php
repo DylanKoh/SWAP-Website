@@ -3,6 +3,11 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 header("X-Frame-Options: DENY");
 include 'connection.php'; //connect to db
 require_once 'sessionInitialise.php'; //start session
+
+// if (isset($_SESSION['usersID'])) {
+//     $userFkid = $_SESSION['usersID'];
+// }
+
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ 
     destroySession();
     header('Location:login.php?error=notloggedin');
@@ -22,6 +27,10 @@ else{
                 header('Location:login.php?error=sessionExpired');
                 exit();
             }
+        } else {
+            $checkoutToken = hash('sha256', uniqid(rand(), TRUE));
+            initialiseSessionVar("checkoutToken", $checkoutToken);
+            initialiseSessionVar("checkoutTokenTime", time());
         }
     }
     else{
@@ -37,7 +46,6 @@ else{
         }
         
     }
-    $authToken = $_POST['authToken'];
 }
 ?>
 <html>
@@ -78,6 +86,8 @@ else{
     		</div>
 <!-- Header end -->
       <form class="checkout" Action="checkoutPost.php" method="post">
+      <input hidden name="authToken" value="<?php echo $_POST['authToken'] ?>">
+      <input hidden name="checkoutToken" value="<?php echo $checkoutToken ?>">
          <div class="checkout_title">Checkout</div>
          <div class="checkout_item">
             <label for="cardNumber" class="checkout_label">Credit Card Number</label>
