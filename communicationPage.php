@@ -4,7 +4,6 @@ header("X-Frame-Options: DENY");
 
 include 'connection.php';
 
-$username = $_SESSION['username'];
 
 require_once 'sessionInitialise.php';
 require_once 'validateToken.php';
@@ -71,7 +70,7 @@ else{ //If an ID of sorts is assigned in the session variables
 <div class="chatMessages">
 <div class="chatBottom">
 <form action="communicationPage.php" method="post">
-<input type="hidden" name="usersId" id="usersId" value="<?php echo htmlspecialchars($username);?>">
+<input type="hidden" name="usersId" id="usersId" value="<?php echo $_SESSION['username'];?>">
 <input type="text" name="messageContent" value="" placeholder="Type your chat message">
 <input type="submit" name="submit" value="submit">
 
