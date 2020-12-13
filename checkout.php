@@ -4,10 +4,6 @@ header("X-Frame-Options: DENY");
 include 'connection.php'; //connect to db
 require_once 'sessionInitialise.php'; //start session
 
-// if (isset($_SESSION['usersID'])) {
-//     $userFkid = $_SESSION['usersID'];
-// }
-
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ 
     destroySession();
     header('Location:login.php?error=notloggedin');
@@ -113,10 +109,41 @@ else{
             <input type="radio" name="action" id="existing" value="existing">Already have an existing card?<br>   
             <br>
             <button name='checkout_btn' class='checkout_btn' type='submit'>Checkout</button> 
-         <?php 
-  
-        	?>
       </form>
+      <?php 
+      require_once 'alertMessageFunc.php';
       
+      if (isset($_GET['error']) && $_GET['error'] == 'emptyCard'){
+          promptMessage('Credit card field is blank');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'wrongCard'){
+          promptMessage('Invalid credit card format');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'existingCard'){
+          promptMessage('Card already exists for this user');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'emptyDate'){
+          promptMessage('Date field is blank');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'wrongDate'){
+          promptMessage('Invalid expiry date format');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'blankFour'){
+          promptMessage('Last four digits field is blank');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'wrongFour'){
+          promptMessage('Invalid last four digits format');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'matchFour'){
+          promptMessage('Last four digits and credit card do not match');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'blankPin'){
+          promptMessage('Pin field is blank');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'wrongPin'){
+          promptMessage('Invalid pin format');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'paymentFailed'){
+          promptMessage('Unable to save payment information');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'matchPin'){
+          promptMessage('Pin does not match');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'updateFailed'){
+          promptMessage('Unable to update payment information');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'deleteFailed'){
+          promptMessage('Unable to delete payment information');
+      } else if (isset($_GET['error']) && $_GET['error'] == 'existingFailed'){
+          promptMessage('Unable to retrieve payment information');
+      }
+?>
    </body>
 </html>
