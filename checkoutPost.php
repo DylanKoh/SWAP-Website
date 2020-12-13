@@ -33,7 +33,7 @@ if ($hasAction) { //check if a radio button was selected
 }
 
 //defining variables
-$creditCard      = htmlentities($_POST["creditCard"]); //htmlentities to sanitise data
+$creditCard      = htmlentities($_POST["creditCard"]); //htmlentities to sanitise user input data
 $expiryDate      = htmlentities($_POST["expiryDate"]);
 $fourDigits      = htmlentities($_POST["fourDigits"]);
 $fourDigitsCheck = substr($creditCard, -4);
