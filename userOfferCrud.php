@@ -51,6 +51,7 @@ if($trueOrFalse == true) {
     return;
 }
 
+
 $comments= htmlentities($_POST['orderCom']);
 $servId = htmlentities($_POST['servId']);
 $userId = $_SESSION['usersID'];
