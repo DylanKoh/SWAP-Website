@@ -190,5 +190,8 @@ else{
 if(isset($_GET['err']) && ($_GET['err'] == 'timeout')){
     promptMessage('Review Timeout');
 }
+elseif(isset($_GET['err']) && ($_GET['err'] == 'checkoutTimeout')){
+    promptMessage('Checkout Timeout');
+}
 
 ?>
