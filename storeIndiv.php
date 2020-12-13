@@ -53,6 +53,7 @@ else{
         
         $servId= $_GET['id'];
         $comVar = '1';
+        echo $_SESSION['orderId'];
         
         //Session info
         if(isset($_SESSION['providersID'])){
@@ -172,7 +173,7 @@ else{
     				
     				<!-- Post a review section! -->
     				<?php
-    				if(isset($_SESSION['usersID'])){
+    				if(isset($_SESSION['usersID'])&& isset($_SESSION['orderId'])){
         				echo"<div class='rev-contain'>";
         				echo"<h4>Leave a review</h4>";
         				echo"<form action='reviewCrud.php' method='post'>";
