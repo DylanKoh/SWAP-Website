@@ -6,6 +6,7 @@ $ga = new PHPGangsta_GoogleAuthenticator();
 
 //start session
 require_once 'sessionInitialise.php';
+require_once 'validateToken.php';
 
 if (isset($_SESSION['usersID'])) {
     $userFkid = $_SESSION['usersID'];
@@ -31,6 +32,18 @@ else{
                 exit();
             }
         }
+        else{
+            $authToken = $_POST['authToken'];
+            if (!verifyToken('checkoutToken',300)){
+                unsetVariable('checkoutToken');
+                unsetVariable('checkoutTokenTime');
+                echo "<form action='storePage.php' method='post' id='returnForm'>";
+                echo "<input hidden name='authToken' value='$authToken'>";
+                echo "</form>";
+                echo "<script>document.getElementById('returnForm').submit();</script>";
+                exit();
+            }
+        }
     }
     else{
         if (isset($_SESSION['providersID'])){
@@ -51,7 +64,6 @@ else{
 //connect to db
 include 'connection.php';
 
-$authToken = $_POST['authToken'];
 
 $hasAction  = isset($_POST["action"]);
 $isAdd      = false;
