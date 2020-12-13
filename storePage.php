@@ -13,12 +13,12 @@ else{
         if ($sessionAge > 1200){
             if (isset($_SESSION['providersID'])){
                 destroySession();
-                header('Location:providerLogin.php?error=sessionExpired');
+                header('Location:providerLogin.php?error=errToken');
                 exit();
             }
             else{
                 destroySession();
-                header('Location:login.php?error=sessionExpired');
+                header('Location:login.php?error=errToken');
                 exit();
             }
         }
@@ -26,12 +26,12 @@ else{
     else{
         if (isset($_SESSION['providersID'])){
             destroySession();
-            header('Location:providerLogin.php?error=invalidToken');
+            header('Location:providerLogin.php?error=errToken');
             exit();
         }
         else{
             destroySession();
-            header('Location:login.php?error=invalidToken');
+            header('Location:login.php?error=errToken');
             exit();
         }
         
@@ -150,6 +150,7 @@ else{
                               <label for='sPrice'><b>Price of your service: </b></label> <br>
                               <input id='price' type='text' class='price' placeholder='Enter price of service' name='serPrice' required>
                            	</a><br>
+                           	<?php echo"<input hidden name='authToken' value='$authToken'>";?>
                            	<button class='post-ser' type="submit" >Post</button>
         </div></form></div></div>
 	</div>
@@ -185,3 +186,10 @@ else{
     }
     </script>
 </html>
+
+<?php 
+if(isset($_GET['err']) && ($_GET['err'] == 'timeout')){
+    promptMessage('Review Timeout');
+}
+
+?>

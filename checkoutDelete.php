@@ -7,7 +7,7 @@ if(isset($_SESSION['usersID'])){
     $userFkid= $_SESSION['usersID'];
 }
 
-$stmt=$conn->prepare("DELETE FROM sales WHERE usersFkid=?"); //deletes using userFkid
+$stmt=$conn->prepare("DELETE FROM sales WHERE usersFkid=?"); //sql query statement to delete the users payment information
 $stmt->bind_param("i", $userFkid);
 $res=$stmt->execute();
 if($res) {

@@ -13,12 +13,12 @@ else{
         if ($sessionAge > 1200){
             if (isset($_SESSION['providersID'])){
                 destroySession();
-                header('Location:providerLogin.php?error=sessionExpired');
+                header('Location:providerLogin.php?error=errToken');
                 exit();
             }
             else{
                 destroySession();
-                header('Location:login.php?error=sessionExpired');
+                header('Location:login.php?error=errToken');
                 exit();
             }
         }
@@ -26,16 +26,17 @@ else{
     else{
         if (isset($_SESSION['providersID'])){
             destroySession();
-            header('Location:providerLogin.php?error=invalidToken');
+            header('Location:providerLogin.php?error=errToken');
             exit();
         }
         else{
             destroySession();
-            header('Location:login.php?error=invalidToken');
+            header('Location:login.php?error=errToken');
             exit();
         }
         
     }
+    $authToken = $_POST['authToken'];
 }
 ?>
 <html>
@@ -51,6 +52,7 @@ else{
         include 'connection.php'; 
         
         $servId= $_GET['id'];
+        $comVar = '1';
         
         //Session info
         if(isset($_SESSION['providersID'])){
@@ -59,6 +61,7 @@ else{
         else if(isset($_SESSION['usersID'])){
             $userId= $_SESSION['usersID']; 
         }
+        
         
 		?>
     	
@@ -96,6 +99,12 @@ else{
     		while($stmt->fetch()){
     		    if ((isset($_SESSION['providersID'])) && ($provId == $providerId)) {
         		    echo "<div class='sec-head'>";
+        		    echo "<div class='offers-page'>";
+        		    echo "<form class='navbar-button' action='providerOffer.php' method='post'>";
+        		    echo"<input hidden name='authToken' value='$authToken'>";
+        		    echo"<input type='hidden' name='serviceIDS' value='$servId'>";
+        		    echo"<input type='submit' class='offer-but' value='View Orders'>";
+        		    echo "</form></div>";
         			echo "<div class='edit-but'>";
         			echo "<button class='serv-edit' id='edit-serv-but'>Edit/Delete</button>";
         			echo "</div></div>";
@@ -128,6 +137,7 @@ else{
                         echo"<a><label for='sPrice'><b>Price of your service: </b></label> <br>";
                         echo"<input id='price' type='text' class='price' placeholder='Enter price of service' name='serPrice' value='$serPrice' required></a><br>";
                         echo"<input name='servId' value=$servId type='hidden'>";
+                        echo"<input hidden name='authToken' value='$authToken'>";
                         echo"<div class='but-serv'>";
                         echo"<button class='edit-ser' type='submit' name='updatebtn'>Edit</button>";
                         echo"<button class='dele-ser' type='submit' name='deletebtn'>Delete</button>";
@@ -161,20 +171,25 @@ else{
     				?>
     				
     				<!-- Post a review section! -->
-    				<div class='rev-contain'>
-    				<h4>Leave a review</h4>
-    				<?php 
-    				echo"<form action='reviewCrud.php' method='post'>";
-    				$reviewToken=hash('sha256', uniqid(rand(), TRUE));     
-    				initialiseSessionVar('reviewToken', $reviewToken);     
-    				initialiseSessionVar('reviewTokenTime', time());    
-    				echo "<input hidden name='reviewToken' value='$reviewToken'>";
-    				echo"<textarea class='rev-text' name='revComments'></textarea>";
-    				echo"<input name='revRating' type='number' placeholder='Rate' min='1' max='5'><br>";
-    				echo"<button class='post-review' name='reviewbtn' type='submit'>Post</button>";
-    				echo"</form>";
+    				<?php
+    				if(isset($_SESSION['usersID'])){
+        				echo"<div class='rev-contain'>";
+        				echo"<h4>Leave a review</h4>";
+        				echo"<form action='reviewCrud.php' method='post'>";
+        				echo"<input hidden name='authToken' value='$authToken'>";
+        				$reviewToken=hash('sha256', uniqid(rand(), TRUE));     
+        				initialiseSessionVar('reviewToken', $reviewToken);     
+        				initialiseSessionVar('reviewTokenTime', time());    
+        				echo "<input hidden name='reviewToken' value='$reviewToken'>";
+        				echo"<input type='hidden' name='serviceIDS' value='$servId'>";
+        				echo"<textarea class='rev-text' name='revComments'></textarea>";
+        				echo"<input name='revRating' type='number' placeholder='Rate' min='1' max='5'><br>";
+        				echo"<button class='post-review' name='reviewbtn' type='submit'>Post</button>";
+        				echo"</form></div>";
+    				}
     				?>
-    				</div>
+    				
+    				
     				</div>
     				
     				
@@ -196,17 +211,22 @@ else{
                             <img src='SwapImage/star-icon-16.png'>
                             <img src='SwapImage/star-icon-16.png'>
                             <img src='SwapImage/star-icon-16.png'> ($count)</p>";
-            				echo"<div class='buttons'>";
-                    		echo"<button class='chat'>Chat</button>";
-                    		echo"<form class='makeoffer' method='post' action='userOffer.php'>";
-                    		$offerToken=hash('sha256', uniqid(rand(), TRUE));     
-                    		initialiseSessionVar('offerToken', $offerToken);     
-                    		initialiseSessionVar('offerTokenTime', time());     
-                    		echo "<input hidden name='offerToken' value='$offerToken'>";
-                    		echo"<input type='hidden' name='serviceIDS' value='$servId'></input>";
-                    		echo"<button class='offer'>Make an offer</button>";
-                    		echo"</form>";
-                			echo"</div></div>";
+            				if(isset($_SESSION['usersID'])){
+                				echo"<div class='buttons'>";
+                				echo"<form class='chat-form' method='post' action='communicationPage.php'>";
+                        		echo"<button class='chat'>Chat</button>";
+                        		echo"</form>";
+                        		echo"<form class='makeoffer' method='post' action='userOffer.php'>";
+                        		$offerToken=hash('sha256', uniqid(rand(), TRUE));     
+                        		initialiseSessionVar('offerToken', $offerToken);     
+                        		initialiseSessionVar('offerTokenTime', time());     
+                        		echo "<input hidden name='offerToken' value='$offerToken'>";
+                        		echo"<input hidden name='authToken' value='$authToken'>";
+                        		echo"<input type='hidden' name='serviceIDS' value='$servId'>";
+                        		echo"<button class='offer'>Make an offer</button>";
+                        		echo"</form></div>";
+            				}
+                			echo"</div>";
         				}
         				?>
         				
@@ -262,6 +282,8 @@ else{
                             echo"<button class='edit-rev' type='submit' name='revUpdateBtn'>Edit</button>";
                             echo"<button class='dele-rev' type='submit' name='revDeleteBtn'>Delete</button>";
                         	echo"<input id='revIds' name='reviewId' type='hidden'>";
+                        	echo"<input hidden name='authToken' value='$authToken'>";
+                        	echo"<input id='serv-revId' name='serv-revId' value=$servId type='hidden'>";
                         	echo"<a></a>";
                             echo"</div></div></form>";  
                 		?>
@@ -328,9 +350,7 @@ $stmt= $conn->prepare("SELECT providers.providersId FROM services
         }
         
         function saveRevIds(revId) {
-        alert(revId);
         var carddiv = document.getElementById("revcard"+revId);
-        alert(carddiv.innerHTML);
         var modalComments = document.getElementById("comments");
       	modalComments.innerHTML = carddiv.childNodes[3].innerHTML;
       	

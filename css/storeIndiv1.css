@@ -18,11 +18,11 @@ margin: 10px 0px;
 margin-top: 10px;
 }
 
-.rev-contain .revHideId {
+.review-card .revHideId {
 	visibility: hidden;
 }
 
-.rev-contain .myRevBtn {
+.review-card .myRevBtn {
 	float:right;
 }
 

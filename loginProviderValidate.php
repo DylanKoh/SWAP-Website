@@ -21,12 +21,15 @@ if (isset($_GET['error']) && $_GET['error'] == 'incorrectcode'){ //If GET error 
 <?php
 require_once 'PHPGangsta/GoogleAuthenticator.php'; //Require Google 2FA code
 require_once 'sessionInitialise.php'; //Require session initialisation
-require_once 'alertMessageFunc.php'; //Require alert function
+include_once 'alertMessageFunc.php'; //Require alert function
+require_once 'validateToken.php';
 if (isset($_SESSION['providersID'])){ //Check if session variable 'providersID' is set. If so, user is validated and logged in and run code
-    if (isset($_POST['2FAToken']) && $_POST['2FAToken'] == $_SESSION['2FAToken'])  //Check if token valid
-    {
-        $token2FAAge=time()-$_SESSION['2FATokenTime'];
-        if ($token2FAAge <= 180 ){ //If token is still below to 3mins old, allow code logic to run
+    if (!verifyToken('2FAToken', 180)){ //Check if token not valid
+        destroySession();
+        header('Location:providerLogin.php?error=errToken');
+        exit();
+    }
+    else{ //If token is valid
             if (isset($_POST['btnSubmit'])){
                 if (!empty($_POST['code']) && preg_match('/^[0-9]{6}$/', $_POST['code'])){
                     $ga=new PHPGangsta_GoogleAuthenticator();
@@ -59,18 +62,7 @@ if (isset($_SESSION['providersID'])){ //Check if session variable 'providersID' 
             }
             
         }
-        else{ //If token has expired, destroy session and force user to re-login
-            destroySession();
-            header('Location:providerLogin.php?error=sessionExpired');
-            exit();
-        }
         
-    }
-    else{ //If token is not valid, destroy session and a re-login is a must
-        destroySession();
-        header('Location:providerLogin.php?error=invalidToken');
-        exit();
-    }
 }
 else{ //If session variable for providersID is not set, user is not logged in and session is destroyed (if any). A re-login is a must
     destroySession();
