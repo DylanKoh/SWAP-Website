@@ -36,8 +36,8 @@ transition-duration: 0.7s;
 
 
 .sec-head .edit-but {
-display:inline-block;
-margin-left:60%;
+width: 120px;
+float:right;
 }
 
 .sec-head .edit-but .serv-edit {

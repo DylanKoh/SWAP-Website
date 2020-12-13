@@ -71,8 +71,6 @@ else{
     echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
 }
 
-    if(isset($confirmation)){
-
         $query= $conn->prepare("INSERT INTO `orders`(`customerFkid`, `isAccepted`, `comments`, `servicesFkid`, `isCompleted`) VALUES (?,?,?,?,?)");
         $query->bind_param('iisii', $userId, $isAcc, $comments, $servId, $isComp); //bind the parameters
         if ($query->execute()){ //execute query

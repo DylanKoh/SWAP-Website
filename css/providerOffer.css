@@ -33,6 +33,7 @@ width: 50%;
 height: 80%;
 margin-top:2%;
 border:4px solid black;
+overflow: auto;
 }
 
 .accept-container h2{
@@ -82,6 +83,7 @@ margin-left: 0.5%;
 width:50%;
 height:80%;
 border:4px solid black;
+overflow: auto;
 }
 
 .completing-container h2{
