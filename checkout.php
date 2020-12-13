@@ -4,10 +4,6 @@ header("X-Frame-Options: DENY");
 include 'connection.php'; //connect to db
 require_once 'sessionInitialise.php'; //start session
 
-// if (isset($_SESSION['usersID'])) {
-//     $userFkid = $_SESSION['usersID'];
-// }
-
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ 
     destroySession();
     header('Location:login.php?error=notloggedin');
