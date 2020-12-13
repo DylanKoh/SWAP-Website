@@ -1,6 +1,48 @@
 <?php
-
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+header("X-Frame-Options: DENY");
 require_once 'sessionInitialise.php';
+if (!isset($_SESSION['usersID'])){ //Check if token for creating account is not valid
+    header('HTTP/1.0 403 Forbidden');
+    exit();
+}
+if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){
+    destroySession();
+    header('Location:login.php?error=notloggedin');
+    exit();
+}
+else{
+    if (isset($_POST['authToken']) && $_POST['authToken'] == $_SESSION['authToken']){
+        $sessionAge=time()-$_SESSION['authTokenTime'];
+        if ($sessionAge > 1200){
+            if (isset($_SESSION['providersID'])){
+                destroySession();
+                header('Location:providerLogin.php?error=sessionExpired');
+                exit();
+            }
+            else{
+                destroySession();
+                header('Location:login.php?error=sessionExpired');
+                exit();
+            }
+        }
+    }
+    else{
+        if (isset($_SESSION['providersID'])){
+            destroySession();
+            header('Location:providerLogin.php?error=invalidToken');
+            exit();
+        }
+        else{
+            destroySession();
+            header('Location:login.php?error=invalidToken');
+            exit();
+        }
+        
+    }
+    $authToken = $_POST['authToken'];
+}
+
 //check connection to MySql database
 include 'connection.php';
 
@@ -84,71 +126,13 @@ $orderId = $_SESSION['orderId'];
                 				echo"<label>Is it completed?</label>";
                 				echo"<input type='text' name='isComp' value=$isComplete readonly></div>";
                 				echo"<div class='cont-fields'>";
-                				echo"<a href='/swapcasestudy/checkout.php'>";
-                				echo"<button checkout.php'>Checkout</button></a></div>";
-            				echo"</div>";
+                				echo"<form class='check-out' method='post' action='checkout.php'>";
+                				echo"<input hidden name='authToken' value='$authToken'>";
+                				echo"<button type='submit'>Checkout</button></a></div>";
+            				echo"</form></div>";
                         }
                 			?>
                 	</div>
         	</div>
     </body>
 </html>
-<style>
-body {
-background:	#F0F8FF;
-height: 800px;
-}
-
-h1, h2, h3, h4, p{
-padding: 0px;
-margin: 0px;
-}
-
-.order-body{
-width:60%;
-height:90%;
-background-color:white;
-margin: 50px auto;
-}
-
-.order-body .header{
-text-align:center;
-padding: 30px 0;
-}
-
-.order-body .content{
-margin:30px auto;
-width: 70%;
-height: 70%;
-border: 1px solid black;
-}
-
-.cont-border {
-margin: 40px 20px;
-}
-.order-body .content .cont-fields{
-width: 90%;
-height:40px;
-margin: 2% auto;
-font-size: 22px;
-}
-
-.cont-com{
-width: 90%;
-height:80px;
-margin: 2% auto;
-font-size: 22px;
-}
-
-
-.cont-fields input, textarea{
-font-size: 18px;
-float:right;
-}
-
-.cont-com textarea{
-height: 100%;
-width: 225px;
-}
-
-</style>
