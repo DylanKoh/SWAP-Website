@@ -75,6 +75,10 @@ if (isset($_SESSION)){             //User unable to type message if they are not
     }
 ?>
 </form>
+</div>
+</div>
+</div>
+</div>
 <form action="CommunicationPage.php" method="post">
 <input type="submit" name="delete" value="delete">
 <?php 
@@ -92,9 +96,5 @@ if (isset($_POST['delete'])){
 }
 ?>
 </form>
-</div>
-</div>
-</div>
-</div>
 </body>
 </html>
