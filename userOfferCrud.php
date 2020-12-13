@@ -46,6 +46,7 @@ else{
 //check connection to MySql database
 include 'connection.php';
 
+
 $comments= htmlentities($_POST['orderCom']);
 $servId = htmlentities($_POST['servId']);
 $userId = $_SESSION['usersID'];
