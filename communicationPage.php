@@ -60,7 +60,7 @@ if (isset($_SESSION)){             //User unable to type message if they are not
                 $print->bind_result($messageContent);
      
                 while($print->fetch()){
-                echo "<br>". $_SESSION['username'] ."<br>" . htmlspecialchars($messageContent); //prevents script from running by just echoing script/XSS
+                echo "<br>". htmlspecialchars($messageContent); //prevents script from running by just echoing script/XSS
                 }
                 echo $query->error;
             }else {
