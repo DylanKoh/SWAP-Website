@@ -7,7 +7,7 @@ require_once 'sessionInitialise.php'; //start session
 
 session_start();
 $_SESSION['usersFkid'] = 1;
-$_SESSION['providerFkid'] = 1;
+$_SESSION['providersFkid'] = 1;
 $_SESSION['isSending'] = 1;
 $_SESSION['isReceiving'] = 1;
 ?>
