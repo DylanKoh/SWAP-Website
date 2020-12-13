@@ -1,10 +1,11 @@
 .container {
-	width: 120%;
+	width: 100%;
 	margin: 0 atuo;
 }
 
 header {
-	background: #55d6aa;
+	background: rgb(0, 64, 128);
+	height: 8%;
 }
 
 nav {
@@ -25,18 +26,19 @@ nav li {
 }
 
 nav a {
-	color: #444;
+	color: rgb(255, 255, 255);
 	text-decoration: none;
-	text-transform: upper
+	text-transform: upper;
+	text-align: center;
 }
 
 nav a:hover {
-	color: #000;
+	color: rgb(0, 255, 128);
 }
 
 body {
 	margin: 0;
-	background: rgb(255, 128, 128);
+	background: rgb(128, 128, 192);
 }
 
 * {
@@ -52,7 +54,7 @@ body {
 
 .chatContainer > .chatHeader {
 	width: 100px;
-	background: white;
+	background: rgb(55, 255, 128);
 	padding: 5px;
 	border-bottom: 1px solid #ddd;
 }
@@ -67,7 +69,7 @@ body {
 
 .chatContainer > .chatMessages {
 	height: 420px;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid rgb(0, 0, 0);
 	overflow-y: scroll;
 }
 

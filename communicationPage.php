@@ -1,10 +1,15 @@
 <?php
+header("Content-Security-Policy:default-src 'self'");
+header("X-Frame-Options: DENY");
+
 include 'connection.php';
 
+session_set_cookie_params(0, '/', 'localhost', TRUE, TRUE);
 session_start();
-print_r($_SESSION);
 $_SESSION['usersFkid'] = 1;
 $_SESSION['providersFkid'] = 1; 
+$_SESSION['isSending'] = 1;
+$_SESSION['isReceiving'] = 1;
 ?>
 
 <html>
@@ -34,29 +39,29 @@ $_SESSION['providersFkid'] = 1;
 
 <div class="chatContainer">
 <div class="chatHeader">
-<h3>Welcome <?php echo $_GET['username']?></h3>
+<h3>Welcome</h3>
 <div class="chatMessages">
 <div class="chatBottom">
 <form action="communicationPage.php" method="post">
-<input type="hidden" name="usersId" id="usersId" value="<?php echo $username;?>">
+<input type="hidden" name="usersId" id="usersId" value="<?php echo $_SESSION['username'];?>">
 <input type="text" name="messageContent" value="" placeholder="Type your chat message">
 <input type="submit" name="submit" value="submit">
 
 <?php
-if (isset($_SESSION)){
+if (isset($_SESSION)){             //User unable to type message if they are not logged in
     if (isset($_POST['submit'])) {
         if(!empty(htmlspecialchars($_POST['messageContent'])))
     {
             $query=$conn->prepare("INSERT INTO `message`(`messageId`, `messageContent`, `usersFkid`, `providersFkid`, `isSending`, `isReceiving`) VALUES (?,?,?,?,?,?)");
-            $query->bind_param("isiiii",$messageId,$_POST["messageContent"],$_SESSION['usersFkid'],$_SESSION['providersFkid'],$isSending,$isReceiving);
+            $query->bind_param("isiiii",$messageId,$_POST["messageContent"],$_SESSION['usersFkid'],$_SESSION['providersFkid'],$_SESSION['isSending'],$_SESSION['isReceiving']);
             if ($query->execute()){
-                $print=$conn->prepare("SELECT messageContent FROM `message` where `usersFkid`=? AND `providersFkid`=? Order By `messageId` DESC");
-                $print->bind_param("ii",$_SESSION["usersFkid"],$_SESSION["providersFkid"]);
+                $print=$conn->prepare("SELECT messageContent FROM `message` where `usersFkid`=? AND `providersFkid`=? AND `isSending`=? AND `isReceiving`=? Order By `messageId` DESC");
+                $print->bind_param("iiii",$_SESSION["usersFkid"],$_SESSION["providersFkid"],$_SESSION["isSending"],$_SESSION["isReceiving"]);
                 $print->execute();
                 $print->bind_result($messageContent);
      
                 while($print->fetch()){
-                echo "<br>". htmlspecialchars($messageContent); //prevents script from running by just echoing script/XSS
+                echo "<br>". $_SESSION['username'] ."<br>" . htmlspecialchars($messageContent); //prevents script from running by just echoing script/XSS
                 }
                 echo $query->error;
             }else {
@@ -74,14 +79,14 @@ if (isset($_SESSION)){
 <input type="submit" name="delete" value="delete">
 <?php 
 if (isset($_POST['delete'])){
-    echo $_POST["messageContent"];
-    $delete=$conn->prepare("DELETE FROM `message` where `messageContent`='? AND `usersFKid`=?");
-    $delete->bind_param("si",$_POST["messageContent"],$_SESSION['userid']);
+    echo $_POST['messageContent'];
+    $delete=$conn->prepare("DELETE FROM `message` where `messageContent`=? AND `usersFKid`=?");
+    $delete->bind_param("si",$_POST["messageContent"],$_SESSION["usersFkid"]);
     $delete->execute();
     $delete->bind_result($messageContent);
     $delete->fetch();
     echo $delete->error;
-}
+    }
 }else{
     die("Access Forbidden");
 }
