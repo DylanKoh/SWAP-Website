@@ -48,6 +48,7 @@ else{
 //check connection to MySql database
 include 'connection.php';
 
+
 $comments= htmlentities($_POST['orderCom']);
 $servId = htmlentities($_POST['servId']);
 $userId = $_SESSION['usersID'];
@@ -59,7 +60,12 @@ if(isset($_POST['checkbox'])){
 $confirmation = $_POST['checkbox'];
 }
 else{
-    echo "<script language='javascript'>;alert('Please confirm your order.'); window.location.href = document.referrer;</script>";
+    promptMessage('Please confirm your order.');
+    echo "<form action='userOffer.php' id='returnForm' method='post'>";
+    echo "<input hidden name='authToken' value='$authToken'>";
+    echo"<input type='hidden' name='serviceIDS' value='$servID'>";
+    echo "</form>";
+    echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";;
 }
 
     if(isset($confirmation)){
