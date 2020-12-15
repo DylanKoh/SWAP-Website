@@ -83,7 +83,7 @@ else{
             echo "</form>";
             echo "<script type='text/javascript'>document.getElementById('returnForms').submit();</script>";
         }
-    }
+    
     
         $stmt= $conn->prepare("SELECT ordersId FROM orders WHERE customerFkid = $userId AND servicesFkid = $servId ORDER BY ordersId DESC LIMIT 1;");
         $res = $stmt->execute();
