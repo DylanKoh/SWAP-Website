@@ -217,7 +217,7 @@ else{
                 				$commToken=hash('sha256', uniqid(rand(), TRUE));
                 				initialiseSessionVar('commToken', $commToken);
                 				initialiseSessionVar('commTokenTime', time());
-                				echo "<input hidden name='offerToken' value='$commToken'>";
+                				echo "<input hidden name='commToken' value='$commToken'>";
                 				echo"<input hidden name='authToken' value='$authToken'>";
                         		echo"<button class='chat'>Chat</button>";
                         		echo"</form>";

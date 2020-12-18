@@ -1,5 +1,5 @@
 <?php
-header("Content-Security-Policy:default-src 'self'");
+header("Content-Security-Policy:script-src 'self' 'unsafe-inline'");
 header("X-Frame-Options: DENY");
 
 include 'connection.php';
@@ -7,6 +7,11 @@ include 'connection.php';
 
 require_once 'sessionInitialise.php';
 require_once 'validateToken.php';
+
+$_SESSION ['isSending'] = 1;
+$_SESSION ['isReceiving'] = 0;
+$_SESSION ['providersFkid'] = 1;
+
 if(!isset($_SESSION['usersID']) && !isset($_SESSION['providersID'])){ //If user does not have any ID in their session
     destroySession();
     header('Location:login.php?error=notloggedin');
@@ -35,6 +40,7 @@ else{ //If an ID of sorts is assigned in the session variables
             echo "<script type='text/javascript'>document.getElementById('returnForm').submit();</script>";
             exit();
         }
+        $commToken=$_POST['commToken'];
     }
 }
 ?>
@@ -70,8 +76,11 @@ else{ //If an ID of sorts is assigned in the session variables
 <div class="chatMessages">
 <div class="chatBottom">
 <form action="communicationPage.php" method="post">
-<input type="hidden" name="usersId" id="usersId" value="<?php echo $_SESSION['username'];?>">
+<input type="hidden" name="usersID" id="usersID" value="<?php echo $_SESSION['username'];?>">
+<input type="hidden" name="commToken" value="<?php echo $commToken?>">
+<input type="hidden" name="authToken" value="<?php echo $authToken?>">
 <input type="text" name="messageContent" value="" placeholder="Type your chat message">
+<input type="submit" name="update" value="update">
 <input type="submit" name="submit" value="submit">
 
 <?php
@@ -79,11 +88,13 @@ if (isset($_SESSION)){             //User unable to type message if they are not
     if (isset($_POST['submit'])) {
         if(!empty(htmlspecialchars($_POST['messageContent'])))
     {
+        $isSending = 1;
+        $isReceiving = 0;
             $query=$conn->prepare("INSERT INTO `message`(`messageId`, `messageContent`, `usersFkid`, `providersFkid`, `isSending`, `isReceiving`) VALUES (?,?,?,?,?,?)");
-            $query->bind_param("isiiii",$messageId,$_POST["messageContent"],$_SESSION['usersFkid'],$_SESSION['providersFkid'],$_SESSION['isSending'],$_SESSION['isReceiving']);
+            $query->bind_param("isiiii",$messageId,$_POST["messageContent"],$_SESSION['usersID'],$_SESSION['providersFkid'],$isSending,$isReceiving);
             if ($query->execute()){
                 $print=$conn->prepare("SELECT messageContent FROM `message` where `usersFkid`=? AND `providersFkid`=? AND `isSending`=? AND `isReceiving`=? Order By `messageId` DESC");
-                $print->bind_param("iiii",$_SESSION["usersFkid"],$_SESSION["providersFkid"],$_SESSION["isSending"],$_SESSION["isReceiving"]);
+                $print->bind_param("iiii",$_SESSION["usersID"],$_SESSION["providersFkid"],$isSending,$isReceiving);
                 $print->execute();
                 $print->bind_result($messageContent);
      
@@ -93,13 +104,31 @@ if (isset($_SESSION)){             //User unable to type message if they are not
                 echo $query->error;
             }else {
                 echo "Unable to insert!";
+                echo $query->error;
             }
         }
+    }elseif (isset($_POST['update'])){
+        $update=$conn->prepare("UPDATE message SET `messageContent`=? WHERE `usersFkid`=?");
+        $update->bind_param("si",$_POST["messageContent"],$_SESSION["usersID"]);
+        if ($update->execute()){
+            $isSending = 1;
+            $isReceiving = 0;
+            $printout=$conn->prepare("SELECT messageContent FROM `message` where `messageId`=? AND `usersFkid`=? AND `providersFkid`=? AND `isSending`=? AND `isReceiving`=? Order By `messageId` DESC");
+            $printout->bind_param("iiiii",$_POST["messageId"],$_SESSION["usersID"],$_SESSION["providersFkid"],$isSending,$isReceiving);
+            $printout->execute();
+            $printout->bind_result($messageContent);
+            while($printout->fetch()){
+                echo "<br>". htmlspecialchars($messageContent); //prevents script from running by just echoing script/XSS
+            }
+            echo $printout->error;
+        }
     }
+    
     else
     {
         echo "Message cannot be empty<br>";
     }
+}
 ?>
 </form>
 </div>
@@ -108,20 +137,22 @@ if (isset($_SESSION)){             //User unable to type message if they are not
 </div>
 <form action="CommunicationPage.php" method="post">
 <input type="submit" name="delete" value="delete">
+<input type="hidden" name="commToken" value="<?php echo $commToken?>">
+<input type="hidden" name="authToken" value="<?php echo $authToken?>">
+<input type="hidden" name="messageContent" value="<?php echo $messageContent?>">
 <?php 
-if (isset($_POST['delete'])){
-    echo $_POST['messageContent'];
-    $delete=$conn->prepare("DELETE FROM `message` where `messageContent`=? AND `usersFKid`=?");
-    $delete->bind_param("si",$_POST["messageContent"],$_SESSION["usersFkid"]);
-    $delete->execute();
-    $delete->bind_result($messageContent);
-    $delete->fetch();
-
+if (isset($_SESSION)) {
+    if (isset($_POST['delete'])){
+        $delete=$conn->prepare("DELETE FROM `message` where `messageContent`=? AND `usersFkid`=?");
+        $delete->bind_param("si",$_POST["messageContent"],$_SESSION["usersID"]);
+        $delete->execute();
+        
     }
 }else{
     die("Access Forbidden");
-}
+    }
 ?>
 </form>
+
 </body>
 </html>
